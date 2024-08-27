@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomeSpot Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Font Awesome for icons -->
+</head>
+<body>
+    <div class="hero-background"></div>
+    <div class="overlay"></div>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="col-md-6">
+            <div class="text-center mb-4">
+                <div class="site-title2">Register to HomeSpot</div>
+            </div>
+            <form id="registration-form" class="border p-4 shadow-sm rounded bg-light">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="surname">Surname</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="type_of_user">User Type</label>
+                    <div class="dropdown">
+                        <button id="dropdown-button" class="btn btn-secondary dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+                            <span id="selected-option">Select User Type</span>
+                        </button>
+                        <div id="dropdown-menu" class="dropdown-menu">
+                            <a class="dropdown-item" href="#" data-value="agent">Agent</a>
+                            <a class="dropdown-item" href="#" data-value="user">User</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        </div>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        </div>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                    </div>
+                </div>
+                
+                <div class="form-group text-center">
+                    <button type="submit" id="regbutton" class="btn btn-success btn-block">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/register.js"></script>
+    
+</body>
+</html>

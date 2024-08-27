@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomeSpot</title>
+
+    <!-- Include Bootstrap CSS for responsiveness -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+
+<body>
+
+    <!-- Hero Background with overlay -->
+    <div class="hero-background"></div>
+    <div class="overlay"></div>
+
+    <!-- Login Form Container -->
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="col-md-6">
+            <h1 class="site-title mb-4">HomeSpot</h1>
+            <form id="login-form" class="border p-4 shadow-sm rounded bg-light">
+                <h2 class="text-center mb-4">Login to HomeSpot</h2>
+
+                <!-- Username Field -->
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        </div>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                    </div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        </div>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                    </div>
+                </div>
+
+                <!-- Login Button -->
+                <div class="form-group text-center">
+                    <button id="login-buttonn" type="submit" class="btn btn-success btn-block">Login</button>
+                </div>
+
+                <!-- Signup Section -->
+                <div class="form-group text-center">
+                    <p>Don't have an account? Follow:</p>
+                    <button id="signup-button" class="btn btn-primary btn-block">Sign Up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- jQuery Library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- FontAwesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <script>
+        // Handle signup button click
+        const signupButton = document.getElementById('signup-button');
+        signupButton.addEventListener('click', function (e) {
+            e.preventDefault(); // Prevent default button behavior
+            window.location.href = '#registration'; // Redirect to registration section
+        });
+    </script>
+</body>
+
+</html>
