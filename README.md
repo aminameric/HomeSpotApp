@@ -1,7 +1,17 @@
-# HomeSpotApp
+# 🏡 HomeSpotApp
 
-# HomeSpot is a web application aimed at providing users with the opportunity to list their real estate properties for sale, buy them, connect with potential buyers, and stay up-to-date with economic news in the country.
+Welcome to **HomeSpotApp** – a web application that simplifies the process of listing, buying, and selling real estate properties. It also provides users with the latest economic news, helping them stay informed about the housing market and economic trends in the country.
 
-# Senior Design Project - Amina Meric
-# Mentor :Teaching Assistant Aldin Kovačević
+### Features:
+- 📜 List real estate properties for sale
+- 🛒 Buy properties with ease
+- 🔗 Connect with potential buyers or sellers
+- 📰 Stay up-to-date with the latest economic news
+
+---
+
+### Senior Design Project  
+**Author:** Amina Merić  
+**Mentor:** Teaching Assistant Aldin Kovačević
+
 
