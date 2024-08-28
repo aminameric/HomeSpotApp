@@ -1,8 +1,10 @@
 <?php
+use Firebase\JWT\JWT;
+
 
 Flight::route("GET /users", function(){
     Flight::json(Flight::user_service()->get_all());
- });
+});
 
  Flight::route("POST /addUser", function(){
     $request_data = Flight::request()->data->getData();
@@ -20,6 +22,38 @@ Flight::route("GET /users", function(){
         Flight::json(['message' => "Failed to add user"]);
     }
 });
+
+Flight::route('POST /loginUser', function(){
+
+    $payload=Flight::request()->data->getData();
+
+    if($payload['username']==""){
+        Flight::halt(500, 'Username is missing');
+    }
+    if($payload['password']==""){
+        Flight::halt(500, 'Password is missing');
+    }
+
+    $userService = new UserService();
+    $user = $userService->login($payload);
+    if($user){
+        $jwt_payload = [
+            'user' => $user,
+            'iat' => time(),
+            'exp' => time() + (60 * 60 * 24)  //valid for 24 hours
+        ];
+
+        $token = JWT::encode(
+            $jwt_payload,
+            JWT_SECRET,
+            'HS256'
+        );
+
+        Flight::json(['message' => 'You have successfully logged in', 'user' => $user, 'token' => $token]);
+    }else{
+        Flight::halt(500, 'Credentials are not valid');
+    }
+    });
 
 Flight::route('GET /connection-check', function(){
     /** TODO

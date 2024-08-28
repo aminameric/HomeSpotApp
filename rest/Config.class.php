@@ -27,5 +27,5 @@ class Config {
     
 }
 // JWT Secret
-//define('JWT_SECRET', '#WW/Y]cJ5$(d:%jPzhP+[@aw2$a.v9');
+define('JWT_SECRET', '#WW/Y]cJ5$(d:%jPzhP+[@aw2$a.v9');
 ?>

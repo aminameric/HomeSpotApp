@@ -58,7 +58,7 @@ var UserService = {
             dataType: "json",
             success: function (result) {
                 localStorage.setItem('user', JSON.stringify(result.user));
-                window.location.hash = '#houses';
+                window.location.href = '/HomeSpotApp/frontend/properties.html';
                 alert("Registration successful!");
                 // Optionally, redirect to another page or perform other actions
             },
