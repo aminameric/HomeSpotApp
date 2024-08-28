@@ -4,28 +4,27 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1598296c172a87c149b10e0f957cb3e1",
+    "content-hash": "abb6ebe33cbb979ad3a0d50b308f9c90",
     "packages": [
         {
             "name": "mikecao/flight",
-            "version": "v2.0.0",
+            "version": "v1.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikecao/flight.git",
-                "reference": "212490ff61d8cbcf9ec23b1366f653ab6646e928"
+                "reference": "bc5e03ca59accb3ef37e31b6d4a2a9c78c7bb7ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikecao/flight/zipball/212490ff61d8cbcf9ec23b1366f653ab6646e928",
-                "reference": "212490ff61d8cbcf9ec23b1366f653ab6646e928",
+                "url": "https://api.github.com/repos/mikecao/flight/zipball/bc5e03ca59accb3ef37e31b6d4a2a9c78c7bb7ce",
+                "reference": "bc5e03ca59accb3ef37e31b6d4a2a9c78c7bb7ce",
                 "shasum": ""
             },
             "require": {
-                "ext-json": "*",
-                "php": "^7.4|^8.0|^8.1"
+                "php": ">=5.3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.5"
+                "phpunit/phpunit": "~4.6"
             },
             "type": "library",
             "autoload": {
@@ -50,9 +49,9 @@
             "homepage": "http://flightphp.com",
             "support": {
                 "issues": "https://github.com/mikecao/flight/issues",
-                "source": "https://github.com/mikecao/flight/tree/v2.0.0"
+                "source": "https://github.com/mikecao/flight/tree/v1.3.9"
             },
-            "time": "2021-12-16T03:52:19+00:00"
+            "time": "2021-04-05T01:36:59+00:00"
         }
     ],
     "packages-dev": [],

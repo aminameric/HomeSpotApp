@@ -1,7 +1,7 @@
 <?php
 
 class BaseService {
-    protected $dao;
+    private $dao;
    
     public function __construct($dao){
         $this->dao = $dao;

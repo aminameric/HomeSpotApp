@@ -1,39 +1,13 @@
 <?php
 require_once __DIR__."/../Config.class.php";
  class BaseDao {
-    private $conn; 
+    protected $conn; 
 
     private $table_name;
 
     /**
     * Class constructor used to establish connection to db
     */
-    /*public function __construct($table_name){
-        try {
-          $this->table_name = $table_name;
-          $db_info = array(
-            'host' => Config::DB_HOST(),
-            'port' => Config::DB_PORT(),
-            'name' => Config::DB_SCHEMA(),
-            'user' => Config::DB_USERNAME(),
-            'pass' => Config::DB_PASSWORD()
-            );
-  
-            $options = array(
-              //PDO::MYSQL_ATTR_SSL_CA => 'https://drive.google.com/file/d/14KNi7xgWLKqNnmpGA2iM6vfH368W9ZKP/view?usp=drive_link',
-              //PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
-    
-            );
-            
-            $this->conn = new PDO( 'mysql:host=' . $db_info['host'] . ';port=' . $db_info['port'] . ';dbname=' . $db_info['name'], $db_info['user'], $db_info['pass'], $options );
-          // set the PDO error mode to exception
-          $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-          echo "Connected successfully";
-        } catch(PDOException $e) {
-          echo "Connection failed: " . $e->getMessage();
-        }
-    }*/
-
     public function __construct($table_name){
         try {
           $this->table_name = $table_name;
@@ -50,6 +24,30 @@ require_once __DIR__."/../Config.class.php";
           echo "Connection failed: " . $e->getMessage();
         }
     }
+   /* public function __construct($table_name){
+        try {
+          $this->table_name = $table_name;
+          $db_info = array(
+            'host' => Config::DB_HOST(),
+            'port' => Config::DB_PORT(),
+            'name' => Config::DB_SCHEMA(),
+            'user' => Config::DB_USERNAME(),
+            'pass' => Config::DB_PASSWORD()
+            );
+  
+            $options = array(
+              //PDO::MYSQL_ATTR_SSL_CA => 'https://drive.google.com/file/d/14KNi7xgWLKqNnmpGA2iM6vfH368W9ZKP/view?usp=drive_link',
+              //PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+    
+            );
+            $this->conn = new PDO( 'mysql:host=' . $db_info['host'] . ';port=' . $db_info['port'] . ';dbname=' . $db_info['name'], $db_info['user'], $db_info['pass'], $options );
+          // set the PDO error mode to exception
+          $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          //echo "Connected successfully";
+        } catch(PDOException $e) {
+          echo "Connection failed: " . $e->getMessage();
+        }
+    }*/
 
     /**
     * Method used to get all entities from database
