@@ -34,6 +34,32 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  <script>
+    // This script should be included in the <head> tag or at the beginning of <body> 
+    // to ensure it executes before the DOM content is fully loaded.
+    // Optionally, you can use async or defer attributes in the <script> tag to manage execution.
+    document.addEventListener("DOMContentLoaded", function () {
+        const token = localStorage.getItem('token');
+        const navItems = document.getElementById('nav-items');
+        const loginButton = document.getElementById('login-button');
+        const registerButton = document.getElementById('register-button');
+
+        // Hide navigation items if no token is found
+        if (!token) {
+            if (navItems) {
+                navItems.style.display = 'none';
+            }
+        } else {
+            // Hide Login and Register buttons if token is present
+            if (loginButton) {
+                loginButton.style.display = 'none';
+            }
+            if (registerButton) {
+                registerButton.style.display = 'none';
+            }
+        }
+    });
+</script>
 </head>
 
 <body class="contact-page">
@@ -46,34 +72,14 @@
         <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1 class="sitename">Estate<span>Agency</span></h1>
       </a>
-
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="properties.html">Properties</a></li>
-          <li><a href="agents.html">Agents</a></li>
-          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
-            </ul>
-          </li>
-          <li><a href="contact.html" class="active">Contact</a></li>
-        </ul>
+      <ul class="nav-buttons">
+        <li><a href="login.html" class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
+        <li><a href="register.html" class="btn btn-secondary"><i class="bi bi-person-plus"></i> Register</a></li>
+       </ul>
+      
+    
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </ul>
       </nav>
 
     </div>

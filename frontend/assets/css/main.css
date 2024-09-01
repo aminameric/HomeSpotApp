@@ -1722,9 +1722,56 @@ section,
   /* Add your styles here */
   
 }
+/* Style for both buttons to make them bigger, same size, and white text */
+/* Default style for large screens */
+.btn {
+  padding: 15px 30px;
+  font-size: 18px;
+  display: inline-block;
+  text-align: center;
+  width: 100px;
+  color: white !important;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border: none;
+}
+
+/* Add margin between the buttons */
+.mx-2 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* Hover effect for both buttons */
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .btn {
+    width: 100%;          /* Makes buttons take full width of their container */
+    padding: 12px 20px;    /* Adjust padding for smaller screens */
+    font-size: 16px;       /* Adjust font size for smaller screens */
+  }
+  
+  .mx-2 {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 10px;   /* Add bottom margin for spacing between buttons */
+  }
+}
+
 
 .btn-primary, .btn-secondary {
-  background-color: gray; /* Set the background color to gray */
+  background-color: rgb(97, 95, 95); /* Set the background color to gray */
   font-size: 1.2rem; /* Increase the font size to make the buttons larger */
   padding: 12px 24px; /* Increase padding for bigger buttons */
   border-radius: 5px; /* Optionally, make the corners slightly rounded */
@@ -1805,3 +1852,24 @@ section,
 .btn-block {
   width: 100%;
 }
+
+.nav-buttons {
+  display: flex;
+  justify-content: center;  /* Centers the buttons horizontally */
+  gap: 10px; /* Adjusts the space between buttons */
+  padding: 0;
+  margin: 0;
+}
+
+.nav-buttons li {
+  flex: 1;  /* Ensures buttons have equal width */
+  list-style: none;  /* Removes bullet points from list items */
+}
+
+.nav-buttons .btn {
+  width: 100%;  /* Ensures buttons take the full width of their container */
+  text-align: center;
+  padding: 10px 20px; /* Adds padding for consistent size */
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
