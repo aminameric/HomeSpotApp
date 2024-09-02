@@ -17,16 +17,19 @@ require './dao/BaseDao.class.php';
 require "./services/BaseService.php";
 require "./services/UserService.php";
 require "./services/PropertyService.php";
+require "./services/AddressService.php";
 
 
 
 Flight::register('base_service', "BaseService");
 Flight::register('user_service', "UserService");
 Flight::register('property_service', "PropertyService");
+Flight::register('address_service', "AddressService");
 
 
 require "./routes/UserRoutes.php";
 require "./routes/PropertyRoutes.php";
+require "./routes/AddressRoutes.php";
 
 
 
