@@ -16,14 +16,17 @@ Flight::route('/', function(){
 require './dao/BaseDao.class.php';
 require "./services/BaseService.php";
 require "./services/UserService.php";
+require "./services/PropertyService.php";
 
 
 
 Flight::register('base_service', "BaseService");
 Flight::register('user_service', "UserService");
+Flight::register('property_service', "PropertyService");
 
 
 require "./routes/UserRoutes.php";
+require "./routes/PropertyRoutes.php";
 
 
 
