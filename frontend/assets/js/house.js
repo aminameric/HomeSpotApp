@@ -34,14 +34,9 @@ $(document).ready(function () {
                   <div class="card-content d-flex flex-column justify-content-center text-center">
                     <div class="row property-info">
                       <div class="col">Description: ${property.description}</div>
+                      <div class="col">Size: ${property.size}</div>
                       <div class="col">Beds: ${property.bedrooms}</div>
                       <div class="col">Baths: ${property.bathrooms}</div>
-                    </div>
-                    <div class="row">
-                      <div class="col">Size: ${property.size}</div>
-                      <div class="col">5</div>
-                      <div class="col">2</div>
-                      <div class="col">1</div>
                     </div>
                   </div>
                 </div>

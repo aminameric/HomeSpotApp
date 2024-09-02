@@ -581,7 +581,7 @@ h6 {
 }
 
 .page-title .heading {
-  padding: 160px 0 80px 0;
+  padding: 50px 0 80px 0;
   border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
 }
 
@@ -592,7 +592,7 @@ h6 {
 
 .page-title nav {
   background-color: color-mix(in srgb, var(--default-color), transparent 95%);
-  padding: 20px 0;
+  padding: 10px 0; /* Reduce padding to decrease height */
 }
 
 .page-title nav ol {
