@@ -33,7 +33,7 @@ var UserLogin = {
                 if (result.user && result.token) {
                     localStorage.setItem('user', JSON.stringify(result.user));
                     localStorage.setItem('token', result.token);
-                    window.location.href = '/HomeSpotApp/frontend/properties.html';;
+                    window.location.href = '#index';
                     alert("Login successful!");
     
                     $('#navigation-button').hide();

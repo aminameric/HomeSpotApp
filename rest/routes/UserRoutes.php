@@ -23,6 +23,32 @@ Flight::route("GET /users", function(){
     }
 });
 
+Flight::route('POST /addAgent', function() {
+    $request = Flight::request();
+    
+    // Retrieve form data
+    $data = $request->data->getData(); // This gets JSON data sent with the request
+    
+    // Retrieve files
+    $files = $_FILES; // This gets uploaded files
+    
+    // Instantiate UserService
+    $userService = new UserService();
+
+    try {
+        // Pass both data and files to the addAgent method
+        $result = $userService->addAgent($data, $files);
+
+        // Respond with success message and agent details
+        Flight::json(['message' => "Agent added successfully", 'agent' => $result]);
+    } catch (Exception $e) {
+        // Respond with error message
+        Flight::json(['message' => $e->getMessage()], 500);
+    }
+});
+
+
+
 Flight::route('POST /loginUser', function(){
 
     $payload=Flight::request()->data->getData();

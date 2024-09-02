@@ -30,10 +30,9 @@ $(document).ready(function () {
                 </div>
                 <div class="card-body">
                   <span class="sale-rent">Price | $${property.price}</span>
-                  <h3><a class="stretched-link">204 Mount Olive Road Two</a></h3>
+                  <h3><a class="stretched-link">${property.description}</a></h3>
                   <div class="card-content d-flex flex-column justify-content-center text-center">
                     <div class="row property-info">
-                      <div class="col">Description: ${property.description}</div>
                       <div class="col">Size: ${property.size}</div>
                       <div class="col">Beds: ${property.bedrooms}</div>
                       <div class="col">Baths: ${property.bathrooms}</div>

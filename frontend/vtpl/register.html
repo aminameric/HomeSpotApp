@@ -83,6 +83,15 @@
                 <div class="form-group text-center">
                     <button type="submit" id="regbutton" class="btn btn-success btn-block">Register</button>
                 </div>
+
+                <!-- Hidden Image Upload Section -->
+                <div id="image-upload-section" style="display:none;">
+                    <label for="upload-image">Upload Agent Image</label>
+                    <input type="file" id="upload-image" class="form-control-file" accept="image/*">
+                    <br>
+                    <!-- Image Preview -->
+                    <img id="image-preview" src="#" alt="Image Preview" style="display:none; width: 200px; height: 200px; object-fit: cover;">
+                </div>
             </form>
         </div>
     </div>
@@ -92,6 +101,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/register.js"></script>
     
+
     
 </body>
 </html>

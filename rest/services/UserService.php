@@ -22,6 +22,48 @@ class UserService extends BaseService{
         return $this->add($user);
     }
 
+    public function addAgent($data, $files) {
+        // Log for debugging
+        error_log(print_r($files, true));
+    
+        // Check if user data is provided
+        if (!isset($data['username'])) {
+            throw new Exception("Username not provided");
+        }
+    
+        // Prepare agent data to be inserted
+        $agent = [
+            'username' => $data['username'],
+            'email' => $data['email'],
+            'password' => password_hash($data['password'], PASSWORD_BCRYPT), // Ensure passwords are securely hashed
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'type_of_user' => $data['type_of_user']
+        ];
+    
+        // Check if the image file was uploaded for the agent
+        if (isset($files['file']) && isset($files['file']['name'])) {
+            $agent['user_image'] = $files['file']['name']; // Use the correct column name
+    
+            // Move the uploaded image file to the storage directory
+            $storagePath = __DIR__ . "/../storage/" . $files['file']['name'];
+            if (move_uploaded_file($files['file']['tmp_name'], $storagePath)) {
+                error_log("File uploaded successfully: " . $storagePath);
+            } else {
+                error_log("Failed to upload file.");
+                throw new Exception("Image upload failed.");
+            }
+        }
+    
+        // Add agent to the database
+        $result = $this->add($agent);
+    
+        // Return the result (you can also include the agent data in the response)
+        return $result;
+    }
+    
+    
+
     public function login($data){
         $username= $data['username'];
         $password= $data['password'];

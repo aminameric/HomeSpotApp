@@ -1873,3 +1873,9 @@ section,
   white-space: nowrap; /* Prevents text from wrapping */
 }
 
+#dropdown-button {
+  display: inline-block;   /* Allows the button to expand based on its content */
+  width: auto;             /* Sets the width of the button to auto to fit its content */
+  white-space: nowrap;     /* Prevents text from wrapping to a new line */
+}
+

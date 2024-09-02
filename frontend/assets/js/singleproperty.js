@@ -41,8 +41,9 @@ function getPropertyDetails() {
                 let property = propertyArray[0];
 
                 let imageUrl = property.image_url ? `http://localhost/HomeSpotApp/rest/storage/${property.image_url}` : "default.jpg";
-                $(".property-img").attr("src", imageUrl);
 
+                // Update the src of the img tag inside #real-estate-2-tab1
+                $("#real-estate-image").attr("src", imageUrl);
                 $(".portfolio-info li:nth-child(1)").html(`<strong>Price:</strong> $${property.price || 'N/A'}`);
                 $(".portfolio-info li:nth-child(2)").html(`<strong>Bedrooms:</strong> ${property.bedrooms || 'N/A'}`);
                 $(".portfolio-info li:nth-child(3)").html(`<strong>Bathrooms:</strong> ${property.bathrooms || 'N/A'}`);
