@@ -35,7 +35,7 @@ var UserLogin = {
                     localStorage.setItem('token', result.token);
                     updateNavigation();
                     window.location.href = '#index';
-                    alert("Login successful!");
+                    toastr.success('Login Successful! Welcome back.');
     
                     $('#navigation-button').hide();
                     $('#logout-button').show();
@@ -48,7 +48,7 @@ var UserLogin = {
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("Login failed: " + XMLHttpRequest.responseText);
+                toastr.error('Login failed. Please check your credentials.');
             }
         });
     }

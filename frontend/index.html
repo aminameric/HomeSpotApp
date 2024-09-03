@@ -25,6 +25,10 @@
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
   <link href="assets/css/spapp.css" rel="stylesheet">
+
+  <!--toaster library-->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+  <!-- Toastr JS -->
   
 </head>
 
@@ -44,16 +48,16 @@
         <ul>
           <li><a href="#index">Home</a></li>
           <li><a href="#about">About</a></li>
-          <li><a href="#service">Services</a></li>
-          <li><a href="#properties">Properties</a></li>
-          <li><a href="#agents">Agents</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li id="services-nav" style="display: none;"><a href="#service">Services</a></li>
+          <li id="properties-nav" style="display: none;"><a href="#properties">Properties</a></li>
+          <li id="agents-nav" style="display: none;"><a href="#agents">Agents</a></li>
           <li style="display: none;"><a href="#propertysingle">List real estate</a></li>
-          
-          <li><a href="contact.html">Contact</a></li>
           <li><a href="#login" class="btn btn-primary mx-2" id="login-btn"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
           <li><a href="#registration" class="btn btn-secondary" id="register-btn"><i class="bi bi-person-plus"></i> Register</a></li>
           <li><a href="#" id="logout-btn" class="btn btn-primary mx-2" style="display: none;"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
         </ul>
+
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
@@ -82,6 +86,9 @@
 </section>
 <section id="registration" data-load="register.html">
   <h1>Register</h1>
+</section>
+<section id="contact" data-load="contact.html">
+  <h1>Contact</h1>
 </section>
     <section id="index" data-load="landing.html">
       <h1>Home</h1>
@@ -155,22 +162,51 @@
 <!-- Preloader -->
 <div id="preloader"></div>
 
-
+    <script src="assets/js/jquery.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js" defer></script>
     <script src="assets/vendor/aos/aos.js" defer></script>
     <script src="assets/vendor/swiper/swiper-bundle.min.js" defer></script>
     <script src="assets/vendor/purecounter/purecounter_vanilla.js" defer></script>
 
     <!-- Main JS File -->
-    <script src="assets/js/jquery.min.js" defer></script>
+    
     <script src="assets/js/jquery.spapp.min.js" defer></script>
     <script src="assets/js/main.js" defer></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  
 
 
 
 </body>
    
+<style>
+  /* Override Toastr default styles */
+  #toast-container {
+      position: fixed;
+      top: 15%; /* Adjust this value to move the notification down or up */
+      left: 60%;
+      transform: translateX(-50%); /* Center horizontally */
+      width: auto;
+      text-align: center;
+      z-index: 9999; /* Ensure it appears above other content */
+  }
+
+  .toast {
+      width: 350px; /* Adjust width as needed */
+      font-size: 25px; /* Larger font size for better visibility */
+      padding: 20px; /* Add padding for better readability */
+      border-radius: 30px; /* Rounded corners */
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  }
+
+  .toast-success {
+      background-color: #28a745; /* Custom background color for success */
+  }
+
+  .toast-error {
+      background-color: #dc3545; /* Custom background color for error */
+  }
+</style>
     <script>
       document.addEventListener("DOMContentLoaded", function() {
         const token = localStorage.getItem('token');
@@ -243,13 +279,24 @@ function updateNavigation() {
         $('#login-btn').hide();
         $('#register-btn').hide();
         $('#logout-btn').show();
+
+        // Show restricted sections
+        $('#services-nav').show();
+        $('#properties-nav').show();
+        $('#agents-nav').show();
     } else {
         // User is not logged in, show login/register buttons and hide logout
         $('#login-btn').show();
         $('#register-btn').show();
         $('#logout-btn').hide();
+
+        // Hide restricted sections
+        $('#services-nav').hide();
+        $('#properties-nav').hide();
+        $('#agents-nav').hide();
     }
 }
+
 
 
 // Example function to simulate logout (Handled above in the event listener)
@@ -262,6 +309,50 @@ function logoutUser() {
 
 
     </script>
+
+<script>
+  toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+</script>
+
+<!--for hiding footer on login and registration-->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Function to update the footer visibility based on the current hash
+  function updateFooterVisibility() {
+      const footer = document.getElementById('footer');
+      const currentPage = window.location.hash;
+      const pagesWithoutFooter = ['#login', '#registration'];
+
+      if (pagesWithoutFooter.includes(currentPage)) {
+          footer.style.display = 'none';
+      } else {
+          footer.style.display = 'block';
+      }
+  }
+
+  // Listen for hash changes to update footer visibility
+  window.addEventListener('hashchange', updateFooterVisibility);
+
+  // Initial check on page load
+  updateFooterVisibility();
+});
+</script>
     
 </html>
 
