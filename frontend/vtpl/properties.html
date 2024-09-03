@@ -8,17 +8,38 @@
   <meta name="description" content="">
   <meta name="keywords" content="">
 
-  <!-- =======================================================
-  * Template Name: EstateAgency
-  * Template URL: https://bootstrapmade.com/real-estate-agency-bootstrap-template/
-  * Updated: Aug 09 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  <!-- Prefetch Important Resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="assets/css/main.css" as="style">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&family=Poppins:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+
+
+  <style>
+    .modal {
+      z-index: 1055 !important; /* Ensure modal is on top */
+    }
+    .modal-backdrop {
+      z-index: 1050 !important; /* Ensure backdrop is behind the modal */
+    }
+    .unique-btn {
+      background-color: #28a745; /* Green background */
+      color: white; /* White text color */
+      border: none; /* Remove default border */
+      border-radius: 5px; /* Rounded corners */
+      padding: 10px 20px; /* Adjust padding for a better look */
+      font-size: 16px; /* Adjust font size */
+      transition: background-color 0.3s; /* Smooth transition for hover effect */
+    }
+    .unique-btn:hover {
+      background-color: #218838; /* Darker green on hover */
+    }
+  </style>
 </head>
 
 <body class="properties-page">
-
 
   <main class="main">
 
@@ -44,18 +65,110 @@
       </nav>
     </div><!-- End Page Title -->
 
+    <!-- Button to trigger modal (Above property listings) -->
+    <div class="container mt-5 mb-4">
+      <button class="unique-btn" data-toggle="modal" data-target="#myModal">List New Property</button>
+    </div>
+
     <!-- Real Estate Section -->
     <section id="real-estate" class="real-estate section">
       <div class="container">
         <div class="row gy-4">
-          <!--each property listed here-->
+          <!-- Each property listed here -->
+        </div>
       </div>
     </section><!-- /Real Estate Section -->
 
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Post Property</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-left: auto;">
+              <span aria-hidden="true">&times;</span>
+            </button>            
+          </div>
+          <div class="modal-body">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="size">Size</label>
+                <input type="number" class="form-control" id="size" name="size" placeholder="Size in (m²)">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="bedrooms">Bedrooms</label>
+                <input type="number" class="form-control" id="bedrooms" name="bedrooms" placeholder="Bedrooms">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="bathrooms">Bathrooms</label>
+                <input type="number" class="form-control" id="bathrooms" name="bathrooms" placeholder="Bathrooms">
+              </div>
+            </div>
+          
+            <div class="form-group">
+              <label for="fileInput">Add Picture</label>
+              <input type="file" class="form-control-file" id="fileInput" name="image">
+            </div>
+          
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="street_address">Street Address</label>
+                <input type="text" class="form-control" id="street_address" name="street_address" placeholder="Street Address">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="city">City</label>
+                <input type="text" class="form-control" id="city" name="city" placeholder="City">
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="country">Country</label>
+                <input type="text" class="form-control" id="country" name="country" placeholder="Country">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="postal_code">Postal Code</label>
+                <input type="text" class="form-control" id="postal_code" name="postal_code" placeholder="Postal Code">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+
   </main>
 
-<script src="assets/js/house.js"></script>
+  <!-- jQuery, Bootstrap JS (should be included in the base template if using spapp) -->
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/house.js"></script>
 
+  <!-- Custom Script -->
+  <script>
+    //open modal
+    $(document).ready(function() {
+      // Ensure the modal is triggered correctly
+      $(document).on('click', '.unique-btn', function() {
+        $('#myModal').modal('show');
+      });
 
+      //close modal on close button
+      // Manually hide the modal (if you want to add custom close functionality)
+      $(document).on('click', '.btn-secondary', function() {
+        $('#myModal').modal('hide');
+      });
+    });
+
+    //small x button
+    $(document).on('click', '.close', function() {
+  $('#myModal').modal('hide');
+});
+  </script>
+
+</body>
 
 </html>
