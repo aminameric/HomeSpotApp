@@ -33,6 +33,7 @@ var UserLogin = {
                 if (result.user && result.token) {
                     localStorage.setItem('user', JSON.stringify(result.user));
                     localStorage.setItem('token', result.token);
+                    updateNavigation();
                     window.location.href = '#index';
                     alert("Login successful!");
     

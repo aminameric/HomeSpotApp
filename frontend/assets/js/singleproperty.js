@@ -3,6 +3,10 @@ $(document).ready(function() {
     getPropertyDetails();
 });
 
+$(document).ready(function() {
+    getPropertyDetails();
+});
+
 function getPropertyDetails() {
     // Get the full URL and split into hash and query string
     let fullUrl = window.location.href;
@@ -49,6 +53,7 @@ function getPropertyDetails() {
                 $(".portfolio-info li:nth-child(3)").html(`<strong>Bathrooms:</strong> ${property.bathrooms || 'N/A'}`);
                 $(".portfolio-info li:nth-child(4)").html(`<strong>Area:</strong> <span>${property.area || 'N/A'}m<sup>2</sup></span>`);
 
+                // Fetch address details after successfully getting property details
                 fetchAddressDetails(property.address_id, property);
             } else {
                 console.error("No property details found in the result array");
@@ -90,6 +95,8 @@ function fetchAddressDetails(addressId, property) {
                 $(".portfolio-info li:nth-child(8)").html(`<strong>Property Type:</strong> ${property.property_type || "N/A"}`);
                 $(".portfolio-info li:nth-child(9)").html(`<strong>Postal Code:</strong> ${property.postal_code || "N/A"}`);
             }
+            // Reinitialize AOS after content load
+            AOS.refresh();
         },
         error: function(xhr, status, error) {
             console.error("Error fetching address details:", error);
@@ -98,6 +105,8 @@ function fetchAddressDetails(addressId, property) {
             $(".portfolio-info li:nth-child(7)").html(`<strong>Country:</strong> ${property.country || "Error fetching address"}`);
             $(".portfolio-info li:nth-child(8)").html(`<strong>Property Type:</strong> ${property.property_type || "Error fetching address"}`);
             $(".portfolio-info li:nth-child(9)").html(`<strong>Postal Code:</strong> ${property.postal_code || "Error fetching address"}`);
+            // Reinitialize AOS even if there's an error
+            AOS.refresh();
         }
     });
 }

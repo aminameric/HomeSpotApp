@@ -49,31 +49,13 @@
           <li><a href="#agents">Agents</a></li>
           <li style="display: none;"><a href="#propertysingle">List real estate</a></li>
           
-          <!--<li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
-            </ul>-->
-          </li>
           <li><a href="contact.html">Contact</a></li>
-          <li><a href="#login" class="btn btn-primary mx-2"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
-          <li><a href="#registration" class="btn btn-secondary"><i class="bi bi-person-plus"></i> Register</a></li>
-
+          <li><a href="#login" class="btn btn-primary mx-2" id="login-btn"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
+          <li><a href="#registration" class="btn btn-secondary" id="register-btn"><i class="bi bi-person-plus"></i> Register</a></li>
+          <li><a href="#" id="logout-btn" class="btn btn-primary mx-2" style="display: none;"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-
 
     </div>
   </header>
@@ -215,6 +197,70 @@
         app.run();
 
       });
+    </script>
+
+    <script>
+     document.addEventListener("DOMContentLoaded", function() {
+    // Navigation elements
+    const loginButton = document.getElementById('login-btn');
+    const registerButton = document.getElementById('register-btn');
+    const logoutButton = document.getElementById('logout-btn');
+
+    // Update navigation based on token presence
+    updateNavigation();
+
+    // Logout functionality
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function() {
+            // Remove the token and user from local storage
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+
+            // Update the navigation bar
+            updateNavigation();
+
+            // Redirect to the homepage or login page
+            window.location.href = '#login';  // Adjust this to your homepage or login page
+        });
+    }
+
+    // Disable AJAX Caching
+    $.ajaxSetup({ cache: false });
+
+    // Initialize the SPA app
+    let app = $.spapp({
+        templateDir: "./vtpl/",
+    });
+
+    app.run();
+});
+
+function updateNavigation() {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+        // User is logged in, show the logout button and hide login/register
+        $('#login-btn').hide();
+        $('#register-btn').hide();
+        $('#logout-btn').show();
+    } else {
+        // User is not logged in, show login/register buttons and hide logout
+        $('#login-btn').show();
+        $('#register-btn').show();
+        $('#logout-btn').hide();
+    }
+}
+
+
+// Example function to simulate logout (Handled above in the event listener)
+function logoutUser() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    updateNavigation();
+    window.location.href = '#login';  // Adjust this to your homepage or login page
+}
+
+
     </script>
     
 </html>
