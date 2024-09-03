@@ -6,6 +6,12 @@ Flight::route("GET /users", function(){
     Flight::json(Flight::user_service()->get_all());
 });
 
+Flight::route("GET /agentusers", function() {
+    Flight::json(Flight::user_service()->get_agent('Agent'));  // Pass 'Agent' directly
+});
+
+
+
  Flight::route("POST /addUser", function(){
     $request_data = Flight::request()->data->getData();
 

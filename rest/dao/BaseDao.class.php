@@ -173,6 +173,11 @@ require_once __DIR__."/../Config.class.php";
         $stmt->execute(['city' => $city]);
         return $stmt->fetchAll();
     }
+    public function get_agent($type_of_user) {
+        $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " WHERE type_of_user = :Agent");
+        $stmt->execute(['Agent' => $type_of_user]);  // Correct the binding
+        return $stmt->fetchAll();
+    }    
     protected function query($query, $params){
         $stmt = $this->conn->prepare($query);
         $stmt->execute($params);

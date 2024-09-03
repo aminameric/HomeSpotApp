@@ -35,6 +35,9 @@ class BaseService {
     public function get_city($city){
         return $this->dao->get_city($city);
     }
+    public function get_agent($type_of_user){
+        return $this->dao->get_agent($type_of_user);
+    }
     public function get_properties_by_city($city) {
         return $this->dao->get_by_city($city);
     }

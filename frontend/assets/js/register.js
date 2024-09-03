@@ -79,7 +79,7 @@ var UserService = {
                     processData: false,
                     success: function (result) {
                         localStorage.setItem('user', JSON.stringify(result.user));
-                        window.location.href = '/HomeSpotApp/frontend/login.html';
+                        window.location.href = '#login';
                         alert("Registration successful!");
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
