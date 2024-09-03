@@ -89,19 +89,31 @@
               <span aria-hidden="true">&times;</span>
             </button>            
           </div>
-          <div class="modal-body">
+          <form id="property-form">
             <div class="form-row">
-              <div class="form-group col-md-4">
-                <label for="size">Size</label>
-                <input type="number" class="form-control" id="size" name="size" placeholder="Size in (m²)">
+              <div class="form-group col-md-6">
+                <label for="description">Description</label>
+                <input type="text" class="form-control" id="description" name="description" placeholder="Description">
               </div>
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-6">
+                <label for="area">Area</label>
+                <input type="number" class="form-control" id="size" name="area" placeholder="Size in (m²)">
+              </div>
+              <div class="form-group col-md-6">
                 <label for="bedrooms">Bedrooms</label>
                 <input type="number" class="form-control" id="bedrooms" name="bedrooms" placeholder="Bedrooms">
               </div>
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-6">
                 <label for="bathrooms">Bathrooms</label>
                 <input type="number" class="form-control" id="bathrooms" name="bathrooms" placeholder="Bathrooms">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="price">Price</label>
+                <input type="text" class="form-control" id="price" name="price" placeholder="Price in BAM">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="propertytype">Property Type</label>
+                <input type="text" class="form-control" id="propertytype" name="propertytype" placeholder="Property Type">
               </div>
             </div>
           
@@ -131,19 +143,20 @@
                 <input type="text" class="form-control" id="postal_code" name="postal_code" placeholder="Postal Code">
               </div>
             </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
           </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
-        </div>
+        
       </div>
     </div>
 
   </main>
 
   <!-- jQuery, Bootstrap JS (should be included in the base template if using spapp) -->
-  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/js/jquery.validate.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/house.js"></script>
 

@@ -2,32 +2,32 @@
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-    Flight::route("POST /addProperty", function(){
-        try {
+Flight::route("POST /addProperty", function(){
+    try {
     
     
-        // Call the service method to fetch properties by city
-        $request_data = Flight::request()->data->getData();
+    // Call the service method to fetch properties by city
+    $request_data = Flight::request()->data->getData();
     
-        // Log the contents of $request_data to ensure users_id is present
-        error_log(print_r($request_data, true));
+    // Log the contents of $request_data to ensure users_id is present
+    error_log(print_r($request_data, true));
         
-        // Instantiate PropertyService
-        $propertyService = new PropertyService();
+    // Instantiate PropertyService
+    $propertyService = new PropertyService();
     
-        // Add the property with the retrieved data
-        $result = $propertyService->addProperty($request_data);
+    // Add the property with the retrieved data
+    $result = $propertyService->addProperty($request_data);
     
-            // Return the combined response
-        Flight::json([
-            'property' => $result
-        ]);
+    // Return the combined response
+    Flight::json([
+        'property' => $result
+    ]);
     
-        } catch (\Exception $e) {
-            // Handle any exceptions and respond with an error message
-            Flight::halt(401, $e->getMessage());
-        }
-    });
+    } catch (\Exception $e) {
+        // Handle any exceptions and respond with an error message
+        Flight::halt(401, $e->getMessage());
+    }
+});
     
 
 

@@ -1934,3 +1934,11 @@ section,
 .modal-footer .btn {
   margin-left: 0.5rem;
 }
+
+#property-form {
+  padding: 15px; /* Add padding to the form to create space from the edges */
+}
+
+.modal-body {
+  padding: 20px; /* Adjusts padding within the modal body for consistent spacing */
+}

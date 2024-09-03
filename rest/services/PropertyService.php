@@ -32,9 +32,10 @@ class PropertyService extends BaseService{
         $property = [
             'description' => $data['description'],
             'price' => $data['price'],
-            'size' => $data['size'],
+            'area' => $data['area'],
             'bedrooms' => $data['bedrooms'],
             'bathrooms' => $data['bathrooms'],
+            'property_type' =>$data['property_type'],
             'address_id' => $last_address_id,
             'users_id' => $data['users_id']
         ];
