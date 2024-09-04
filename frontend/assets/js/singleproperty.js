@@ -40,24 +40,29 @@ function getPropertyDetails() {
             } else {
                 console.error("No token found in local storage");
             }
-        },        
+        },
         success: function(result) {
             console.log("Property details result:", result);
-
+    
             let propertyArray = result.result;
-
+    
             if (propertyArray && propertyArray.length > 0) {
                 let property = propertyArray[0];
-
+    
+                // Handle main property image
                 let imageUrl = property.image_url ? `http://localhost/HomeSpotApp/rest/storage/${property.image_url}` : "default.jpg";
-
-                // Update the src of the img tag inside #real-estate-2-tab1
                 $("#real-estate-image").attr("src", imageUrl);
+    
+                // Handle floor image
+                let floorImageUrl = property.floor_image ? `http://localhost/HomeSpotApp/rest/storage/${property.floor_image}` : "default-floor.jpg";
+                $("#floor-image").attr("src", floorImageUrl);  // Assuming #floor-image is the ID for the floor plan image
+    
+                // Update property information
                 $(".portfolio-info li:nth-child(1)").html(`<strong>Price:</strong> $${property.price || 'N/A'}`);
                 $(".portfolio-info li:nth-child(2)").html(`<strong>Bedrooms:</strong> ${property.bedrooms || 'N/A'}`);
                 $(".portfolio-info li:nth-child(3)").html(`<strong>Bathrooms:</strong> ${property.bathrooms || 'N/A'}`);
                 $(".portfolio-info li:nth-child(4)").html(`<strong>Area:</strong> <span>${property.area || 'N/A'}m<sup>2</sup></span>`);
-
+    
                 // Fetch address details after successfully getting property details
                 fetchAddressDetails(property.address_id, property);
             } else {
@@ -69,6 +74,7 @@ function getPropertyDetails() {
             console.error("AJAX request failed", error);
         }
     });
+    
 }
 
 function fetchAddressDetails(addressId, property) {
@@ -213,5 +219,4 @@ $(document).ready(function() {
     }
 });
 
-
-
+//edit button

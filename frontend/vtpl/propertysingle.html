@@ -8,20 +8,68 @@
   <meta name="description" content="">
   <meta name="keywords" content="">
 
+  <!-- Prefetch Important Resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="assets/css/main.css" as="style">
 
-  <!-- =======================================================
-  * Template Name: EstateAgency
-  * Template URL: https://bootstrapmade.com/real-estate-agency-bootstrap-template/
-  * Updated: Aug 09 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&family=Poppins:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000; /* Ensure it's above everything else */
+      background-color: rgba(0,0,0,0.5); /* Black background with transparency */
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.3s ease-in-out; /* Smooth transition */
+    }
+
+    .modal.show {
+      display: flex; /* Show the modal and use flexbox for centering */
+      opacity: 1; /* Full opacity */
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      z-index: 1001; /* Ensure it's above the background */
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+  </style>
 </head>
 
 <body class="property-single-page">
 
   <main class="main">
-
     <!-- Page Title -->
     <div class="page-title" data-aos="fade">
       <div class="heading">
@@ -37,7 +85,7 @@
       <nav class="breadcrumbs">
         <div class="container">
           <ol>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="#index">Home</a></li>
             <li class="current">Property Single</li>
           </ol>
         </div>
@@ -46,97 +94,135 @@
 
     <!-- Real Estate 2 Section -->
     <section id="real-estate-2" class="real-estate-2 section">
-
       <div class="container" data-aos="fade-up">
-
         <div class="portfolio-details-slider swiper init-swiper">
-          <script type="application/json" class="swiper-config">
-            {
-              "loop": true,
-              "speed": 600,
-              "autoplay": {
-                "delay": 5000
-              },
-              "slidesPerView": "auto",
-              "navigation": {
-                "nextEl": ".swiper-button-next",
-                "prevEl": ".swiper-button-prev"
-              },
-              "pagination": {
-                "el": ".swiper-pagination",
-                "type": "bullets",
-                "clickable": true
-              }
-            }
-          </script>
-        <div class="row justify-content-between gy-4 mt-4">
+          <div class="row justify-content-between gy-4 mt-4">
+            <div class="col-lg-8" data-aos="fade-up">
+              <div class="portfolio-description">
+                <h2>Name: <span id="property-name"></span></h2>
+                <div class="testimonial-item">
+                  <p>
+                    <span id="property-info">We are here to</span>
+                  </p>
+                  <div>
+                    <img id="agent-image" src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
+                    <h3><span id="agent-name"></span></h3>
+                    <h4>Agent</h4>
+                  </div>
+                </div>
+              </div><!-- End Portfolio Description -->
 
-          <div class="col-lg-8" data-aos="fade-up">
+              <!-- Tabs -->
+              <ul class="nav nav-pills mb-3">
+                <li><a class="nav-link active" data-bs-toggle="pill" href="#real-estate-2-tab1">Photo</a></li>
+                <li><a class="nav-link" data-bs-toggle="pill" href="#real-estate-2-tab2">Floor Plan</a></li>
+              </ul><!-- End Tabs -->
 
-            <div class="portfolio-description"> 
-              <h2>Name: <span id="property-name"></span></h2></h2>
-              <div class="testimonial-item">
-                <p>
-                  <span id="property-info">We are here to </span>
-                </p>
-                <div>
-                  <img id="agent-image" src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-                  <h3><span id="agent-name"></span></h3>
-                  <h4>Agent</h4>
+              <!-- Tab Content -->
+              <div class="tab-content">
+                <div class="tab-pane fade show active" id="real-estate-2-tab1">
+                  <img id="real-estate-image" src="default.jpg" alt="Property Image">
+                </div><!-- End Tab 1 Content -->
+
+                <div class="tab-pane fade" id="real-estate-2-tab2">
+                  <img src="assets/img/floor-plan.jpg" alt="" class="img-fluid" id="floor-image">
+                </div><!-- End Tab 2 Content -->
+              </div><!-- End Tab Content -->
+
+              <!-- Button to open modal -->
+              <button type="button" class="btn btn-primary" id="openModal">Edit Property</button>
+
+              <!-- Modal Structure -->
+              <div id="myModal" class="modal">
+                <div class="modal-content">
+                  <!-- Close button in the top-right corner -->
+                  <span class="close">&times;</span>
+                  <h3>Edit Property Details</h3>
+                  
+                  <form id="edit-property-form">
+                    <div class="form-group">
+                      <label for="property-name">Property Name</label>
+                      <input type="text" class="form-control" id="property-name" placeholder="Enter property name">
+                    </div>
+                    <div class="form-group">
+                      <label for="property-description">Property Description</label>
+                      <textarea class="form-control" id="property-description" rows="3" placeholder="Enter property description"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="property-price">Property Price</label>
+                      <input type="number" class="form-control" id="property-price" placeholder="Enter property price">
+                    </div>
+                  </form>
+                  
+                  <div class="modal-footer">
+                    <!-- Cancel/Close button -->
+                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                    <!-- Save changes button -->
+                    <button type="button" class="btn btn-primary" id="save-property-btn">Save changes</button>
+                  </div>
                 </div>
               </div>
-            </div><!-- End Portfolio Description -->
 
-            <!-- Tabs -->
-            <ul class="nav nav-pills mb-3">
-              <li><a class="nav-link active" data-bs-toggle="pill" href="#real-estate-2-tab1">Photo</a></li>
-              <li><a class="nav-link" data-bs-toggle="pill" href="#real-estate-2-tab2">Floor Plan</a></li>
-            </ul><!-- End Tabs -->
 
-            <!-- Tab Content -->
-            <div class="tab-content">
-
-              <div class="tab-pane fade show active" id="real-estate-2-tab1">
-                <img id="real-estate-image" src="default.jpg" alt="Property Image">
-            </div><!-- End Tab 1 Content -->
-
-              <div class="tab-pane fade" id="real-estate-2-tab2">
-                <img src="assets/img/floor-plan.jpg" alt="" class="img-fluid">
-              </div><!-- End Tab 2 Content -->
-
-            </div><!-- End Tab Content -->
-
-          </div>
-
-          <div class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
-            <div class="portfolio-info">
-              <h3>Quick Summary</h3>
-              <ul>
-                <li><strong>Price:</strong> $50 000</li>
-                <li><strong>Bedrooms:</strong> 4</li>
-                <li><strong>Bathrooms:</strong> 1</li>
-                <li><strong>Area:</strong> <span>340m2</span></li>
-                <li><strong>Street Address:</strong> Stupska 19</li>
-                <li><strong>City:</strong> Sarajevo </li>
-                <li><strong>Country:</strong> Bosnia and Herzegovina </li>
-                <li><strong>Property Type:</strong> House</li>
-                <li><strong>Postal Code:</strong> 71000</li>
-                
-                
-              </ul>
+            </div>
+            <div class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
+              <div class="portfolio-info">
+                <h3>Quick Summary</h3>
+                <ul>
+                  <li><strong>Price:</strong> $50 000</li>
+                  <li><strong>Bedrooms:</strong> 4</li>
+                  <li><strong>Bathrooms:</strong> 1</li>
+                  <li><strong>Area:</strong> <span>340m2</span></li>
+                  <li><strong>Street Address:</strong> Stupska 19</li>
+                  <li><strong>City:</strong> Sarajevo </li>
+                  <li><strong>Country:</strong> Bosnia and Herzegovina </li>
+                  <li><strong>Property Type:</strong> House</li>
+                  <li><strong>Postal Code:</strong> 71000</li>
+                </ul>
+              </div>
             </div>
           </div>
-
         </div>
-
       </div>
-
     </section><!-- /Real Estate 2 Section -->
 
   </main>
 
+  <!-- Bootstrap and jQuery (ensure these are loaded properly) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="assets/js/singleproperty.js"></script>
 
-  <script src="assets/js/singleproperty.js" defer></script>
+  <!-- Custom Script to control modal -->
+  <script>
+    const modal = document.getElementById("myModal");
+    const btn = document.getElementById("openModal");
+    const closeBtn = document.getElementsByClassName("close")[0];
+    const cancelBtn = document.getElementById("cancel-btn");
+
+    // Open the modal when the "Edit Property" button is clicked
+    btn.onclick = function() {
+      modal.classList.add("show"); // Add 'show' class to display the modal
+    }
+
+    // Close the modal when the "X" button is clicked
+    closeBtn.onclick = function() {
+      modal.classList.remove("show");
+    }
+
+    // Close the modal when the "Cancel" button is clicked
+    cancelBtn.onclick = function() {
+      modal.classList.remove("show");
+    }
+
+    // Close the modal if the user clicks outside the modal content
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.classList.remove("show");
+      }
+    }
+  </script>
+
 </body>
 
 </html>
