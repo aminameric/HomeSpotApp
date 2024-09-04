@@ -177,7 +177,64 @@ require_once __DIR__."/../Config.class.php";
         $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " WHERE type_of_user = :Agent");
         $stmt->execute(['Agent' => $type_of_user]);  // Correct the binding
         return $stmt->fetchAll();
-    }    
+    }  
+    
+    public function get_property_name($id) {
+        $stmt = $this->conn->prepare("SELECT name FROM " . $this->table_name . " WHERE id = :id");
+        $stmt->bindParam(':id', $id); // Prevent SQL injection
+        $stmt->execute();
+    
+        // Fetch the result (single row expected)
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        // Check if the result exists and return the description, or return null if no result
+        if ($result) {
+            return $result['name'];
+        } else {
+            return null; // or throw an exception if you prefer
+        }
+    }
+
+    public function get_property_info($id) {
+        $stmt = $this->conn->prepare("SELECT description FROM " . $this->table_name . " WHERE id = :id");
+        $stmt->bindParam(':id', $id); // Prevent SQL injection
+        $stmt->execute();
+    
+        // Fetch the result (single row expected)
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        // Check if the result exists and return the description, or return null if no result
+        if ($result) {
+            return $result['description'];
+        } else {
+            return null; // or throw an exception if you prefer
+        }
+    }
+
+    public function get_agent_by_property($property_id) {
+        // Query to get agent's first name by property ID
+        $query = "
+            SELECT u.first_name, u.user_image 
+            FROM users u
+            JOIN property p ON u.id = p.users_id
+            WHERE u.type_of_user = 'Agent'
+            AND p.id = :property_id
+        ";
+
+        // Prepare the query
+        $stmt = $this->conn->prepare($query);
+
+        // Bind the property ID
+        $stmt->bindParam(':property_id', $property_id, PDO::PARAM_INT);
+
+        // Execute the query
+        $stmt->execute();
+
+        // Fetch the result
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Return as associative array
+    }
+    
+    
     protected function query($query, $params){
         $stmt = $this->conn->prepare($query);
         $stmt->execute($params);

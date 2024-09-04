@@ -1942,3 +1942,38 @@ section,
 .modal-body {
   padding: 20px; /* Adjusts padding within the modal body for consistent spacing */
 }
+
+#back-btn {
+  position: fixed; /* Keep it fixed to the viewport */
+  top: 100px; /* Distance from the top */
+  left: 60px; /* Distance from the left */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px; /* Decrease padding to flatten the button */
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #6c757d;  /* Bootstrap's secondary color */
+  color: white;
+  border: none;
+  border-radius: 10px; /* Small rounded corners instead of a circular shape */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  z-index: 1000; /* Ensure it stays above other elements */
+  width: auto; /* Ensure the width adjusts based on content */
+  height: auto; /* Ensure height is auto to match padding */
+}
+
+#back-btn i {
+  margin-right: 10px; /* Space between arrow and text */
+}
+
+#back-btn:hover {
+  background-color: #5a6268; /* Darker shade on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow on hover */
+}
+
+
+

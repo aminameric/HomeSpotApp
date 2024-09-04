@@ -62,6 +62,10 @@ $(document).ready(function () {
 
 
 document.getElementById('signup-button').addEventListener('click', function() {
-    window.location.href = 'register.html';
+    window.location.href = '#registration';
 });
+
+function goBack() {
+    window.location.href = '#index'; // Redirect to the home page
+}
 

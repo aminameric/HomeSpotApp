@@ -5,6 +5,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     getPropertyDetails();
+    
 });
 
 function getPropertyDetails() {
@@ -32,10 +33,14 @@ function getPropertyDetails() {
         type: "GET",
         contentType: 'application/json',
         beforeSend: function(xhr) {
-            if (localStorage.getItem('user')) {
-                xhr.setRequestHeader("Authorization", localStorage.getItem('token'));
+            const token = localStorage.getItem('token');
+            console.log("Token sent: ", token);  // Debug token value
+            if (token) {
+                xhr.setRequestHeader("Authorization", token);
+            } else {
+                console.error("No token found in local storage");
             }
-        },
+        },        
         success: function(result) {
             console.log("Property details result:", result);
 
@@ -72,10 +77,14 @@ function fetchAddressDetails(addressId, property) {
         type: "GET",
         contentType: 'application/json',
         beforeSend: function(xhr) {
-            if (localStorage.getItem('user')) {
-                xhr.setRequestHeader("Authorization", localStorage.getItem('token'));
+            const token = localStorage.getItem('token');
+            console.log("Token sent: ", token);  // Debug token value
+            if (token) {
+                xhr.setRequestHeader("Authorization", token);
+            } else {
+                console.error("No token found in local storage");
             }
-        },
+        },        
         success: function(addresses) {
             console.log("Address API Response:", addresses);
             let addressArray = addresses.address;
@@ -110,3 +119,99 @@ function fetchAddressDetails(addressId, property) {
         }
     });
 }
+
+$(document).ready(function() {
+    // Get the query parameter 'id' from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const propertyId = urlParams.get('id'); // Get the 'id' query parameter
+
+    // Check if we're on the #propertysingle view
+    if (window.location.hash === '#propertysingle' && propertyId) {
+        // Make an AJAX call to get the property details based on the ID
+        $.ajax({
+            url: `../rest/propname/${propertyId}`, // Backend route to get the property name/details
+            method: 'GET',
+            success: function(response) {
+                // Update the HTML with the property name/details
+                $('#property-name').text(response.result || 'Unknown Property');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching property details:', error);
+                $('#property-name').text('Error loading property details');
+            }
+        });
+    }
+});
+
+$(document).ready(function() {
+    // Get the query parameter 'id' from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const propertyId = urlParams.get('id'); // Get the 'id' query parameter
+
+    // Check if we're on the #propertysingle view
+    if (window.location.hash === '#propertysingle' && propertyId) {
+        // Make an AJAX call to get the property details based on the ID
+        $.ajax({
+            url: `../rest/propaddinfo/${propertyId}`, // Backend route to get the property name/details
+            method: 'GET',
+            success: function(response) {
+                // Update the HTML with the property name/details
+                $('#property-info').text(response.result || 'Unknown Property');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching property details:', error);
+                $('#property-name').text('Error loading property details');
+            }
+        });
+    }
+});
+
+
+function getAgentForProperty(propertyId) {
+    $.ajax({
+        url: `../rest/agentname/${propertyId}`,  // Call the new route
+        type: "GET",
+        success: function(response) {
+            if (response && response.result) {
+                const agentName = response.result.first_name;  // Extract the agent's name
+                const agentImage = response.result.user_image;  // Extract the agent's image
+                
+                // Update agent name in HTML
+                $('#agent-name').text(agentName);
+
+                // Update agent image in HTML (assuming you have an img tag with id="agent-image")
+                const imageUrl = `../rest/storage/${agentImage}`;  // Adjust the path as needed
+                $('#agent-image').attr('src', imageUrl); // Assuming there's an <img id="agent-image">
+            } else {
+                console.error("Agent not found.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error fetching agent:", error);
+        }
+    });
+}
+
+
+// Function to extract property ID from the URL
+function getPropertyIdFromUrl() {
+    let fullUrl = window.location.href;
+    let urlParts = fullUrl.split('#');
+    let queryParams = urlParts[0].split('?')[1]; // Query string before hash
+    let urlParams = new URLSearchParams(queryParams);
+    return urlParams.get('id');
+}
+
+$(document).ready(function() {
+    const propertyId = getPropertyIdFromUrl(); // Extract the property ID from URL
+
+    if (propertyId) {
+        getPropertyDetails(); // Assuming this function works for fetching property details
+        getAgentForProperty(propertyId); // Now pass the extracted property ID
+    } else {
+        console.error("No property ID found in the URL.");
+    }
+});
+
+
+

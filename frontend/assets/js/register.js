@@ -112,3 +112,8 @@ var UserService = {
 $(document).ready(function () {
     UserService.init();
 });
+
+function goBack() {
+    // Redirect to the home page (or another appropriate page)
+    window.location.href = '#index'; // Assuming #index is the Home page in your SPA
+}
