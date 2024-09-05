@@ -153,11 +153,12 @@
               <!-- Button to open modal -->
               <div class="button-container">
                 <!-- Button to open edit modal -->
-                <button type="button" class="btn btn-primary btn-custom" id="openModal">Edit Property</button>
-
+                <button type="button" class="btn btn-primary btn-custom d-none" id="openModal">Edit Property</button>
+              
                 <!-- Button to open delete confirmation modal -->
-                <button type="button" class="btn btn-danger btn-custom" id="deletePropertyBtn">Delete Property</button>
+                <button type="button" class="btn btn-danger btn-custom d-none" id="deletePropertyBtn">Delete Property</button>
               </div>
+              
 
               <!-- Modal Structure -->
               <div id="myModal" class="modal">
@@ -234,6 +235,49 @@
 
   <!-- Custom Script to control modal -->
   <script>
+    window.onload = function () {
+        console.log('Script for button control is running');
+
+        // Check if user exists in localStorage
+        const rawUser = localStorage.getItem('user');
+        if (!rawUser) {
+            console.error('No user data found in localStorage');
+            return;
+        }
+
+        
+
+        let user = null;
+
+        try {
+            // Parse the user data
+            user = JSON.parse(rawUser);
+            
+
+            // Check if user object contains 'type_of_user'
+            if (!user.type_of_user) {
+                console.error('User does not have type_of_user property');
+                return;
+            }
+
+            const type_of_user = user.type_of_user;
+            console.log('type_of_user:', type_of_user);
+
+            if (type_of_user === 'Agent') {
+                document.getElementById('deletePropertyBtn').classList.remove('d-none');
+                document.getElementById('openModal').classList.remove('d-none');
+            } else {
+                document.getElementById('deletePropertyBtn').classList.add('d-none');
+                document.getElementById('openModal').classList.add('d-none');
+            }
+        } catch (error) {
+            console.error('Error parsing user data from localStorage:', error);
+        }
+    };
+</script>
+
+
+  <script>
     const modal = document.getElementById("myModal");
     const btn = document.getElementById("openModal");
     const closeBtn = document.getElementsByClassName("close")[0];
@@ -263,6 +307,7 @@
   </script>
 
   <script>
+
   // Get modal elements
   const deleteModal = document.getElementById('deleteModal');
   const deletePropertyBtn = document.getElementById('deletePropertyBtn');
@@ -307,6 +352,8 @@
     }
   };
 </script>
+
+
 
 
 </body>

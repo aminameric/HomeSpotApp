@@ -120,7 +120,8 @@
   /**
    * Init swiper sliders
    */
-  function initSwiper() {
+  //this has been changed
+  /*function initSwiper() {
     document.querySelectorAll(".init-swiper").forEach(function(swiperElement) {
       let config = JSON.parse(
         swiperElement.querySelector(".swiper-config").innerHTML.trim()
@@ -134,6 +135,27 @@
     });
   }
 
+  window.addEventListener("load", initSwiper);*/
+
+  function initSwiper() {
+    document.querySelectorAll(".init-swiper").forEach(function (swiperElement) {
+      const swiperConfigElement = swiperElement.querySelector(".swiper-config");
+      
+      if (swiperConfigElement) {
+        // Only proceed if the .swiper-config element exists
+        let config = JSON.parse(swiperConfigElement.innerHTML.trim());
+  
+        if (swiperElement.classList.contains("swiper-tab")) {
+          initSwiperWithCustomPagination(swiperElement, config);
+        } else {
+          new Swiper(swiperElement, config);
+        }
+      } else {
+        console.warn("Swiper config not found in", swiperElement);
+      }
+    });
+  }
+  
   window.addEventListener("load", initSwiper);
 
   /**
