@@ -219,4 +219,35 @@ $(document).ready(function() {
     }
 });
 
+
+//delete
+function deleteProperty() {
+    // Get the query string and extract the property ID from URL parameters
+    var queryString = window.location.search;
+    var urlParams = new URLSearchParams(queryString);
+    var propertyId = urlParams.get('id');
+
+    // Send DELETE request to the backend using jQuery AJAX
+    $.ajax({
+        url: '../rest/deleteproperty/' + propertyId, // Adjust this path based on your API
+        type: 'DELETE',
+        contentType: 'application/json',
+        beforeSend: function(xhr) {
+            // Add authentication token from localStorage if available
+            if(localStorage.getItem('user')){
+                xhr.setRequestHeader("Authentication", localStorage.getItem('token'));
+            }
+        },
+        success: function (response) {
+            console.log('Property deleted successfully:', response);
+            // Redirect to the list of houses after deletion
+            window.location.hash = '#properties';
+        },
+        error: function (xhr, status, error) {
+            console.error('Error deleting property:', error);
+            alert('There was an error deleting the property. Please try again.');
+        }
+    });
+}
+
 //edit button

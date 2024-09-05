@@ -64,6 +64,27 @@
       cursor: pointer;
     }
 
+    /* Adding margin for spacing */
+    .btn-custom {
+      margin-top: 5px; /* Move the buttons further down */
+    }
+
+    /* Adjusting spacing between buttons */
+    .button-container {
+      display: flex;
+      gap: 15px;
+      justify-content: flex-start;
+      margin-top: 40px; /* Add space to move the buttons further down */
+    }
+
+    .modal-footer {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Adds space between Yes and No buttons */
+  padding-top: 20px;
+}
+
+
   </style>
 </head>
 
@@ -130,7 +151,13 @@
               </div><!-- End Tab Content -->
 
               <!-- Button to open modal -->
-              <button type="button" class="btn btn-primary" id="openModal">Edit Property</button>
+              <div class="button-container">
+                <!-- Button to open edit modal -->
+                <button type="button" class="btn btn-primary btn-custom" id="openModal">Edit Property</button>
+
+                <!-- Button to open delete confirmation modal -->
+                <button type="button" class="btn btn-danger btn-custom" id="deletePropertyBtn">Delete Property</button>
+              </div>
 
               <!-- Modal Structure -->
               <div id="myModal" class="modal">
@@ -163,6 +190,18 @@
                 </div>
               </div>
 
+                <!-- Delete Confirmation Modal Structure -->
+                <div id="deleteModal" class="modal">
+                  <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3>Confirm Delete</h3>
+                    <p>Are you sure you want to delete this property?</p>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" id="cancel-delete-btn">No</button>
+                      <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Yes</button>
+                    </div>
+                  </div>
+                </div>
 
             </div>
             <div class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
@@ -222,6 +261,53 @@
       }
     }
   </script>
+
+  <script>
+  // Get modal elements
+  const deleteModal = document.getElementById('deleteModal');
+  const deletePropertyBtn = document.getElementById('deletePropertyBtn');
+  const closeBtns = document.querySelectorAll('.close'); // Close buttons in all modals
+  const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+  const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+  // Elements representing property info
+  const propertyName = document.getElementById('property-name');
+  const propertyInfo = document.getElementById('property-info');
+  const propertyImage = document.getElementById('real-estate-image');
+  const quickSummary = document.querySelector('.portfolio-info ul');
+
+  // Open delete confirmation modal
+  deletePropertyBtn.onclick = function () {
+    deleteModal.classList.add('show');
+  };
+
+  // Close the modal when clicking the close button (for both modals)
+  closeBtns.forEach(function (btn) {
+    btn.onclick = function () {
+      deleteModal.classList.remove('show');
+    };
+  });
+
+  // Close delete confirmation modal if user clicks 'No' (Cancel Delete)
+  cancelDeleteBtn.onclick = function () {
+    deleteModal.classList.remove('show');
+  };
+
+  // Handle delete confirmation ('Yes' button clicked)
+  // Call deleteProperty function when 'Yes' button is clicked
+  confirmDeleteBtn.onclick = function () {
+    deleteProperty();  // Call the deleteProperty function
+    deleteModal.classList.remove('show');  // Close the modal
+  };
+
+  // Close the modal if user clicks outside of the modal content
+  window.onclick = function (event) {
+    if (event.target == deleteModal) {
+      deleteModal.classList.remove('show');
+    }
+  };
+</script>
+
 
 </body>
 
