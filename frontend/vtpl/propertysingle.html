@@ -92,12 +92,25 @@
       color: white;
   }
 
-    .modal-footer {
-  display: flex;
-  justify-content: center;
-  gap: 15px; /* Adds space between Yes and No buttons */
-  padding-top: 20px;
+  .modal-footer {
+    display: flex;
+    justify-content: space-between; /* Ensures the buttons are next to each other */
+    gap: 10px; /* Adds a small gap between the buttons */
+    margin-top: 20px;
+    padding: 10px 0; /* Adjust padding for a more compact look */
 }
+
+.modal-footer button {
+    flex-grow: 1; /* Allows buttons to grow equally */
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    width: auto; /* Ensure buttons are auto-sized */
+}
+
+
+
 
 /* Additional styling for text alignment, spacing, and form fields */
 
@@ -131,12 +144,6 @@
 }
 
 /* Modal Footer */
-.modal-footer button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-}
 
 .btn-secondary {
     background-color: #6c757d;
@@ -157,6 +164,42 @@
 .btn-primary:hover {
     background-color: #218838;
 }
+
+.modal-content.card-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 100%;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+  }
+
+
+  .card-info-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+
+  /* Style for card number input */
+  /* Style for card number input */
+#card-number {
+    letter-spacing: 2px;
+    font-size: 18px;
+}
+
+/* Styling for Expiry Date and CVC fields */
+#expiry-date, #cvc {
+    width: 48%;
+}
+/* Align Expiry Date and CVC inputs side by side */
+.card-info-section.inline {
+    display: flex;
+    justify-content: space-between;
+}
+
 
 
 </style>
@@ -306,6 +349,56 @@
   </div>
 </div>
 
+<!-- Buy Property Modal Structure -->
+<!-- Buy Property Modal Structure -->
+<!-- Buy Property Modal Structure -->
+<div id="buyModal" class="modal">
+  <div class="modal-content card-form">
+    <span class="close">&times;</span>
+    <h3 class="mb-4">Enter Payment Details</h3>
+    <form id="buy-property-form">
+      <!-- Card number with icon -->
+      <div class="mb-3">
+        <label for="card-number" class="form-label">Card Number</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
+          <input type="text" class="form-control" id="card-number" placeholder="1234 5678 9123 4567" maxlength="19" required>
+        </div>
+      </div>
+
+      <!-- Card Holder Name with icon -->
+      <div class="mb-3">
+        <label for="card-holder-name" class="form-label">Card Holder Name</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="fas fa-user"></i></span>
+          <input type="text" class="form-control" id="card-holder-name" placeholder="Amina Meric" required>
+        </div>
+      </div>
+
+      <!-- Expiry date and CVC side by side -->
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="expiry-date" class="form-label">Expiry Date</label>
+          <input type="text" class="form-control" id="expiry-date" placeholder="MM/YY" maxlength="5" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="cvc" class="form-label">CVC</label>
+          <input type="text" class="form-control" id="cvc" placeholder="123" maxlength="3" required>
+        </div>
+      </div>
+    </form>
+
+    <div class="modal-footer d-flex justify-content-between">
+      <button type="button" class="btn btn-secondary" id="cancel-buy-btn">Cancel</button>
+      <button type="button" class="btn btn-primary" id="submit-buy-btn">Submit Payment</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
             </div>
             <div class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
               <div class="portfolio-info">
@@ -338,127 +431,190 @@
   <!-- Custom Script to control modal -->
   <script>
     window.onload = function () {
-        console.log('Script for button control is running');
-  
-        // Check if user exists in localStorage
-        const rawUser = localStorage.getItem('user');
-        if (!rawUser) {
-            console.error('No user data found in localStorage');
+    console.log('Script for button control is running');
+
+    // Check if user exists in localStorage
+    const rawUser = localStorage.getItem('user');
+    if (!rawUser) {
+        console.error('No user data found in localStorage');
+        return;
+    }
+
+    let user = null;
+
+    try {
+        // Parse the user data
+        user = JSON.parse(rawUser);
+
+        // Check if user object contains 'type_of_user'
+        if (!user.type_of_user) {
+            console.error('User does not have type_of_user property');
             return;
         }
-  
-        let user = null;
-  
-        try {
-            // Parse the user data
-            user = JSON.parse(rawUser);
-  
-            // Check if user object contains 'type_of_user'
-            if (!user.type_of_user) {
-                console.error('User does not have type_of_user property');
-                return;
-            }
-  
-            const type_of_user = user.type_of_user;
-            console.log('type_of_user:', type_of_user);
-  
-            // Buttons for Agent role
-            if (type_of_user === 'Agent') {
-                document.getElementById('deletePropertyBtn').classList.remove('d-none');
-                document.getElementById('openModal').classList.remove('d-none');
 
-                // Also hide the Reserve and Buy buttons for the Agent
-                document.getElementById('reserveBtn').classList.add('d-none');
-                document.getElementById('buyBtn').classList.add('d-none');
-  
-                // Attach event listeners to the Edit and Delete buttons after making them visible
-                attachEventListeners();
-  
-            } else {
-                // Hide the buttons if not Agent
-                document.getElementById('deletePropertyBtn').classList.add('d-none');
-                document.getElementById('openModal').classList.add('d-none');
-  
-                // Show Reserve and Buy buttons for non-Agent users
-                document.getElementById('reserveBtn').classList.remove('d-none');
-                document.getElementById('buyBtn').classList.remove('d-none');
-            }
-        } catch (error) {
-            console.error('Error parsing user data from localStorage:', error);
+        const type_of_user = user.type_of_user;
+        console.log('type_of_user:', type_of_user);
+
+        // Buttons for Agent role
+        if (type_of_user === 'Agent') {
+            document.getElementById('deletePropertyBtn').classList.remove('d-none');
+            document.getElementById('openModal').classList.remove('d-none');
+
+            // Also hide the Reserve and Buy buttons for the Agent
+            document.getElementById('reserveBtn').classList.add('d-none');
+            document.getElementById('buyBtn').classList.add('d-none');
+
+            // Attach event listeners to the Edit and Delete buttons after making them visible
+            attachEventListeners();
+
+        } else {
+            // Hide the buttons if not Agent
+            document.getElementById('deletePropertyBtn').classList.add('d-none');
+            document.getElementById('openModal').classList.add('d-none');
+
+            // Show Reserve and Buy buttons for non-Agent users
+            document.getElementById('reserveBtn').classList.remove('d-none');
+            document.getElementById('buyBtn').classList.remove('d-none');
+
+            // Attach event listeners to the Buy and Reserve buttons
+            attachBuyAndReserveListeners();
         }
-    };
+    } catch (error) {
+        console.error('Error parsing user data from localStorage:', error);
+    }
+};
 
-    // Function to attach event listeners for edit and delete buttons
-    function attachEventListeners() {
-        const editModal = document.getElementById('myModal');
-        const editPropertyBtn = document.getElementById('openModal');
-        const cancelEditBtn = document.getElementById('cancel-btn');
+// Function to attach event listeners for edit and delete buttons
+function attachEventListeners() {
+    const editModal = document.getElementById('myModal');
+    const editPropertyBtn = document.getElementById('openModal');
+    const cancelEditBtn = document.getElementById('cancel-btn');
 
-        const deleteModal = document.getElementById('deleteModal');
-        const deletePropertyBtn = document.getElementById('deletePropertyBtn');
-        const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
-        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const deleteModal = document.getElementById('deleteModal');
+    const deletePropertyBtn = document.getElementById('deletePropertyBtn');
+    const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 
-        // Close buttons for both modals (Edit and Delete)
-        const closeBtns = document.querySelectorAll('.close');
+    // Close buttons for both modals (Edit and Delete)
+    const closeBtns = document.querySelectorAll('.close');
 
-        // Open the Edit Property modal
-        if (editPropertyBtn) {
-            editPropertyBtn.addEventListener('click', function () {
-                editModal.classList.add('show'); // Show the Edit modal
-            });
-        }
-
-        // Open the Delete Confirmation modal
-        if (deletePropertyBtn) {
-            deletePropertyBtn.addEventListener('click', function () {
-                deleteModal.classList.add('show'); // Show the Delete modal
-            });
-        }
-
-        // Close the modals when clicking the X button (for both modals)
-        closeBtns.forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                editModal.classList.remove('show'); // Hide the Edit modal
-                deleteModal.classList.remove('show'); // Hide the Delete modal
-            });
-        });
-
-        // Close the Edit modal if the user clicks 'Cancel'
-        if (cancelEditBtn) {
-            cancelEditBtn.addEventListener('click', function () {
-                editModal.classList.remove('show');
-            });
-        }
-
-        // Close the Delete modal if the user clicks 'No' (Cancel Delete)
-        if (cancelDeleteBtn) {
-            cancelDeleteBtn.addEventListener('click', function () {
-                deleteModal.classList.remove('show');
-            });
-        }
-
-        // Handle the Delete confirmation ('Yes' button clicked)
-        if (confirmDeleteBtn) {
-            confirmDeleteBtn.addEventListener('click', function () {
-                // You can define a function to handle property deletion
-                deleteProperty(); // Call your delete function (you need to define this)
-                deleteModal.classList.remove('show'); // Hide the modal
-            });
-        }
-
-        // Close any modal if the user clicks outside of the modal content
-        window.addEventListener('click', function (event) {
-            if (event.target == editModal) {
-                editModal.classList.remove('show');
-            } else if (event.target == deleteModal) {
-                deleteModal.classList.remove('show');
-            }
+    // Open the Edit Property modal
+    if (editPropertyBtn) {
+        editPropertyBtn.addEventListener('click', function () {
+            console.log('Edit modal opened'); // Debugging log
+            editModal.classList.add('show'); // Show the Edit modal
         });
     }
+
+    // Open the Delete Confirmation modal
+    if (deletePropertyBtn) {
+        deletePropertyBtn.addEventListener('click', function () {
+            console.log('Delete modal opened'); // Debugging log
+            deleteModal.classList.add('show'); // Show the Delete modal
+        });
+    }
+
+    // Close the modals when clicking the X button (for both modals)
+    closeBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            console.log('Modal closed by clicking X'); // Debugging log
+            editModal.classList.remove('show'); // Hide the Edit modal
+            deleteModal.classList.remove('show'); // Hide the Delete modal
+        });
+    });
+
+    // Close the Edit modal if the user clicks 'Cancel'
+    if (cancelEditBtn) {
+        cancelEditBtn.addEventListener('click', function () {
+            console.log('Edit modal canceled'); // Debugging log
+            editModal.classList.remove('show');
+        });
+    }
+
+    // Close the Delete modal if the user clicks 'No' (Cancel Delete)
+    if (cancelDeleteBtn) {
+        cancelDeleteBtn.addEventListener('click', function () {
+            console.log('Delete modal canceled'); // Debugging log
+            deleteModal.classList.remove('show');
+        });
+    }
+
+    // Handle the Delete confirmation ('Yes' button clicked)
+    if (confirmDeleteBtn) {
+        confirmDeleteBtn.addEventListener('click', function () {
+            console.log('Delete confirmed'); // Debugging log
+            deleteProperty(); // Call your delete function (you need to define this)
+            deleteModal.classList.remove('show'); // Hide the modal
+        });
+    }
+
+    // Close any modal if the user clicks outside of the modal content
+    window.addEventListener('click', function (event) {
+        if (event.target == editModal) {
+            console.log('Clicked outside Edit modal'); // Debugging log
+            editModal.classList.remove('show');
+        } else if (event.target == deleteModal) {
+            console.log('Clicked outside Delete modal'); // Debugging log
+            deleteModal.classList.remove('show');
+        }
+    });
+}
+
+// Function to attach event listeners for Buy and Reserve buttons
+// Function to attach event listeners for Buy and Reserve buttons
+function attachBuyAndReserveListeners() {
+    const reserveModal = document.getElementById('myReservartionModal');
+    const buyModal = document.getElementById('buyModal');
+    const reserveBtn = document.getElementById('reserveBtn');
+    const buyBtn = document.getElementById('buyBtn');
+    const cancelBuyBtn = document.getElementById('cancel-buy-btn'); // Buy modal cancel button
+    const buyCloseBtn = buyModal.querySelector('.close'); // X button inside Buy modal
+
+    // Open the Reserve Modal
+    if (reserveBtn) {
+        reserveBtn.addEventListener('click', function () {
+            console.log('Reserve modal opened'); // Debugging log
+            reserveModal.classList.add('show');
+        });
+    }
+
+    // Open the Buy Modal
+    if (buyBtn) {
+        buyBtn.addEventListener('click', function () {
+            console.log('Buy modal opened'); // Debugging log
+            buyModal.classList.add('show');
+        });
+    }
+
+    // Close the Buy modal when the 'Cancel' button is clicked
+    if (cancelBuyBtn) {
+        cancelBuyBtn.addEventListener('click', function () {
+            console.log('Buy modal canceled'); // Debugging log
+            buyModal.classList.remove('show');
+        });
+    }
+
+    // Close the Buy modal when the 'X' button is clicked
+    if (buyCloseBtn) {
+        buyCloseBtn.addEventListener('click', function () {
+            console.log('Buy modal closed by X'); // Debugging log
+            buyModal.classList.remove('show');
+        });
+    }
+
+    // Close the Buy modal if the user clicks outside the modal content
+    window.addEventListener('click', function (event) {
+        if (event.target == buyModal) {
+            console.log('Clicked outside Buy modal'); // Debugging log
+            buyModal.classList.remove('show');
+        }
+    });
+}
+
+
 </script>
 
-
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 </body>
 

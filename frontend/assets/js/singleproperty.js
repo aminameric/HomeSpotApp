@@ -285,4 +285,53 @@ window.onclick = function (event) {
   }
 };
 
-//edit button
+document.addEventListener('DOMContentLoaded', function () {
+    // Buy Property Modal Elements
+    const buyModal = document.getElementById('buyModal');
+    const buyPropertyBtn = document.getElementById('buyBtn');
+    const cancelBuyBtn = document.getElementById('cancel-buy-btn');
+    const closeBtns = document.querySelectorAll('.close');
+    const submitBuyBtn = document.getElementById('submit-buy-btn');
+
+    // Open the Buy Property modal when the "Buy" button is clicked
+    buyPropertyBtn.addEventListener('click', function () {
+        buyModal.style.display = 'block'; // Show the Buy modal
+    });
+
+    // Close the modal when the 'X' button is clicked
+    closeBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            buyModal.style.display = 'none'; // Hide the modal
+        });
+    });
+
+    // Close the Buy modal if the user clicks 'Cancel'
+    cancelBuyBtn.addEventListener('click', function () {
+        buyModal.style.display = 'none';
+    });
+
+    // Close the modal if the user clicks outside of the modal content
+    window.onclick = function (event) {
+        if (event.target == buyModal) {
+            buyModal.style.display = 'none';
+        }
+    };
+
+    // Handle the Buy submission ('Submit Payment' button clicked)
+    submitBuyBtn.addEventListener('click', function () {
+        const cardHolderName = document.getElementById('card-holder-name').value;
+        const cardNumber = document.getElementById('card-number').value;
+        const expiryDate = document.getElementById('expiry-date').value;
+        const cvc = document.getElementById('cvc').value;
+
+        // Log the details (or handle them in the backend)
+        console.log('Card Holder Name:', cardHolderName);
+        console.log('Card Number:', cardNumber);
+        console.log('Expiry Date:', expiryDate);
+        console.log('CVC:', cvc);
+
+        // After submission, close the modal
+        buyModal.style.display = 'none';
+        alert('Payment submitted successfully!');
+    });
+});
