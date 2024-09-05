@@ -15,7 +15,7 @@
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&family=Poppins:wght@100;300;400;500;700&display=swap" rel="stylesheet">
-
+  
   <style>
     .modal {
       display: none; /* Hidden by default */
@@ -64,18 +64,33 @@
       cursor: pointer;
     }
 
-    /* Adding margin for spacing */
-    .btn-custom {
-      margin-top: 5px; /* Move the buttons further down */
-    }
 
-    /* Adjusting spacing between buttons */
     .button-container {
-      display: flex;
-      gap: 15px;
-      justify-content: flex-start;
-      margin-top: 40px; /* Add space to move the buttons further down */
-    }
+      text-align: center; /* Center the buttons */
+      margin-top: 20px;   /* Add spacing between the picture and buttons */
+  }
+
+  /* Custom button styles for all buttons */
+  .btn-custom {
+      background-color: #6c757d; /* Gray background */
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      display: inline-block; /* Ensure the buttons are inline for correct centering */
+      margin: 5px;           /* Add spacing between buttons */
+  }
+
+  .btn-custom:hover {
+      background-color: #28a745; /* Green hover effect */
+      color: white;
+  }
+
+  #deletePropertyBtn {
+      background-color: #c82333; /* Slightly darker red on hover */
+      color: white;
+  }
 
     .modal-footer {
   display: flex;
@@ -84,8 +99,67 @@
   padding-top: 20px;
 }
 
+/* Additional styling for text alignment, spacing, and form fields */
 
-  </style>
+.modal-content h3 {
+    margin-bottom: 20px; /* Add space below the title */
+    font-size: 24px; /* Larger font size for the modal title */
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.textarea {
+    min-height: 100px;
+}
+
+/* Modal Footer */
+.modal-footer button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-primary {
+    background-color: #28a745;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #218838;
+}
+
+
+</style>
 </head>
 
 <body class="property-single-page">
@@ -154,44 +228,45 @@
               <div class="button-container">
                 <!-- Button to open edit modal -->
                 <button type="button" class="btn btn-primary btn-custom d-none" id="openModal">Edit Property</button>
-              
                 <!-- Button to open delete confirmation modal -->
                 <button type="button" class="btn btn-danger btn-custom d-none" id="deletePropertyBtn">Delete Property</button>
-              </div>
-              
 
+                <!-- Reserve button -->
+                <button type="button" class="btn btn-secondary btn-custom d-none" id="reserveBtn">Reserve</button>
+
+                <!-- Buy button -->
+                <button type="button" class="btn btn-secondary btn-custom d-none" id="buyBtn">Buy</button>
+              </div>
+
+<!--edit modal-->
               <!-- Modal Structure -->
-              <div id="myModal" class="modal">
-                <div class="modal-content">
-                  <!-- Close button in the top-right corner -->
-                  <span class="close">&times;</span>
-                  <h3>Edit Property Details</h3>
-                  
-                  <form id="edit-property-form">
-                    <div class="form-group">
-                      <label for="property-name">Property Name</label>
-                      <input type="text" class="form-control" id="property-name" placeholder="Enter property name">
-                    </div>
-                    <div class="form-group">
-                      <label for="property-description">Property Description</label>
-                      <textarea class="form-control" id="property-description" rows="3" placeholder="Enter property description"></textarea>
-                    </div>
-                    <div class="form-group">
-                      <label for="property-price">Property Price</label>
-                      <input type="number" class="form-control" id="property-price" placeholder="Enter property price">
-                    </div>
-                  </form>
-                  
-                  <div class="modal-footer">
-                    <!-- Cancel/Close button -->
-                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
-                    <!-- Save changes button -->
-                    <button type="button" class="btn btn-primary" id="save-property-btn">Save changes</button>
-                  </div>
-                </div>
-              </div>
+<div id="myModal" class="modal">
+  <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Edit Property Details</h3>
+      <form id="edit-property-form">
+          <div class="form-group">
+              <label for="property-name">Property Name</label>
+              <input type="text" class="form-control" id="property-name" placeholder="Enter property name">
+          </div>
+          <div class="form-group">
+              <label for="property-description">Property Description</label>
+              <textarea class="form-control" id="property-description" rows="3" placeholder="Enter property description"></textarea>
+          </div>
+          <div class="form-group">
+              <label for="property-price">Property Price</label>
+              <input type="number" class="form-control" id="property-price" placeholder="Enter property price">
+          </div>
+      </form>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+          <button type="button" class="btn btn-primary" id="save-property-btn">Save changes</button>
+      </div>
+  </div>
+</div>
 
-                <!-- Delete Confirmation Modal Structure -->
+
+<!-- Delete Confirmation Modal Structure -->
                 <div id="deleteModal" class="modal">
                   <div class="modal-content">
                     <span class="close">&times;</span>
@@ -203,6 +278,33 @@
                     </div>
                   </div>
                 </div>
+
+<!--reserve modal-->
+<div id="myReservartionModal" class="modal">
+  <div class="modal-content">
+    <!-- Close button in the top-right corner -->
+    <span class="close">&times;</span>
+    <h3>Reserve Property</h3>
+    
+    <form id="reserve-property-form">
+      <div class="form-group">
+        <label class="label">Reservation Date</label>
+        <input class="input" type="date" id="reservation-date" required>
+      </div>
+      <div class="form-group">
+        <label class="label">Additional Comments</label>
+        <textarea class="textarea" id="reservation-comments" placeholder="Enter any additional comments"></textarea>
+      </div>
+    </form>
+    
+    <div class="modal-footer">
+      <!-- Cancel/Close button -->
+      <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+      <!-- Save changes button -->
+      <button type="button" class="btn btn-primary" id="save-property-btn">Save changes</button>
+    </div>
+  </div>
+</div>
 
             </div>
             <div class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
@@ -237,122 +339,124 @@
   <script>
     window.onload = function () {
         console.log('Script for button control is running');
-
+  
         // Check if user exists in localStorage
         const rawUser = localStorage.getItem('user');
         if (!rawUser) {
             console.error('No user data found in localStorage');
             return;
         }
-
-        
-
+  
         let user = null;
-
+  
         try {
             // Parse the user data
             user = JSON.parse(rawUser);
-            
-
+  
             // Check if user object contains 'type_of_user'
             if (!user.type_of_user) {
                 console.error('User does not have type_of_user property');
                 return;
             }
-
+  
             const type_of_user = user.type_of_user;
             console.log('type_of_user:', type_of_user);
-
+  
+            // Buttons for Agent role
             if (type_of_user === 'Agent') {
                 document.getElementById('deletePropertyBtn').classList.remove('d-none');
                 document.getElementById('openModal').classList.remove('d-none');
+
+                // Also hide the Reserve and Buy buttons for the Agent
+                document.getElementById('reserveBtn').classList.add('d-none');
+                document.getElementById('buyBtn').classList.add('d-none');
+  
+                // Attach event listeners to the Edit and Delete buttons after making them visible
+                attachEventListeners();
+  
             } else {
+                // Hide the buttons if not Agent
                 document.getElementById('deletePropertyBtn').classList.add('d-none');
                 document.getElementById('openModal').classList.add('d-none');
+  
+                // Show Reserve and Buy buttons for non-Agent users
+                document.getElementById('reserveBtn').classList.remove('d-none');
+                document.getElementById('buyBtn').classList.remove('d-none');
             }
         } catch (error) {
             console.error('Error parsing user data from localStorage:', error);
         }
     };
+
+    // Function to attach event listeners for edit and delete buttons
+    function attachEventListeners() {
+        const editModal = document.getElementById('myModal');
+        const editPropertyBtn = document.getElementById('openModal');
+        const cancelEditBtn = document.getElementById('cancel-btn');
+
+        const deleteModal = document.getElementById('deleteModal');
+        const deletePropertyBtn = document.getElementById('deletePropertyBtn');
+        const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+        // Close buttons for both modals (Edit and Delete)
+        const closeBtns = document.querySelectorAll('.close');
+
+        // Open the Edit Property modal
+        if (editPropertyBtn) {
+            editPropertyBtn.addEventListener('click', function () {
+                editModal.classList.add('show'); // Show the Edit modal
+            });
+        }
+
+        // Open the Delete Confirmation modal
+        if (deletePropertyBtn) {
+            deletePropertyBtn.addEventListener('click', function () {
+                deleteModal.classList.add('show'); // Show the Delete modal
+            });
+        }
+
+        // Close the modals when clicking the X button (for both modals)
+        closeBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                editModal.classList.remove('show'); // Hide the Edit modal
+                deleteModal.classList.remove('show'); // Hide the Delete modal
+            });
+        });
+
+        // Close the Edit modal if the user clicks 'Cancel'
+        if (cancelEditBtn) {
+            cancelEditBtn.addEventListener('click', function () {
+                editModal.classList.remove('show');
+            });
+        }
+
+        // Close the Delete modal if the user clicks 'No' (Cancel Delete)
+        if (cancelDeleteBtn) {
+            cancelDeleteBtn.addEventListener('click', function () {
+                deleteModal.classList.remove('show');
+            });
+        }
+
+        // Handle the Delete confirmation ('Yes' button clicked)
+        if (confirmDeleteBtn) {
+            confirmDeleteBtn.addEventListener('click', function () {
+                // You can define a function to handle property deletion
+                deleteProperty(); // Call your delete function (you need to define this)
+                deleteModal.classList.remove('show'); // Hide the modal
+            });
+        }
+
+        // Close any modal if the user clicks outside of the modal content
+        window.addEventListener('click', function (event) {
+            if (event.target == editModal) {
+                editModal.classList.remove('show');
+            } else if (event.target == deleteModal) {
+                deleteModal.classList.remove('show');
+            }
+        });
+    }
 </script>
-
-
-  <script>
-    const modal = document.getElementById("myModal");
-    const btn = document.getElementById("openModal");
-    const closeBtn = document.getElementsByClassName("close")[0];
-    const cancelBtn = document.getElementById("cancel-btn");
-
-    // Open the modal when the "Edit Property" button is clicked
-    btn.onclick = function() {
-      modal.classList.add("show"); // Add 'show' class to display the modal
-    }
-
-    // Close the modal when the "X" button is clicked
-    closeBtn.onclick = function() {
-      modal.classList.remove("show");
-    }
-
-    // Close the modal when the "Cancel" button is clicked
-    cancelBtn.onclick = function() {
-      modal.classList.remove("show");
-    }
-
-    // Close the modal if the user clicks outside the modal content
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.classList.remove("show");
-      }
-    }
-  </script>
-
-  <script>
-
-  // Get modal elements
-  const deleteModal = document.getElementById('deleteModal');
-  const deletePropertyBtn = document.getElementById('deletePropertyBtn');
-  const closeBtns = document.querySelectorAll('.close'); // Close buttons in all modals
-  const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
-  const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-
-  // Elements representing property info
-  const propertyName = document.getElementById('property-name');
-  const propertyInfo = document.getElementById('property-info');
-  const propertyImage = document.getElementById('real-estate-image');
-  const quickSummary = document.querySelector('.portfolio-info ul');
-
-  // Open delete confirmation modal
-  deletePropertyBtn.onclick = function () {
-    deleteModal.classList.add('show');
-  };
-
-  // Close the modal when clicking the close button (for both modals)
-  closeBtns.forEach(function (btn) {
-    btn.onclick = function () {
-      deleteModal.classList.remove('show');
-    };
-  });
-
-  // Close delete confirmation modal if user clicks 'No' (Cancel Delete)
-  cancelDeleteBtn.onclick = function () {
-    deleteModal.classList.remove('show');
-  };
-
-  // Handle delete confirmation ('Yes' button clicked)
-  // Call deleteProperty function when 'Yes' button is clicked
-  confirmDeleteBtn.onclick = function () {
-    deleteProperty();  // Call the deleteProperty function
-    deleteModal.classList.remove('show');  // Close the modal
-  };
-
-  // Close the modal if user clicks outside of the modal content
-  window.onclick = function (event) {
-    if (event.target == deleteModal) {
-      deleteModal.classList.remove('show');
-    }
-  };
-</script>
-
 
 
 

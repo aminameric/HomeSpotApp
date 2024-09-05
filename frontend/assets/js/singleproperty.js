@@ -250,4 +250,39 @@ function deleteProperty() {
     });
 }
 
+// reserve modal
+// Get the modal element
+const modal = document.getElementById("myReservartionModal");
+
+// Get the "Reserve" button that opens the modal
+const reserveBtn = document.getElementById("reserveBtn");
+
+// Get the <span> element that closes the modal (X button)
+const closeBtn = modal.querySelector(".close");
+
+// Get the "Cancel" button inside the modal
+const cancelBtn = modal.querySelector("#cancel-btn");
+
+// Open the modal when the "Reserve" button is clicked
+reserveBtn.onclick = function () {
+  modal.classList.add("show");
+};
+
+// Close the modal when the "X" button is clicked
+closeBtn.onclick = function () {
+  modal.classList.remove("show");
+};
+
+// Close the modal when the "Cancel" button is clicked
+cancelBtn.onclick = function () {
+  modal.classList.remove("show");
+};
+
+// Close the modal if the user clicks outside of the modal content
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.classList.remove("show");
+  }
+};
+
 //edit button
