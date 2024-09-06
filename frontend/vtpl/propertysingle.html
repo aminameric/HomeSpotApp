@@ -282,15 +282,14 @@
               </div>
 
 <!--edit modal-->
-              <!-- Modal Structure -->
 <div id="myModal" class="modal">
   <div class="modal-content">
       <span class="close">&times;</span>
       <h3>Edit Property Details</h3>
       <form id="edit-property-form">
           <div class="form-group">
-              <label for="property-name">Property Name</label>
-              <input type="text" class="form-control" id="property-name" placeholder="Enter property name">
+            <label for="property-name">Property Name</label>
+            <input type="text" class="form-control" id="property-name-input" placeholder="Enter property name">
           </div>
           <div class="form-group">
               <label for="property-description">Property Description</label>
@@ -303,7 +302,7 @@
       </form>
       <div class="modal-footer">
           <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
-          <button type="button" class="btn btn-primary" id="save-property-btn">Save changes</button>
+          <button type="button" class="btn btn-primary" id="save-property-btn1">Save changes</button>
       </div>
   </div>
 </div>
@@ -350,8 +349,6 @@
 </div>
 
 <!-- Buy Property Modal Structure -->
-<!-- Buy Property Modal Structure -->
-<!-- Buy Property Modal Structure -->
 <div id="buyModal" class="modal">
   <div class="modal-content card-form">
     <span class="close">&times;</span>
@@ -396,15 +393,12 @@
 </div>
 
 
-
-
-
             </div>
             <div class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
               <div class="portfolio-info">
                 <h3>Quick Summary</h3>
                 <ul>
-                  <li><strong>Price:</strong> $50 000</li>
+                  <li><strong>Price:</strong> <span id="property-price-display"></span></li>
                   <li><strong>Bedrooms:</strong> 4</li>
                   <li><strong>Bathrooms:</strong> 1</li>
                   <li><strong>Area:</strong> <span>340m2</span></li>
@@ -561,7 +555,6 @@ function attachEventListeners() {
 }
 
 // Function to attach event listeners for Buy and Reserve buttons
-// Function to attach event listeners for Buy and Reserve buttons
 function attachBuyAndReserveListeners() {
     const reserveModal = document.getElementById('myReservartionModal');
     const buyModal = document.getElementById('buyModal');
@@ -613,6 +606,7 @@ function attachBuyAndReserveListeners() {
 
 
 </script>
+
 
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 

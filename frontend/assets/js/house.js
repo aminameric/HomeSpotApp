@@ -18,30 +18,39 @@ $(document).ready(function () {
       if (Array.isArray(response)) {
         response.forEach(function (property) {
           const imageUrl = property.image_url ? `http://localhost/HomeSpotApp/rest/storage/${property.image_url}` : null;
-          
+      
+          // Format the price in BAM
+          let formattedPrice = new Intl.NumberFormat('de-DE', { 
+              style: 'currency', 
+              currency: 'BAM', 
+              minimumFractionDigits: 2, 
+              maximumFractionDigits: 2 
+          }).format(property.price || 0);
+      
           // Create a new column for each card and assign the property ID as data attribute
           const cardContainerHtml = `
-            <div class="col-xl-4 col-md-6" data-id="${property.id}" data-aos="fade-up" data-aos-delay="100">
-              <div class="card">
-                <div class="card-image">
-                  <figure class="image is-4by3">
-                    <img class="property-image" alt="Property Image">
-                  </figure>
-                </div>
-                <div class="card-body">
-                  <span class="sale-rent">Price | $${property.price}</span>
-                  <h3><a class="stretched-link">${property.name}</a></h3>
-                  <div class="card-content d-flex flex-column justify-content-center text-center">
-                    <div class="row property-info">
-                      <div class="col">Area: ${property.area}</div>
-                      <div class="col">Beds: ${property.bedrooms}</div>
-                      <div class="col">Baths: ${property.bathrooms}</div>
-                    </div>
+              <div class="col-xl-4 col-md-6" data-id="${property.id}" data-aos="fade-up" data-aos-delay="100">
+                  <div class="card">
+                      <div class="card-image">
+                          <figure class="image is-4by3">
+                              <img class="property-image" alt="Property Image">
+                          </figure>
+                      </div>
+                      <div class="card-body">
+                          <span class="sale-rent">Price | ${formattedPrice}</span>
+                          <h3><a class="stretched-link">${property.name}</a></h3>
+                          <div class="card-content d-flex flex-column justify-content-center text-center">
+                              <div class="row property-info">
+                                  <div class="col">Area: ${property.area}</div>
+                                  <div class="col">Beds: ${property.bedrooms}</div>
+                                  <div class="col">Baths: ${property.bathrooms}</div>
+                              </div>
+                          </div>
+                      </div>
                   </div>
-                </div>
               </div>
-            </div>
           `;
+      
 
           // Append each card's column to the row
           $(".row.gy-4").append(cardContainerHtml);

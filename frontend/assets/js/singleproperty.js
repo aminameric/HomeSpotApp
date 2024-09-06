@@ -58,7 +58,9 @@ function getPropertyDetails() {
                 $("#floor-image").attr("src", floorImageUrl);  // Assuming #floor-image is the ID for the floor plan image
     
                 // Update property information
-                $(".portfolio-info li:nth-child(1)").html(`<strong>Price:</strong> $${property.price || 'N/A'}`);
+                let formattedPrice = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'BAM' }).format(property.price || 0);
+                $(".portfolio-info li:nth-child(1)").html(`<strong>Price:</strong> ${formattedPrice}`);
+
                 $(".portfolio-info li:nth-child(2)").html(`<strong>Bedrooms:</strong> ${property.bedrooms || 'N/A'}`);
                 $(".portfolio-info li:nth-child(3)").html(`<strong>Bathrooms:</strong> ${property.bathrooms || 'N/A'}`);
                 $(".portfolio-info li:nth-child(4)").html(`<strong>Area:</strong> <span>${property.area || 'N/A'}m<sup>2</sup></span>`);
@@ -335,3 +337,188 @@ document.addEventListener('DOMContentLoaded', function () {
         alert('Payment submitted successfully!');
     });
 });
+
+//property reservation ajax
+$(document).on('click', '#save-property-btn', function(e) {
+    e.preventDefault(); // Prevent the form from submitting the traditional way
+
+    // Get values from the form inputs
+    var reservationDate = $('#reservation-date').val();
+    var comments = $('#reservation-comments').val();
+    
+    // Extract the property ID from the URL
+    var urlParams = new URLSearchParams(window.location.search);
+    var propertyId = urlParams.get('id');
+
+    // Retrieve user ID from local storage
+    var user = JSON.parse(localStorage.getItem('user'));
+    var userId = user.id;
+
+    // Log values to make sure they're being captured correctly
+    console.log({
+        date: reservationDate,
+        additional_comment: comments,
+        users_id: userId,
+        property_id: propertyId
+    });
+
+    // Call a validation function before attempting to reserve the property
+    if (validateReservationForm()) {
+        addPropertyReservation(); // Call the reservation function only if validation passes
+    }
+});
+
+function validateReservationForm() {
+    var reservationDate = $('#reservation-date').val();
+    var comments = $('#reservation-comments').val();
+
+    if (!reservationDate) {
+        toastr.error('Please enter a reservation date.');
+        return false; // Prevent submission if the date is empty
+    }
+
+    if (!comments) {
+        toastr.error('Please enter additional comments.');
+        return false; // Prevent submission if comments are empty
+    }
+
+    return true; // Proceed with submission if both fields are filled
+}
+
+
+
+function addPropertyReservation() {
+    // Get values from the form inputs
+    var reservationDate = $('#reservation-date').val();
+    var comments = $('#reservation-comments').val();
+    var urlParams = new URLSearchParams(window.location.search);
+    var propertyId = urlParams.get('id');
+    var user = JSON.parse(localStorage.getItem('user'));
+    var userId = user.id;
+
+    // Log the request payload
+    console.log('Sending reservation data:', {
+        date: reservationDate,
+        additional_comment: comments,
+        users_id: userId,
+        property_id: propertyId
+    });
+
+    // Make the AJAX POST request to add the reservation
+    $.ajax({
+        url: '../rest/addPropertyReservation',
+        type: 'POST',
+        data: JSON.stringify({
+            date: reservationDate,
+            additional_comment: comments,
+            users_id: userId,
+            property_id: propertyId,
+        }),
+        contentType: 'application/json',
+        beforeSend: function(xhr) {
+            if (localStorage.getItem('user')) {
+                xhr.setRequestHeader("Authentication", localStorage.getItem('token'));
+            }
+        },
+        success: function(response) {
+            console.log('Property reserved successfully:', response);
+            toastr.success('Reservation of property successful!');
+            closeModal();
+        },
+        error: function(xhr, status, error) {
+            console.error('Error reserving property:', error);
+            console.log('Error details:', xhr.responseText); // To see the error message from the server
+            toastr.error('Failed to reserve property. Please try again.');
+        }
+    });
+}
+
+function closeModal() {
+    $('#myReservartionModal').removeClass('show'); // Hide the modal
+}
+
+//edit property
+$(document).ready(function() {
+    $(document).on('click', '#save-property-btn1', function () {
+        // Get values from the form inputs
+        var propertyName = $('#property-name-input').val();
+        var propertyDescription = $('#property-description').val();
+        var propertyPrice = $('#property-price').val();
+
+        // Log data to make sure it's captured correctly
+        console.log('Property Name:', propertyName);
+        console.log('Property Description:', propertyDescription);
+        console.log('Property Price:', propertyPrice);
+
+        // Extract the property ID from the URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var propertyId = urlParams.get('id');
+
+        // Retrieve user token from local storage
+        var token = localStorage.getItem('token');
+
+        // Check if token and property ID exist before proceeding
+        if (!token || !propertyId) {
+            alert('Failed to authenticate or retrieve property ID.');
+            return;
+        }
+
+        // Create a data object only with fields that have values (i.e., not empty)
+        var propertyData = {};
+        
+        if (propertyName.trim()) {
+            propertyData.name = propertyName;  // Only add name if not empty
+        }
+
+        if (propertyDescription.trim()) {
+            propertyData.description = propertyDescription;  // Only add description if not empty
+        }
+
+        if (propertyPrice.trim()) {
+            propertyData.price = propertyPrice;  // Only add price if not empty
+        }
+
+        // Ensure at least one field is being updated
+        console.log('Property Data Object:', propertyData);
+
+        if (Object.keys(propertyData).length === 0) {
+            toastr.error('No fields to update. Please modify at least one field.');
+            return;
+        }
+
+        // Send PUT request to update the property details
+        $.ajax({
+            url: `../rest/property/${propertyId}`,  // Correct URL for updating property
+            type: 'PUT',  // Use PUT method for update
+            data: JSON.stringify(propertyData),  // Send the property data
+            contentType: 'application/json',  // Specify the content type as JSON
+            success: function(response) {
+                console.log('Property updated successfully:', response);
+
+
+                toastr.success('Property updated successfully!');
+                closeModal();  // Close the modal after success
+                location.reload();  // Reload the page to ensure all elements are updated
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating property:', error);
+                toastr.error('Failed to update property. Please try again.');
+            }
+        });
+        
+    });
+});
+
+// Function to close the modal after successful update or if cancel is clicked
+function closeModal() {
+    $('#myModal').removeClass('show');  // Hide the modal
+}
+
+//for cleaning input fields in a form
+$(document).on('click', '#cancel-btn, .close', function () {
+    clearFormFields(); // Clear form when cancel or close is clicked
+});
+
+function clearFormFields() {
+    $('#edit-property-form').trigger('reset'); // Reset the form fields
+}

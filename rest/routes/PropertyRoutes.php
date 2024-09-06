@@ -54,6 +54,7 @@ Flight::route('GET /prop/@id', function($id){ //with parameter
 
         $property = Flight::property_service()->get_by_id($id);
 
+        
         // Return the combined response
         Flight::json([
             'result' => $property
