@@ -435,7 +435,9 @@
 
   <!-- Custom Script to control modal -->
   <script>
-    window.onload = function () {
+    $(document).ready (function(){
+
+    
     console.log('Script for button control is running');
 
     // Check if user exists in localStorage
@@ -489,7 +491,7 @@
     } catch (error) {
         console.error('Error parsing user data from localStorage:', error);
     }
-};
+    });
 
 // Function to attach event listeners for edit and delete buttons
 function attachEventListeners() {

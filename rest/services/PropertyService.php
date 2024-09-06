@@ -54,6 +54,22 @@ class PropertyService extends BaseService{
         // Add property to the database
         return $this->add($property);
     }
+
+    function listProp(){
+        $ch = curl_init();
+        $url = "https://olx.ba/api/search?=&attr=373031322850726f64616a6129&attr_encoded=1&category_id=23";
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+
+        $response = curl_exec($ch);
+
+        header("Access-Control-Allow-Origin: *");
+
+        curl_close($ch);
+        flush();
+        return json_decode($response, true);
+    }
     
     
 

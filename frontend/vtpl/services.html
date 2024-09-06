@@ -122,8 +122,8 @@
   </main>
 
   <script>
-    const apiKey = 'YEL1M1D47T9Z8E64'; // Replace with your actual API key
-    const apiUrl = `https://www.alphavantage.co/query?function=NEWS_SENTIMENT&topics=economy&apikey=${apiKey}`;
+    //const apiKey = 'YEL1M1D47T9Z8E64'; // Replace with your actual API key
+    const apiUrl = `../rest/olxprop`;
 
     async function fetchEconomicNews() {
             try {
@@ -131,8 +131,8 @@
                 const data = await response.json();
 
                 // Check if the 'feed' array is present and valid
-                if (data && data.feed && Array.isArray(data.feed)) {
-                    displayNews(data.feed);
+                if (data && data.data && Array.isArray(data.data)) {
+                    displayNews(data.data);
                 } else {
                     console.error('Error: Expected feed array not found in response:', data);
                 }
@@ -152,13 +152,12 @@
                 newsDiv.classList.add('news');
 
                 // Check for an image and use a placeholder if not available
-                const imageUrl = article.banner_image || 'https://via.placeholder.com/300x200?text=No+Image';
+                const imageUrl = article.image || 'https://via.placeholder.com/300x200?text=No+Image';
 
                 newsDiv.innerHTML = `
                     <img src="${imageUrl}" alt="News Image">
-                    <h2>${article.title}</h2>
-                    <p>${article.summary || 'No description available.'}</p>
-                    <a href="${article.url}" target="_blank">Read more</a>
+                    <h2>${article.title}</h2> 
+                    <a href="https://olx.ba/artikal/${article.id}" target="_blank">Read more</a>
                 `;
                 container.appendChild(newsDiv);
             });
@@ -169,3 +168,5 @@
 </body>
 
 </html>
+
+<!--<p>${article.summary || 'No description available.'}</p>-->

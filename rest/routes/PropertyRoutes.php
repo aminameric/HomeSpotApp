@@ -163,4 +163,8 @@ Flight::route('DELETE /deleteproperty/@id', function($id){
  
 });
 
+Flight::route("GET /olxprop", function(){
+    Flight::json(Flight::property_service()->listProp());
+ });
+
 ?>
