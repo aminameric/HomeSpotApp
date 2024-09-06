@@ -13,6 +13,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="assets/css/main.css" as="style">
 
+  <!-- Add Web3.js -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.4.0/dist/ethers.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+
+
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&family=Poppins:wght@100;300;400;500;700&display=swap" rel="stylesheet">
   
@@ -279,6 +284,11 @@
 
                 <!-- Buy button -->
                 <button type="button" class="btn btn-secondary btn-custom d-none" id="buyBtn">Buy</button>
+
+                <button type="button" class="btn btn-secondary btn-custom d-none" id="connect-wallet-btn">Connect MetaMask Wallet</button>
+                <button type="button" class="btn btn-secondary btn-custom" id="disconnect-wallet-btn" style="display:none;">Disconnect MetaMask Wallet</button>
+              <!-- Transaction Button -->
+              <button type="button" class="btn btn-secondary btn-custom" id="buy-property-btn" style="display:none;">Buy Property with MetaMask</button>
               </div>
 
 <!--edit modal-->
@@ -421,6 +431,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="assets/js/singleproperty.js"></script>
+  <script src="assets/js/metamask.js"></script>
 
   <!-- Custom Script to control modal -->
   <script>
@@ -457,6 +468,7 @@
             // Also hide the Reserve and Buy buttons for the Agent
             document.getElementById('reserveBtn').classList.add('d-none');
             document.getElementById('buyBtn').classList.add('d-none');
+            document.getElementById('connect-wallet-btn').classList.add('d-none');
 
             // Attach event listeners to the Edit and Delete buttons after making them visible
             attachEventListeners();
@@ -469,6 +481,7 @@
             // Show Reserve and Buy buttons for non-Agent users
             document.getElementById('reserveBtn').classList.remove('d-none');
             document.getElementById('buyBtn').classList.remove('d-none');
+            document.getElementById('connect-wallet-btn').classList.remove('d-none');
 
             // Attach event listeners to the Buy and Reserve buttons
             attachBuyAndReserveListeners();
@@ -609,6 +622,81 @@ function attachBuyAndReserveListeners() {
 
 
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
+<!--metamask-->
+<!--<script>
+  let userAccount;
+
+  // Connect to MetaMask
+  document.getElementById('connect-wallet-btn').addEventListener('click', async () => {
+    if (typeof window.ethereum !== 'undefined') {
+      try {
+        // Request account access if needed
+        const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+        userAccount = accounts[0];
+        console.log('Connected account:', userAccount);
+
+        // Show the buy button once connected
+        document.getElementById('buy-property-btn').style.display = 'block';
+      } catch (error) {
+        console.error('User rejected account access');
+      }
+    } else {
+      alert('MetaMask is not installed. Please install it to use this feature.');
+    }
+  });
+
+  // Buy property with MetaMask
+  document.getElementById('buy-property-btn').addEventListener('click', async () => {
+    const propertyPriceInEth = "0.1"; // The price of the property in Ether (ETH)
+
+    // Make a transaction
+    const transactionParameters = {
+      to: '0x3B2bBcBB111cE699b540e34D0F2Cf4Cd36838566', // The address where the payment will go
+      from: userAccount, // The account currently connected
+      value: web3.utils.toHex(web3.utils.toWei(propertyPriceInEth, 'ether')), // The value in ETH (converted to Wei)
+      gas: '2000000' // Gas limit
+    };
+
+    try {
+      const txHash = await ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [transactionParameters],
+      });
+
+      console.log('Transaction successful:', txHash);
+      alert('Transaction Successful. Transaction hash: ' + txHash);
+    } catch (error) {
+      console.error('Transaction failed:', error);
+    }
+  });
+
+  // Disconnect MetaMask Wallet
+document.getElementById('disconnect-wallet-btn').addEventListener('click', () => {
+    // Clear the locally stored account
+    userAccount = null;
+    localStorage.removeItem('connectedAccount');
+
+    // Hide the disconnect and buy buttons
+    document.getElementById('buy-property-btn').style.display = 'none';
+    document.getElementById('disconnect-wallet-btn').style.display = 'none';
+    document.getElementById('connect-wallet-btn').style.display = 'block';
+
+    console.log('Wallet disconnected');
+});
+
+// Automatically check if wallet is already connected (e.g., page refresh)
+window.addEventListener('load', () => {
+    const connectedAccount = localStorage.getItem('connectedAccount');
+    if (connectedAccount) {
+        userAccount = connectedAccount;
+        document.getElementById('buy-property-btn').style.display = 'block';
+        document.getElementById('disconnect-wallet-btn').style.display = 'block';
+        document.getElementById('connect-wallet-btn').style.display = 'none';
+    }
+});
+</script>-->
 
 </body>
 
