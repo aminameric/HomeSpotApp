@@ -123,7 +123,7 @@ var propertyService = {
           
           // Append property details
           entity.append("name", $("input[name='name']").val());
-          entity.append("description", $("input[name='description']").val());
+          entity.append("description", $("textarea[name='description']").val());
           entity.append("price", $("input[name='price']").val());
           entity.append("area", $("input[name='area']").val());
           entity.append("property_type", $("input[name='propertytype']").val());
@@ -155,7 +155,7 @@ var propertyService = {
           var addressEntity = {
               street_address: $("input[name='street_address']").val(),
               city: $("input[name='city']").val(),
-              country: $("input[name='country']").val(),
+              country: $("#country").select2('data')[0] ? $("#country").select2('data')[0].id : '',
               postal_code: $("input[name='postal_code']").val()
           };
           

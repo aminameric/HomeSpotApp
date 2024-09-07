@@ -16,6 +16,11 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&family=Poppins:wght@100;300;400;500;700&display=swap" rel="stylesheet">
 
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <!-- Add CSS for flag icons (optional, if you want flags) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet" />
+
+
 
   <style>
     .modal {
@@ -62,6 +67,26 @@
   .modal-footer {
     justify-content: flex-end; /* Align buttons to the right */
   }
+
+  .select2-container {
+  width: 100% !important; /* Make sure the Select2 container fits the width */
+}
+.modal-body {
+  overflow-y: auto; /* Add scroll if content exceeds modal height */
+  max-height: 60vh; /* Control maximum height of the modal body */
+}
+
+.modal-backdrop {
+    z-index: 1040 !important; /* Default or custom value for modal backdrop */
+}
+
+
+
+.select2-container--open {
+    z-index: 1100 !important; /* Ensures it's above the modal and backdrop */
+}
+
+
   </style>
 </head>
 
@@ -106,89 +131,119 @@
     </section><!-- /Real Estate Section -->
 
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Post Property</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-left: auto;">
-              <span aria-hidden="true">&times;</span>
-            </button>            
-          </div>
-          <form id="property-form">
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Name">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="description">Description</label>
-                <input type="text" class="form-control" id="description" name="description" placeholder="Description">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="area">Area</label>
-                <input type="number" class="form-control" id="size" name="area" placeholder="Size in (m²)">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="bedrooms">Bedrooms</label>
-                <input type="number" class="form-control" id="bedrooms" name="bedrooms" placeholder="Bedrooms">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="bathrooms">Bathrooms</label>
-                <input type="number" class="form-control" id="bathrooms" name="bathrooms" placeholder="Bathrooms">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="price">Price</label>
-                <input type="text" class="form-control" id="price" name="price" placeholder="Price in BAM">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="propertytype">Property Type</label>
-                <input type="text" class="form-control" id="propertytype" name="propertytype" placeholder="Property Type">
-              </div>
-            </div>
-          
-            <div class="form-group">
-              <label for="fileInput">Add Picture</label>
-              <input type="file" class="form-control-file" id="fileInput" name="image">
-            </div>
-
-            <div class="form-group">
-              <label for="floor_image">Add Floor Picture</label>
-              <input type="file" class="form-control-file" id="floor_image" name="floor_image">
-            </div>
-          
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="street_address">Street Address</label>
-                <input type="text" class="form-control" id="street_address" name="street_address" placeholder="Street Address">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="city">City</label>
-                <input type="text" class="form-control" id="city" name="city" placeholder="City">
-              </div>
-            </div>
-            
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="country">Country</label>
-                <input type="text" class="form-control" id="country" name="country" placeholder="Country">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="postal_code">Postal Code</label>
-                <input type="text" class="form-control" id="postal_code" name="postal_code" placeholder="Postal Code">
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>
-          </form>
-        </div>
-        
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Post Property</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-left: auto;">
+          <span aria-hidden="true">&times;</span>
+        </button>            
       </div>
-    </div>
+      <form id="property-form">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="description">Description</label>
+              <textarea class="form-control" id="description" name="description" rows="4" placeholder="Enter description"></textarea>
+            </div>
+          </div>
 
-  </main>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="area">Area</label>
+              <input type="number" class="form-control" id="size" name="area" placeholder="Size in (m²)">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="bedrooms">Bedrooms</label>
+              <input type="number" class="form-control" id="bedrooms" name="bedrooms" placeholder="Bedrooms">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="bathrooms">Bathrooms</label>
+              <input type="number" class="form-control" id="bathrooms" name="bathrooms" placeholder="Bathrooms">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="price">Price</label>
+              <input type="text" class="form-control" id="price" name="price" placeholder="Price in BAM">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="propertytype">Property Type</label>
+              <input type="text" class="form-control" id="propertytype" name="propertytype" placeholder="Property Type">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="fileInput">Add Picture</label>
+            <input type="file" class="form-control-file" id="fileInput" name="image">
+          </div>
+
+          <div class="form-group">
+            <label for="floor_image">Add Floor Picture</label>
+            <input type="file" class="form-control-file" id="floor_image" name="floor_image">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="street_address">Street Address</label>
+              <input type="text" class="form-control" id="street_address" name="street_address" placeholder="Street Address">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="city">City</label>
+              <input type="text" class="form-control" id="city" name="city" placeholder="City">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="country">Country</label>
+              <select id="country" class="form-control">
+                <option value="al" data-flag="al">Albania</option>
+                <option value="au" data-flag="au">Australia</option>
+                <option value="ba" data-flag="ba">Bosnia and Herzegovina</option>
+                <option value="bg" data-flag="bg">Bulgaria</option>
+                <option value="ca" data-flag="ca">Canada</option>
+                <option value="cn" data-flag="cn">China</option>
+                <option value="hr" data-flag="hr">Croatia</option>
+                <option value="fr" data-flag="fr">France</option>
+                <option value="de" data-flag="de">Germany</option>
+                <option value="gr" data-flag="gr">Greece</option>
+                <option value="in" data-flag="in">India</option>
+                <option value="jp" data-flag="jp">Japan</option>
+                <option value="xk" data-flag="xk">Kosovo</option>
+                <option value="me" data-flag="me">Montenegro</option>
+                <option value="mk" data-flag="mk">North Macedonia</option>
+                <option value="ro" data-flag="ro">Romania</option>
+                <option value="rs" data-flag="rs">Serbia</option>
+                <option value="si" data-flag="si">Slovenia</option>
+                <option value="gb" data-flag="gb">United Kingdom</option>
+                <option value="us" data-flag="us">United States</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="postal_code">Postal Code</label>
+              <input type="text" class="form-control" id="postal_code" name="postal_code" placeholder="Postal Code">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 
   <!-- jQuery, Bootstrap JS (should be included in the base template if using spapp) -->
   <script src="assets/js/jquery.validate.min.js"></script>
@@ -216,6 +271,86 @@
   $('#myModal').modal('hide');
 });
   </script>
+
+
+<!-- Add JS for Select2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<!-- Your Custom Script -->
+ <script>
+$(document).ready(function() {
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#country').select2({
+            tags: true,
+            placeholder: "Select or type a country",
+            allowClear: true,
+            minimumInputLength: 1,
+            selectOnClose: false,
+            dropdownParent: $('#myModal'),
+            templateResult: formatCountry, // Function to format the results
+            templateSelection: formatCountry, // Function to format the selection
+            data: [{id: '', text: '', selected: true, visible: false}] // Adds a blank, selected entry
+        });
+
+        // Function to add flags to the options
+        function formatCountry(country) {
+            if (!country.id) { return country.text; } // Check for empty return
+            var flagCode = country.id.toLowerCase();
+            var $country = $(
+                '<span class="flag-icon flag-icon-' + flagCode + '"></span>' +
+                '<span style="padding-left: 10px;">' + country.text + "</span>"
+            );
+            return $country;
+        }
+    });
+
+    // Clear the selection when opening the modal
+    $('#myModal').on('show.bs.modal', function() {
+        $('#country').val(null).trigger('change');
+    });
+});
+
+</script>
+<!--<script>
+  $(document).ready(function() {
+      // Event to initialize Select2 when the modal is shown
+      $('#myModal').on('shown.bs.modal', function () {
+          $('#country').select2({
+              tags: true, // Enable the creation of new tags
+              tokenSeparators: [',', ' '], // Optional: Specify separators for tokenization
+              placeholder: "Select or type a country", // Placeholder text
+              allowClear: true, // Allows a clear button
+              minimumInputLength: 1, // Minimum characters required to start filtering
+              createTag: function(params) {
+                  // Function to modify how new tags are added
+                  var term = $.trim(params.term);
+                  if (term === '') {
+                      return null;
+                  }
+                  return {
+                      id: term, // Use the typed text as ID
+                      text: term, // Use the typed text as the display text
+                      newTag: true // Custom property to indicate this is a new tag
+                  };
+              },
+              templateResult: formatCountry, // Function to format the dropdown options
+              templateSelection: formatCountry // Function to format the selected items
+          });
+      });
+
+      function formatCountry(country) {
+          if (!country.id) { return country.text; }
+          var flagCode = $(country.element).data('flag');
+          if (flagCode) {
+              return $('<span class="flag-icon flag-icon-' + flagCode.toLowerCase() + '"></span>' +
+                       '<span style="padding-left: 10px;">' + country.text + "</span>");
+          } else {
+              // Display text only for new tags or if no flag is available
+              return country.text;
+          }
+      }
+  });
+</script>-->
 
 </body>
 
