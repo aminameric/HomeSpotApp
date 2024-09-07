@@ -1,26 +1,31 @@
 var UserLogin = {
     init: function () {
-        // Validate the login form
-        $("#login-form").validate({
-            rules: {
-                username: {
-                    required: true
+        // Check if the validate function is available before using it
+        if ($.fn.validate) {
+            // Validate the login form
+            $("#login-form").validate({
+                rules: {
+                    username: {
+                        required: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 8
+                    }
                 },
-                password: {
-                    required: true,
-                    minlength: 8
+                submitHandler: function (form) {
+                    var entity = {
+                        username: $("input[name='username']").val(),
+                        password: $("input[name='password']").val()
+                    };
+                    UserLogin.login(entity); // Call the login function with form data
                 }
-            },
-            submitHandler: function (form) {
-                var entity = {
-                    username: $("input[name='username']").val(),
-                    password: $("input[name='password']").val()
-                };
-                UserLogin.login(entity); // Call the register function with form data
-            }
-        });
+            });
+        } else {
+            console.error("Validation plugin not loaded.");
+        }
     },
-  
+
     login: function (entity) {
         $.ajax({
             url: "../rest/loginUser",
@@ -36,10 +41,11 @@ var UserLogin = {
                     updateNavigation();
                     window.location.href = '#index';
                     toastr.success('Login Successful! Welcome back.');
-    
+
+                    // Update navigation visibility
                     $('#navigation-button').hide();
                     $('#logout-button').show();
-    
+
                     $('#houses-link').show();
                     $('#apartments-link').show();
                     $('#list-real-estate-link').show();
@@ -52,20 +58,19 @@ var UserLogin = {
             }
         });
     }
-    
-    
 };
 
+// Document ready: Initialize login validation
 $(document).ready(function () {
     UserLogin.init();
 });
 
-
+// Event listener for sign-up button
 document.getElementById('signup-button').addEventListener('click', function() {
     window.location.href = '#registration';
 });
 
+// Go back to the home page
 function goBack() {
     window.location.href = '#index'; // Redirect to the home page
 }
-
