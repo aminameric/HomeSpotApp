@@ -146,25 +146,34 @@ Flight::route('PUT /property/@id' , function($id){
 
 
 //deleting a property
-Flight::route('DELETE /deleteproperty/@id', function($id){ 
-    try {
-        $deleteProperty =  Flight::property_service()->delete($id);
-        // Respond with the decoded JWT and user information
-        Flight::json([
-            'property_deleted' => [
-                'message' => "Property deleted successfully",
-                'data' => $deleteProperty
-            ]
-        ]);
-    } catch (\Exception $e) {
-        // Handle any exceptions and respond with an error message
-        Flight::halt(401, $e->getMessage());
-    }
- 
-});
+
 
 Flight::route("GET /olxprop", function(){
     Flight::json(Flight::property_service()->listProp());
  });
+
+ Flight::route('DELETE /deleteproperty/@id', function($id){
+    $propertyService = Flight::property_service(); // Logging here to check if service is loaded
+    if (!$propertyService) {
+        Flight::halt(500, json_encode([
+            'success' => false,
+            'error' => 'Service not loaded'
+        ]));
+    }
+
+    try {
+        $propertyService->deleteProperty($id);
+        Flight::json(['success' => true, 'message' => "Property deleted successfully"]);
+    } catch (\Exception $e) {
+        Flight::halt(500, json_encode([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]));
+    }
+});
+
+
+
+
 
 ?>

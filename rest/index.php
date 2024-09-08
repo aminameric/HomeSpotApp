@@ -24,7 +24,7 @@ require "./services/PropertyReservationService.php";
 
 Flight::register('base_service', "BaseService");
 Flight::register('user_service', "UserService");
-Flight::register('property_service', "PropertyService");
+Flight::register('property_service', 'PropertyService');
 Flight::register('address_service', "AddressService");
 Flight::register('propertyreservation_service', "PropertyReservationService");
 

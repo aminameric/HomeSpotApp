@@ -3,11 +3,13 @@ require_once 'BaseService.php';
 require_once __DIR__ . '/../dao/PropertyDao.class.php';
 
 class PropertyService extends BaseService{
-    private $dao;
+    
     protected $propertyDao;
-    public function __construct(){
-        parent::__construct(new PropertyDao);
-    } 
+
+    public function __construct() {
+        // Initialize PropertyDao and pass it to the BaseService constructor
+        parent::__construct(new PropertyDao('property'));
+    }
     function addProperty($data) {
         // Debug: Log the contents of the received $data
         error_log(print_r($data, true));
@@ -71,6 +73,27 @@ class PropertyService extends BaseService{
         return json_decode($response, true);
     }
     
+    public function deleteProperty($propertyId) {
+        try {
+            // Use the new transaction methods provided by PropertyDao
+            $this->dao->beginTransaction();
+
+            $this->dao->deletePropertyReservations($propertyId);
+            $this->dao->deletePropertyBuyings($propertyId);
+            $this->dao->delete($propertyId);
+
+            $this->dao->commit();
+        } catch (Exception $e) {
+            $this->dao->rollBack();
+            throw $e;  // Re-throw the exception to be handled or logged by the caller
+        }
+    }
+    
+      
+
+    
+
+
     
 
     
