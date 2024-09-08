@@ -80,10 +80,14 @@ var UserService = {
                     success: function (result) {
                         localStorage.setItem('user', JSON.stringify(result.user));
                         window.location.href = '#login';
-                        alert("Registration successful!");
+                        toastr.success("Registration successful!");
+                        // Clear form fields after successful submission
+                        $('#registration-form').find("input[type='text'], input[type='password'], input[type='email']").val('');
+                        $('#selected-option').text('Select an option'); // Reset any selected text or default value
+                        $('#upload-image').val(''); // Clear any uploaded file
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert("Registration failed: " + XMLHttpRequest.responseText);
+                        toastr.error("Registration failed: " + XMLHttpRequest.responseText);
                     }
                 });
             }

@@ -35,20 +35,13 @@ var UserLogin = {
             dataType: "json",
             success: function (result) {
                 console.log(result); // Log the result to check if the token is present
+                $('#login-form').find("input[name='username'], input[name='password']").val('');
                 if (result.user && result.token) {
                     localStorage.setItem('user', JSON.stringify(result.user));
                     localStorage.setItem('token', result.token);
                     updateNavigation();
                     window.location.href = '#index';
-                    toastr.success('Login Successful! Welcome back.');
-
-                    // Update navigation visibility
-                    $('#navigation-button').hide();
-                    $('#logout-button').show();
-
-                    $('#houses-link').show();
-                    $('#apartments-link').show();
-                    $('#list-real-estate-link').show();
+                    toastr.success('Login Successful! Welcome back.');           
                 } else {
                     alert("Login response does not contain user or token");
                 }

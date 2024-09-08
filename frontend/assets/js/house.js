@@ -120,13 +120,15 @@ var propertyService = {
 
           // Create an entity for property data including images
           var entity = new FormData();
+
+          var propertyType = $('#property_type').select2('data')[0] ? $('#property_type').select2('data')[0].text : '';
           
           // Append property details
           entity.append("name", $("input[name='name']").val());
           entity.append("description", $("textarea[name='description']").val());
           entity.append("price", $("input[name='price']").val());
           entity.append("area", $("input[name='area']").val());
-          entity.append("property_type", $("input[name='propertytype']").val());
+          entity.append("property_type", propertyType);
           entity.append("bedrooms", $("input[name='bedrooms']").val());
           entity.append("bathrooms", $("input[name='bathrooms']").val());
 
@@ -151,13 +153,22 @@ var propertyService = {
               return;
           }
 
+        // Define formData here using 'this' which refers to the form element
+          var formData = new FormData(this);
           // Add the address first, then proceed to add the property
+          // Correctly capturing the country name from the Select2 field
+          var countryName = $('#country').select2('data')[0] ? $('#country').select2('data')[0].text : '';
+
+          // Correctly defining the addressEntity object
           var addressEntity = {
               street_address: $("input[name='street_address']").val(),
               city: $("input[name='city']").val(),
-              country: $("#country").select2('data')[0] ? $("#country").select2('data')[0].id : '',
+              country: countryName, // You should include the country here if it's part of addressEntity
               postal_code: $("input[name='postal_code']").val()
           };
+
+          // Assuming formData is a FormData object defined elsewhere for the form
+          formData.append("country", countryName); // Append country name to formData outside the object
           
           propertyService.addAddress(addressEntity, function(addressResult) {
               // Append address_id after address is successfully added

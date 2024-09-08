@@ -58,7 +58,10 @@
                             <a class="dropdown-item" href="#" data-value="user">User</a>
                         </div>
                     </div>
+                    <!-- Hidden input for storing the selected user type -->
+                    <input type="hidden" id="hidden-user-type" name="type_of_user" value="">
                 </div>
+                
                 
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -100,7 +103,9 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.3/jquery.validate.min.js"></script>
+    <script src="assets/js/jquery.validate.min.js"></script> <!-- This should come after the validation plugin -->
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/register.js"></script>
     

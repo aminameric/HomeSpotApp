@@ -175,12 +175,17 @@
             </div>
           </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="propertytype">Property Type</label>
-              <input type="text" class="form-control" id="propertytype" name="propertytype" placeholder="Property Type">
-            </div>
-          </div>
+          <div class="form-group col-md-6">
+            <label for="property_type">Property Type</label>
+            <select id="property_type" name="property_type" class="form-control">
+                <option value="">Select Property Type</option>
+                <option value="House">House</option>
+                <option value="Apartment">Apartment</option>
+                <option value="Cottage">Cottage</option>
+                <option value="Villa">Villa</option>
+            </select>
+        </div>
+        
 
           <div class="form-group">
             <label for="fileInput">Add Picture</label>
@@ -277,40 +282,62 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <!-- Your Custom Script -->
- <script>
-$(document).ready(function() {
-    $('#myModal').on('shown.bs.modal', function () {
-        $('#country').select2({
-            tags: true,
-            placeholder: "Select or type a country",
-            allowClear: true,
-            minimumInputLength: 1,
-            selectOnClose: false,
-            dropdownParent: $('#myModal'),
-            templateResult: formatCountry, // Function to format the results
-            templateSelection: formatCountry, // Function to format the selection
-            data: [{id: '', text: '', selected: true, visible: false}] // Adds a blank, selected entry
+<script>
+  $(document).ready(function() {
+      $('#myModal').on('shown.bs.modal', function () {
+          // Initialize Country Select2
+          $('#country').select2({
+              tags: true,
+              placeholder: "Select or type a country",
+              allowClear: true,
+              minimumInputLength: 1,
+              selectOnClose: false,
+              dropdownParent: $('#myModal'),
+              templateResult: formatCountry,
+              templateSelection: formatCountry,
+              data: [{id: '', text: '', selected: true, visible: false}]
+          });
+
+          // Initialize Property Type Select2
+          $('#property_type').select2({
+            tags: true,  // Enable the creation of new tags
+            placeholder: "Select or type a property type",  // Placeholder for the dropdown
+            allowClear: true,  // Allows users to remove a selected option
+            minimumInputLength: 0,  // No minimum length to start search which allows for immediate typing
+            selectOnClose: false, // Selects the currently focused option on close so it's consistent with the country select
+            dropdownParent: $('#myModal'), // Ensures dropdown is bound within the modal for proper rendering
+            createTag: function (params) {
+                var term = $.trim(params.term);
+                if (term === '') {
+                    return null;
+                }
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true  // Indicates that this is a newly created tag
+                };
+            }
         });
 
-        // Function to add flags to the options
-        function formatCountry(country) {
-            if (!country.id) { return country.text; } // Check for empty return
-            var flagCode = country.id.toLowerCase();
-            var $country = $(
-                '<span class="flag-icon flag-icon-' + flagCode + '"></span>' +
-                '<span style="padding-left: 10px;">' + country.text + "</span>"
-            );
-            return $country;
-        }
-    });
-
-    // Clear the selection when opening the modal
-    $('#myModal').on('show.bs.modal', function() {
-        $('#country').val(null).trigger('change');
-    });
-});
-
+          // Function to add flags to country options
+          function formatCountry(country) {
+              if (!country.id) { return country.text; }
+              var flagCode = country.id.toLowerCase();
+              var $country = $('<span class="flag-icon flag-icon-' + flagCode + '"></span>' +
+                               '<span style="padding-left: 10px;">' + country.text + "</span>");
+              return $country;
+          }
+      });
+  
+      // Clear selections when opening the modal
+      $('#myModal').on('show.bs.modal', function() {
+          $('#country').val(null).trigger('change');
+          $('#property_type').val(null).trigger('change');
+      });
+  });
 </script>
+
+  
 <!--<script>
   $(document).ready(function() {
       // Event to initialize Select2 when the modal is shown
