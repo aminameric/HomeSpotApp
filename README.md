@@ -6,7 +6,7 @@ Welcome to **HomeSpotApp** – a web application that simplifies the process of 
 - 📜 List real estate properties for sale
 - 🛒 Buy properties with ease
 - 🔗 Connect with potential buyers or sellers
-- 📰 Stay up-to-date with the latest economic news
+- 📰 Stay up-to-date with the local economic opportunities
 
 ---
 
