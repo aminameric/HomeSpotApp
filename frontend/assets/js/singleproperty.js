@@ -423,7 +423,7 @@ function addPropertyReservation() {
         success: function(response) {
             console.log('Property reserved successfully:', response);
             toastr.success('Reservation of property successful!');
-            closeModal();
+            closeModal2();
         },
         error: function(xhr, status, error) {
             console.error('Error reserving property:', error);
@@ -433,7 +433,7 @@ function addPropertyReservation() {
     });
 }
 
-function closeModal() {
+function closeModal2() {
     $('#myReservartionModal').removeClass('show'); // Hide the modal
 }
 
