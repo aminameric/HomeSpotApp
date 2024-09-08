@@ -7,6 +7,7 @@
   <title>Property Single - EstateAgency Bootstrap Template</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
+  
 
   <!-- Prefetch Important Resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -359,47 +360,43 @@
 </div>
 
 <!-- Buy Property Modal Structure -->
+<!-- Modal for Credit Card Form -->
 <div id="buyModal" class="modal">
   <div class="modal-content card-form">
-    <span class="close">&times;</span>
-    <h3 class="mb-4">Enter Payment Details</h3>
-    <form id="buy-property-form">
-      <!-- Card number with icon -->
-      <div class="mb-3">
-        <label for="card-number" class="form-label">Card Number</label>
-        <div class="input-group">
-          <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
-          <input type="text" class="form-control" id="card-number" placeholder="1234 5678 9123 4567" maxlength="19" required>
-        </div>
-      </div>
-
-      <!-- Card Holder Name with icon -->
-      <div class="mb-3">
-        <label for="card-holder-name" class="form-label">Card Holder Name</label>
-        <div class="input-group">
-          <span class="input-group-text"><i class="fas fa-user"></i></span>
-          <input type="text" class="form-control" id="card-holder-name" placeholder="Amina Meric" required>
-        </div>
-      </div>
-
-      <!-- Expiry date and CVC side by side -->
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <label for="expiry-date" class="form-label">Expiry Date</label>
-          <input type="text" class="form-control" id="expiry-date" placeholder="MM/YY" maxlength="5" required>
-        </div>
-        <div class="col-md-6 mb-3">
-          <label for="cvc" class="form-label">CVC</label>
-          <input type="text" class="form-control" id="cvc" placeholder="123" maxlength="3" required>
-        </div>
-      </div>
-    </form>
-
-    <div class="modal-footer d-flex justify-content-between">
-      <button type="button" class="btn btn-secondary" id="cancel-buy-btn">Cancel</button>
-      <button type="button" class="btn btn-primary" id="submit-buy-btn">Submit Payment</button>
-    </div>
+      <span class="close">&times;</span>
+      <h3 class="mb-4">Enter Payment Details</h3>
+      <form id="buy-property-form">
+          <div class="mb-3">
+              <label for="card-number" class="form-label">Card Number</label>
+              <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
+                  <input type="text" class="form-control" id="card-number" placeholder="0123 4521 7417 0001" maxlength="19" required>
+              </div>
+          </div>
+          <div class="mb-3">
+              <label for="card-holder-name" class="form-label">Card Holder Name</label>
+              <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  <input type="text" class="form-control" id="card-holder-name" placeholder="Amina Meric" required>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-6 mb-3">
+                  <label for="expiry-date" class="form-label">Expiry Date</label>
+                  <input type="text" class="form-control" id="expiry-date" placeholder="MM/YY" maxlength="5" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                  <label for="cvc" class="form-label">CVC</label>
+                  <input type="text" class="form-control" id="cvc" placeholder="123" maxlength="3" required>
+              </div>
+          </div>
+          <div class="modal-footer d-flex justify-content-between">
+              <button type="button" class="btn btn-secondary" id="cancel-buy-btn">Cancel</button>
+              <button type="button" class="btn btn-primary" id="submit-buy-btn">Submit Payment</button>
+          </div>
+      </form>
   </div>
+  
 </div>
 
 
@@ -429,9 +426,14 @@
 
   <!-- Bootstrap and jQuery (ensure these are loaded properly) -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="assets/js/jquery.creditCardValidator.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="assets/js/singleproperty.js"></script>
+  <script src="assets/js/buyproperty.js"></script>
   <script src="assets/js/metamask.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+  
+
 
   <!-- Custom Script to control modal -->
   <script>
@@ -624,6 +626,8 @@ function attachBuyAndReserveListeners() {
 
 
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
 
 
 <!--metamask-->

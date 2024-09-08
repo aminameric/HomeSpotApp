@@ -172,6 +172,30 @@ Flight::route("GET /olxprop", function(){
     }
 });
 
+//update property status
+
+Flight::route('POST /property/confirm/@id', function($id){
+    try {
+        $propertyService = Flight::property_service();
+        $property = $propertyService->get_by_id($id);
+
+        if (!$property) {
+            Flight::json(['message' => 'Property not found'], 404);
+            return;
+        }
+
+        if (isset($property['status']) && $property['status'] == 1) {
+            Flight::json(['message' => 'Property is already active'], 200);
+        } else {
+            $propertyService->updatePropertyStatus($id, 1);
+            Flight::json(['message' => 'Property activated successfully'], 200);
+        }
+    } catch (Exception $e) {
+        Flight::json(['message' => 'Error processing request: ' . $e->getMessage()], 500);
+    }
+});
+
+
 
 
 

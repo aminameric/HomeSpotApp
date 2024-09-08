@@ -89,7 +89,24 @@ class PropertyService extends BaseService{
         }
     }
     
+
+    public function updatePropertyStatus($propertyId, $newStatus) {
+        $this->dao->updatePropertyStatus($propertyId, $newStatus);
+    }
+}
       
+function getExchangeRateFromAPI($fromCurrency, $toCurrency) {
+    // Example using a generic API endpoint
+    $apiUrl = "https://api.exchangerate-api.com/v4/latest/{$fromCurrency}";
+    $response = file_get_contents($apiUrl);
+    $data = json_decode($response, true);
+
+    if (!$data || !isset($data['rates'][$toCurrency])) {
+        throw new Exception("Failed to fetch exchange rate");
+    }
+
+    return (float) $data['rates'][$toCurrency];
+}
 
     
 
@@ -100,5 +117,5 @@ class PropertyService extends BaseService{
     
     
         
-}
+
 ?>

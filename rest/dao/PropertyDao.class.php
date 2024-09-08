@@ -35,5 +35,12 @@ class PropertyDao extends BaseDao {
     public function rollBack() {
         $this->conn->rollBack();
     }
+    //update property status when bought 
+    public function updatePropertyStatus($propertyId, $newStatus) {
+        $stmt = $this->conn->prepare("UPDATE property SET status = :status WHERE id = :id");
+        $stmt->bindParam(':status', $newStatus);
+        $stmt->bindParam(':id', $propertyId);
+        return $stmt->execute();
+    }
 }
 ?>

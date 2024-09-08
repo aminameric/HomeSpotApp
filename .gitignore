@@ -1,3 +1,4 @@
 rest/vendor
 rest/Config.class.php
 storage/*
+index.php
