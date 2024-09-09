@@ -4,20 +4,24 @@ function connectMetaMaskWallet() {
         ethereum.request({ method: 'eth_requestAccounts' })
         .then(accounts => {
             const userAccount = accounts[0];
-            
-            // Assuming the user is logged in and their user ID is stored in localStorage
+
+            // Check if the user is logged in
             const currentUser = JSON.parse(localStorage.getItem('user'));
+            if (currentUser) {
+                // Store the connected MetaMask account in localStorage for this specific user
+                localStorage.setItem(`metaMaskAccount_${currentUser.id}`, userAccount);
 
-            // Store the connected MetaMask account in localStorage for this specific user
-            localStorage.setItem(`metaMaskAccount_${currentUser.id}`, userAccount);
+                console.log('Connected MetaMask account for user:', userAccount);
 
-            console.log('Connected MetaMask account for user:', userAccount);
-
-            // Update UI to reflect connection
-            document.getElementById('connect-wallet-btn').style.display = 'none';
-            document.getElementById('disconnect-wallet-btn').style.display = 'block';
-            document.getElementById('buy-property-btn').style.display = 'block'; // Show the buy button
-            toastr.success(`MetaMask connected to account: ${userAccount}`);
+                // Update UI to reflect connection
+                document.getElementById('connect-wallet-btn').style.display = 'none';
+                document.getElementById('disconnect-wallet-btn').style.display = 'block';
+                document.getElementById('buy-property-btn').style.display = 'block'; // Show the buy button
+                toastr.success(`MetaMask connected to account: ${userAccount}`);
+            } else {
+                console.error("No user logged in. Cannot store MetaMask account.");
+                alert("Please log in first.");
+            }
         })
         .catch(error => {
             console.error('Error connecting MetaMask:', error);
@@ -44,10 +48,13 @@ function checkMetaMaskConnection() {
             document.getElementById('buy-property-btn').style.display = 'block'; // Show the buy button
             toastr.success(`Connected to MetaMask: ${connectedAccount}`);
         } else {
+            // Ensure the buttons display correctly
             document.getElementById('connect-wallet-btn').style.display = 'block';
             document.getElementById('disconnect-wallet-btn').style.display = 'none';
             document.getElementById('buy-property-btn').style.display = 'none'; // Hide the buy button
         }
+    } else {
+        console.log("No user logged in. Skipping MetaMask connection check.");
     }
 }
 
@@ -56,42 +63,38 @@ function disconnectMetaMaskWallet() {
     const currentUser = JSON.parse(localStorage.getItem('user'));
 
     if (currentUser) {
-        // Remove the MetaMask account associated with this user
+        // Remove MetaMask account from localStorage
         localStorage.removeItem(`metaMaskAccount_${currentUser.id}`);
-        
         console.log('MetaMask wallet disconnected for user:', currentUser.id);
 
         // Update UI to reflect disconnection
         document.getElementById('connect-wallet-btn').style.display = 'block';
         document.getElementById('disconnect-wallet-btn').style.display = 'none';
         document.getElementById('buy-property-btn').style.display = 'none'; // Hide the buy button
+
         toastr.success('MetaMask wallet disconnected.');
+
+        // Optional: Reload the page to reset the session
+        setTimeout(() => {
+            window.location.reload();
+        }, 500); // Small delay to allow UI changes to reflect before reload
+    } else {
+        console.error('No user logged in to disconnect MetaMask.');
     }
 }
 
-// Add event listener for connect and disconnect buttons
-document.getElementById('connect-wallet-btn').addEventListener('click', connectMetaMaskWallet);
-document.getElementById('disconnect-wallet-btn').addEventListener('click', disconnectMetaMaskWallet);
+// Ensure event listeners are attached properly
+window.onload = function() {
+    document.getElementById('connect-wallet-btn').addEventListener('click', connectMetaMaskWallet);
+    document.getElementById('disconnect-wallet-btn').addEventListener('click', disconnectMetaMaskWallet);
+    document.getElementById('buy-property-btn').addEventListener('click', buyPropertyWithMetaMask);
 
-// Handle user logout
-function logoutUser() {
-    const currentUser = JSON.parse(localStorage.getItem('user'));
-    
-    if (currentUser) {
-        // Clear MetaMask account for the logged-out user
-        localStorage.removeItem(`metaMaskAccount_${currentUser.id}`);
-        console.log('User logged out and MetaMask account disconnected.');
-
-        // Clear user data from localStorage
-        localStorage.removeItem('user');
-        
-        // Redirect to login page or show login UI
-        window.location.href = '#login'; // Example of redirecting to a login page
-    }
+    // On page load, check MetaMask connection
+    checkMetaMaskConnection();
 }
 
 // Example function to handle property purchase with MetaMask
-function buyPropertyWithMetaMask() {
+async function buyPropertyWithMetaMask() {
     const currentUser = JSON.parse(localStorage.getItem('user'));
     const connectedAccount = localStorage.getItem(`metaMaskAccount_${currentUser.id}`);
 
@@ -102,28 +105,41 @@ function buyPropertyWithMetaMask() {
         if (typeof window.ethereum !== 'undefined') {
             const web3 = new Web3(window.ethereum);  // Initialize Web3 using MetaMask's provider
 
-            // Prepare the transaction parameters
-            const transactionParameters = {
-                from: connectedAccount,
-                to: '0x3B2bBcBB111cE699b540e34D0F2Cf4Cd36838566', // Replace with the contract address or receiver address
-                value: web3.utils.toHex(web3.utils.toWei('0.01', 'ether')), // Example value (0.01 ETH in Wei)
-                gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')), // Optional: reduced gas price (10 gwei)
-                gas: web3.utils.toHex(21000), // Optional: gas limit for a simple transaction
-            };
+            try {
+                // Fetch current gas price dynamically to avoid delays
+                const gasPrice = await web3.eth.getGasPrice();
 
-            // Send the transaction via MetaMask
-            ethereum.request({
-                method: 'eth_sendTransaction',
-                params: [transactionParameters],
-            })
-            .then(txHash => {
+                // Prepare the transaction parameters
+                const transactionParameters = {
+                    from: connectedAccount,
+                    to: '0x3B2bBcBB111cE699b540e34D0F2Cf4Cd36838566', // Replace with the contract address or receiver address
+                    value: web3.utils.toHex(web3.utils.toWei('0.01', 'ether')), // Example value (0.01 ETH in Wei)
+                    gasPrice: web3.utils.toHex(gasPrice * 1.2), // Increase gas price by 20% to prioritize transaction
+                    gas: web3.utils.toHex(21000), // Gas limit for a simple transaction
+                };
+
+                const txHash = await ethereum.request({
+                    method: 'eth_sendTransaction',
+                    params: [transactionParameters],
+                });
+
                 console.log('Transaction successful with hash:', txHash);
                 toastr.success(`Property purchase successful! Transaction hash: ${txHash}`);
-            })
-            .catch(error => {
+
+                // Optionally, you can direct the user to Etherscan for tracking
+                window.open(`https://etherscan.io/tx/${txHash}`, '_blank');
+            } catch (error) {
                 console.error('Transaction failed:', error);
-                alert('Transaction failed. Please try again.');
-            });
+
+                // Provide detailed feedback to the user
+                if (error.code === 4001) {
+                    alert('Transaction was rejected by the user.');
+                } else if (error.code === -32603) {
+                    alert('Insufficient funds or gas issues. Please check your account.');
+                } else {
+                    alert('Transaction failed. Please try again.');
+                }
+            }
         } else {
             alert('MetaMask is not installed or detected. Please install MetaMask to continue.');
         }
@@ -131,9 +147,3 @@ function buyPropertyWithMetaMask() {
         alert('Please connect your MetaMask wallet before purchasing a property.');
     }
 }
-
-// Add event listener for buying property button
-document.getElementById('buy-property-btn').addEventListener('click', buyPropertyWithMetaMask);
-
-// On page load, check MetaMask connection
-checkMetaMaskConnection();
