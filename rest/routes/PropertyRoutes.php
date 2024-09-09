@@ -66,6 +66,24 @@ Flight::route('GET /prop/@id', function($id){ //with parameter
 
 });
 
+//get price by prop id
+Flight::route('GET /priceprop/@id', function($id){ //with parameter
+    try {
+
+        $propertyprice = Flight::property_service()->getPropPrice($id);
+
+        
+        // Return the combined response
+        Flight::json([
+            'result' => $propertyprice
+        ], 200);
+    } catch (\Exception $e) {
+        // Handle any exceptions and respond with an error message
+        Flight::halt(401, $e->getMessage());
+    }
+
+});
+
 Flight::route('GET /propname/@id', function($id){
     try {
         // Fetch the property description using the service layer

@@ -93,6 +93,10 @@ class PropertyService extends BaseService{
     public function updatePropertyStatus($propertyId, $newStatus) {
         $this->dao->updatePropertyStatus($propertyId, $newStatus);
     }
+    public function getPropPrice($id){
+        return $this->dao->getPropPrice($id); // Return the data from DAO layer
+    }
+    
 }
       
 function getExchangeRateFromAPI($fromCurrency, $toCurrency) {
@@ -108,7 +112,7 @@ function getExchangeRateFromAPI($fromCurrency, $toCurrency) {
     return (float) $data['rates'][$toCurrency];
 }
 
-    
+
 
 
     

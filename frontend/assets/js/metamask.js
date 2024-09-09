@@ -1,149 +1,179 @@
-// Store the connected MetaMask wallet for each logged-in user
-function connectMetaMaskWallet() {
-    if (typeof window.ethereum !== 'undefined') {
-        ethereum.request({ method: 'eth_requestAccounts' })
-        .then(accounts => {
+$(document).ready(function() {
+    console.log('Document is ready');
+
+    // Check if MetaMask is available
+    function checkMetaMaskAvailability() {
+        if (typeof window.ethereum === 'undefined') {
+            toastr.error('Please install MetaMask to use this feature.');
+            return false;
+        }
+        return true;
+    }
+
+    // Connect MetaMask
+    async function connectMetaMaskWallet() {
+        if (!checkMetaMaskAvailability()) return;
+
+        try {
+            // Request accounts
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
             const userAccount = accounts[0];
 
-            // Check if the user is logged in
-            const currentUser = JSON.parse(localStorage.getItem('user'));
-            if (currentUser) {
-                // Store the connected MetaMask account in localStorage for this specific user
-                localStorage.setItem(`metaMaskAccount_${currentUser.id}`, userAccount);
-
-                console.log('Connected MetaMask account for user:', userAccount);
+            if (userAccount) {
+                console.log('Connected MetaMask account:', userAccount);
+                toastr.success(`MetaMask connected to account: ${userAccount}`);
 
                 // Update UI to reflect connection
-                document.getElementById('connect-wallet-btn').style.display = 'none';
-                document.getElementById('disconnect-wallet-btn').style.display = 'block';
-                document.getElementById('buy-property-btn').style.display = 'block'; // Show the buy button
-                toastr.success(`MetaMask connected to account: ${userAccount}`);
+                $('#connect-wallet-btn').hide();
+                $('#disconnect-wallet-btn').show();
+                $('#buy-property-btn').show();
             } else {
-                console.error("No user logged in. Cannot store MetaMask account.");
-                alert("Please log in first.");
+                toastr.error('Failed to connect MetaMask. No account selected.');
             }
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Error connecting MetaMask:', error);
-            alert('Failed to connect MetaMask. Please try again.');
-        });
-    } else {
-        alert('Please install MetaMask to use this feature.');
-    }
-}
-
-// On page load or login, check if the user is connected to MetaMask
-function checkMetaMaskConnection() {
-    const currentUser = JSON.parse(localStorage.getItem('user'));
-    
-    if (currentUser) {
-        const connectedAccount = localStorage.getItem(`metaMaskAccount_${currentUser.id}`);
-
-        if (connectedAccount) {
-            console.log(`User is already connected to MetaMask: ${connectedAccount}`);
-
-            // Update UI to reflect the connected state
-            document.getElementById('connect-wallet-btn').style.display = 'none';
-            document.getElementById('disconnect-wallet-btn').style.display = 'block';
-            document.getElementById('buy-property-btn').style.display = 'block'; // Show the buy button
-            toastr.success(`Connected to MetaMask: ${connectedAccount}`);
-        } else {
-            // Ensure the buttons display correctly
-            document.getElementById('connect-wallet-btn').style.display = 'block';
-            document.getElementById('disconnect-wallet-btn').style.display = 'none';
-            document.getElementById('buy-property-btn').style.display = 'none'; // Hide the buy button
+            toastr.error('Failed to connect MetaMask. Please try again.');
         }
-    } else {
-        console.log("No user logged in. Skipping MetaMask connection check.");
     }
-}
 
-// Function to disconnect MetaMask
-function disconnectMetaMaskWallet() {
-    const currentUser = JSON.parse(localStorage.getItem('user'));
-
-    if (currentUser) {
-        // Remove MetaMask account from localStorage
-        localStorage.removeItem(`metaMaskAccount_${currentUser.id}`);
-        console.log('MetaMask wallet disconnected for user:', currentUser.id);
-
-        // Update UI to reflect disconnection
-        document.getElementById('connect-wallet-btn').style.display = 'block';
-        document.getElementById('disconnect-wallet-btn').style.display = 'none';
-        document.getElementById('buy-property-btn').style.display = 'none'; // Hide the buy button
-
+    // Disconnect MetaMask
+    function disconnectMetaMaskWallet() {
+        console.log('Disconnect button clicked');
         toastr.success('MetaMask wallet disconnected.');
 
-        // Optional: Reload the page to reset the session
-        setTimeout(() => {
-            window.location.reload();
-        }, 500); // Small delay to allow UI changes to reflect before reload
-    } else {
-        console.error('No user logged in to disconnect MetaMask.');
+        // Update UI to reflect disconnection
+        $('#connect-wallet-btn').show();
+        $('#disconnect-wallet-btn').hide();
+        $('#buy-property-btn').hide();
+    }
+
+    // Convert BAM to Ether
+function convertBAMtoEther(bamAmount) {
+    const conversionRate = 0.1 / 100; // 0.001 Ether per BAM
+    return bamAmount * conversionRate;
+}
+
+// Fetch Property Price from the API and Convert to Ether
+function fetchPropertyPriceAndConvertToEther(propertyId) {
+    $.ajax({
+        url: `../rest/priceprop/${propertyId}`, // Ensure this URL is correct
+        method: 'GET',
+        success: function(response) {
+            console.log('API Response:', response); // Debugging
+            
+            // Check for the correct result structure
+            if (response.result && response.result.price) {
+                const priceBAM = parseFloat(response.result.price);
+                if (!isNaN(priceBAM)) {
+                    console.log('Property price BAM:', priceBAM);
+                    const priceEther = convertBAMtoEther(priceBAM);
+                    console.log('Property price ETH:', priceEther);
+                    sendTransaction(priceEther);
+                } else {
+                    toastr.error('Invalid property price retrieved.');
+                }
+            } else {
+                toastr.error('No property price found.');
+            }
+        },
+        error: function() {
+            toastr.error('Failed to fetch property price.');
+        }
+    });
+}
+
+
+
+// Send Transaction
+async function sendTransaction(propertyPriceEther) {
+    const web3 = new Web3(window.ethereum);
+    const accounts = await web3.eth.getAccounts();
+    const userAddress = accounts[0];
+    const contractAddress = '0x3B2bBcBB111cE699b540e34D0F2Cf4Cd36838566'; // Replace with your contract address
+
+    const txParams = {
+        from: userAddress,
+        to: contractAddress,
+        value: web3.utils.toWei(propertyPriceEther.toString(), 'ether'),
+        gas: '2000000',
+        gasPrice: web3.utils.toWei('20', 'gwei')
+    };
+
+    try {
+        const receipt = await web3.eth.sendTransaction(txParams);
+        console.log('Transaction Receipt:', receipt);
+        toastr.success(`Transaction successful! Hash: ${receipt.transactionHash}`);
+        await deleteProperty(); // Wait for property deletion
+    } catch (error) {
+        console.error('Transaction Error:', error);
+        toastr.error('Failed to send transaction. Please try again.');
     }
 }
 
-// Ensure event listeners are attached properly
-window.onload = function() {
-    document.getElementById('connect-wallet-btn').addEventListener('click', connectMetaMaskWallet);
-    document.getElementById('disconnect-wallet-btn').addEventListener('click', disconnectMetaMaskWallet);
-    document.getElementById('buy-property-btn').addEventListener('click', buyPropertyWithMetaMask);
+// Delete Property
+async function deleteProperty() {
+    const propertyId = getQueryParameter('id'); // Extract property ID from URL
 
-    // On page load, check MetaMask connection
-    checkMetaMaskConnection();
-}
+    if (!propertyId) {
+        toastr.error('Property ID is missing.');
+        return;
+    }
 
-// Example function to handle property purchase with MetaMask
-async function buyPropertyWithMetaMask() {
-    const currentUser = JSON.parse(localStorage.getItem('user'));
-    const connectedAccount = localStorage.getItem(`metaMaskAccount_${currentUser.id}`);
-
-    if (connectedAccount) {
-        console.log('Initiating MetaMask transaction from account:', connectedAccount);
-
-        // Ensure Web3 is initialized
-        if (typeof window.ethereum !== 'undefined') {
-            const web3 = new Web3(window.ethereum);  // Initialize Web3 using MetaMask's provider
-
-            try {
-                // Fetch current gas price dynamically to avoid delays
-                const gasPrice = await web3.eth.getGasPrice();
-
-                // Prepare the transaction parameters
-                const transactionParameters = {
-                    from: connectedAccount,
-                    to: '0x3B2bBcBB111cE699b540e34D0F2Cf4Cd36838566', // Replace with the contract address or receiver address
-                    value: web3.utils.toHex(web3.utils.toWei('0.01', 'ether')), // Example value (0.01 ETH in Wei)
-                    gasPrice: web3.utils.toHex(gasPrice * 1.2), // Increase gas price by 20% to prioritize transaction
-                    gas: web3.utils.toHex(21000), // Gas limit for a simple transaction
-                };
-
-                const txHash = await ethereum.request({
-                    method: 'eth_sendTransaction',
-                    params: [transactionParameters],
-                });
-
-                console.log('Transaction successful with hash:', txHash);
-                toastr.success(`Property purchase successful! Transaction hash: ${txHash}`);
-
-                // Optionally, you can direct the user to Etherscan for tracking
-                window.open(`https://etherscan.io/tx/${txHash}`, '_blank');
-            } catch (error) {
-                console.error('Transaction failed:', error);
-
-                // Provide detailed feedback to the user
-                if (error.code === 4001) {
-                    alert('Transaction was rejected by the user.');
-                } else if (error.code === -32603) {
-                    alert('Insufficient funds or gas issues. Please check your account.');
-                } else {
-                    alert('Transaction failed. Please try again.');
+    try {
+        const response = await $.ajax({
+            url: `../rest/deleteproperty/${propertyId}`, // Adjust this path based on your API
+            type: 'DELETE',
+            contentType: 'application/json',
+            beforeSend: function(xhr) {
+                // Add authentication token from localStorage if available
+                if (localStorage.getItem('user')) {
+                    xhr.setRequestHeader("Authentication", localStorage.getItem('token'));
                 }
             }
-        } else {
-            alert('MetaMask is not installed or detected. Please install MetaMask to continue.');
-        }
-    } else {
-        alert('Please connect your MetaMask wallet before purchasing a property.');
+        });
+        console.log('Property deleted successfully:', response);
+        //toastr.success('Property deleted successfully.');
+        // Redirect to the list of houses or another appropriate page
+        window.location.hash = '#properties';
+    } catch (xhr) {
+        console.error('Error deleting property:', xhr);
+       // toastr.error('There was an error deleting the property. Please try again.');
     }
 }
+
+// Extract Property ID from URL
+function getQueryParameter(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
+// Event Listener for Buy Property Button
+$('#buy-property-btn').on('click', function() {
+    const propertyId = getQueryParameter('id');
+    if (propertyId) {
+        fetchPropertyPriceAndConvertToEther(propertyId);
+    } else {
+        toastr.error('Property ID not found in URL.');
+    }
+});
+
+    
+
+    // Event listeners
+    $('#connect-wallet-btn').on('click', function() {
+        console.log('Connect button clicked');
+        window.ethereum.request({ method: 'wallet_requestPermissions', params: [{ eth_accounts: {} }] })
+        .then(() => connectMetaMaskWallet())
+        .catch(error => {
+            console.error('Error forcing MetaMask account prompt:', error);
+            toastr.error('Failed to prompt for account selection.');
+        });
+    });
+
+    $('#disconnect-wallet-btn').on('click', function() {
+        console.log('Disconnect button clicked');
+        disconnectMetaMaskWallet();
+    });
+
+    
+});

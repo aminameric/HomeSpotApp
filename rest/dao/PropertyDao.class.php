@@ -42,5 +42,12 @@ class PropertyDao extends BaseDao {
         $stmt->bindParam(':id', $propertyId);
         return $stmt->execute();
     }
+
+    public function getPropPrice($id) {
+        $stmt = $this->conn->prepare("SELECT price FROM property WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(); // Use fetch() instead of fetchAll()
+    }
+    
 }
 ?>
