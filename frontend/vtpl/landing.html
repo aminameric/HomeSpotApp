@@ -64,7 +64,7 @@
             <div>
               <p>Bjelasnica, Sarajevo</p>
               <h2><span></span> Ulica Babino</h2>
-              <a href="property-single.html" class="btn-get-started">Price | 200.000 BAM</a>
+              <a href="#properties" class="btn-get-started">Price | 200.000 BAM</a>
             </div>
           </div>
         </div><!-- End Carousel Item -->
@@ -86,7 +86,7 @@
             <div>
               <p>Doral, Florida</p>
               <h2><span>247</span> Vitra Road three</h2>
-              <a href="property-single.html" class="btn-get-started">rent | $ 3.000</a>
+              <a href="#properties" class="btn-get-started">rent | $ 3.000</a>
             </div>
           </div>
         </div><!-- End Carousel Item -->
@@ -164,7 +164,6 @@
                 }
               }
             }
-            
           </script>
     
           <!-- This is where the feedback will be dynamically injected -->
@@ -180,46 +179,43 @@
       </div>
     </section>
     
+    <script src="assets/js/agents.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@latest/swiper-bundle.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $.ajax({
+          url: "../rest/feedback",  // Update with your actual backend route
+          type: "GET",
+          success: function(feedbacks) {
+            let feedbackHtml = '';
+            feedbacks.forEach(function(feedback) {
+              feedbackHtml += `
+                <div class="swiper-slide">
+                  <div class="testimonial-item">
+                    <p>${feedback.message}</p>
+                    <div class="profile mt-auto">
+                      <img src="assets/img/testimonials/testimonials-default.jpg" class="testimonial-img" alt="">
+                      <h3>${feedback.name}</h3>
+                    </div>
+                  </div>
+                </div>
+              `;
+            });
     
-
-  </main>
-  <script src="assets/js/agents.js" defer></script>
-
-  <script>
-    $(document).ready(function() {
-      $.ajax({
-  url: "../rest/feedback",  // Update with your actual backend route
-  type: "GET",
-  success: function(feedbacks) {
-    let feedbackHtml = '';
-    feedbacks.forEach(function(feedback) {
-      feedbackHtml += `
-        <div class="swiper-slide">
-          <div class="testimonial-item">
-            <p>${feedback.message}</p>
-            <div class="profile mt-auto">
-              <img src="assets/img/testimonials/testimonials-default.jpg" class="testimonial-img" alt="">
-              <h3>${feedback.name}</h3>
-            </div>
-          </div>
-        </div>
-      `;
-    });
-
-    // Inject the feedback into the swiper-wrapper
-    $(".swiper-wrapper").html(feedbackHtml);
-
-    // Reinitialize swiper after dynamic content is added
-    const swiperConfig = JSON.parse(document.querySelector('.swiper-config').textContent);
-    new Swiper('.swiper', swiperConfig);
-  },
-  error: function(xhr, status, error) {
-    console.log("Error fetching feedbacks:", error);
-  }
-});
-
-    });
-  </script>
+            // Inject the feedback into the swiper-wrapper
+            $(".swiper-wrapper").html(feedbackHtml);
+    
+            // Initialize Swiper after dynamic content is added
+            const swiperConfig = JSON.parse(document.querySelector('.swiper-config').textContent);
+            new Swiper('.swiper', swiperConfig);
+          },
+          error: function(xhr, status, error) {
+            console.log("Error fetching feedbacks:", error);
+          }
+        });
+      });
+    </script>
+    
   
 
 </html>
