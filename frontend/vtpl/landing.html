@@ -1,6 +1,56 @@
 <!DOCTYPE html>
 
+<style>
+  .testimonial-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Ensure the item takes up the full height */
+    padding: 20px; /* Optional padding */
+    text-align: center; /* Center the text */
+}
 
+.testimonial-item p {
+    flex-grow: 1; /* Make sure the paragraph expands to take available space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile {
+    margin-top: 20px; /* Space between message and profile */
+}
+
+/* Prettier Swiper Arrows with Green Background */
+.swiper-button-next, .swiper-button-prev {
+  color: #4e4d4d; /* Arrow color (white) */
+  font-size: 18px; /* Adjust arrow size */
+  width: 40px;  /* Make the arrow element larger */
+  height: 40px; /* Make the arrow element larger */
+  background-color: #dddddd; /* Green background */
+  border-radius: 50%; /* Make them perfectly circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+  cursor: pointer; /* Show pointer cursor */
+}
+
+
+/* Hover effect for a more interactive feel */
+.swiper-button-next:hover, .swiper-button-prev:hover {
+  background-color: #28a745; /* Darker green on hover */
+  transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+/* Optional: Add a soft shadow when hovering */
+.swiper-button-next:hover, .swiper-button-prev:hover {
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+}
+
+</style>
 <main class="main">
 
     <!-- Hero Section -->
@@ -41,13 +91,13 @@
           </div>
         </div><!-- End Carousel Item -->
 
-        <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
+        <!--<a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
           <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
         </a>
 
         <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
           <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
-        </a>
+        </a>-->
 
         <ol class="carousel-indicators"></ol>
 
@@ -77,134 +127,99 @@
 
     </section><!-- /Agents Section -->
 
-   <!-- Testimonials Section -->
-   <section id="testimonials" class="testimonials section">
-
-    <!-- Section Title -->
-    <div class="container section-title" data-aos="fade-up">
-      <h2>Testimonials</h2>
-      <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-    </div><!-- End Section Title -->
-
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-      <div class="swiper init-swiper">
-        <script type="application/json" class="swiper-config">
-          {
-            "loop": true,
-            "speed": 600,
-            "autoplay": {
-              "delay": 5000
-            },
-            "slidesPerView": "auto",
-            "pagination": {
-              "el": ".swiper-pagination",
-              "type": "bullets",
-              "clickable": true
-            },
-            "breakpoints": {
-              "320": {
-                "slidesPerView": 1,
-                "spaceBetween": 40
+    <section id="testimonials" class="testimonials section">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Feedback</h2>
+        <p>Reviews of our customers.</p>
+      </div><!-- End Section Title -->
+    
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="swiper init-swiper">
+          <script type="application/json" class="swiper-config">
+            {
+              "loop": true,
+              "speed": 600,
+              "autoplay": {
+                "delay": 5000
               },
-              "1200": {
-                "slidesPerView": 3,
-                "spaceBetween": 1
+              "slidesPerView": "auto",
+              "pagination": {
+                "el": ".swiper-pagination",
+                "type": "bullets",
+                "clickable": true
+              },
+              "navigation": {
+                "nextEl": ".swiper-button-next",
+                "prevEl": ".swiper-button-prev"
+              },
+              "breakpoints": {
+                "320": {
+                  "slidesPerView": 1,
+                  "spaceBetween": 40
+                },
+                "1200": {
+                  "slidesPerView": 3,
+                  "spaceBetween": 1
+                }
               }
             }
-          }
-        </script>
-        <div class="swiper-wrapper">
-
-          <div class="swiper-slide">
-            <div class="testimonial-item">
-              <div class="stars">
-                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-              </div>
-              <p>
-                Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
-              </p>
-              <div class="profile mt-auto">
-                <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-                <h3>Saul Goodman</h3>
-                <h4>Ceo &amp; Founder</h4>
-              </div>
-            </div>
-          </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-                </p>
-                <div class="profile mt-auto">
-                  <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-                  <h3>Sara Wilsson</h3>
-                  <h4>Designer</h4>
-                </div>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
-                </p>
-                <div class="profile mt-auto">
-                  <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-                  <h3>Jena Karlis</h3>
-                  <h4>Store Owner</h4>
-                </div>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
-                </p>
-                <div class="profile mt-auto">
-                  <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-                  <h3>Matt Brandon</h3>
-                  <h4>Freelancer</h4>
-                </div>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
-                </p>
-                <div class="profile mt-auto">
-                  <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-                  <h3>John Larson</h3>
-                  <h4>Entrepreneur</h4>
-                </div>
-              </div>
-            </div><!-- End testimonial item -->
-
-          </div>
+            
+          </script>
+    
+          <!-- This is where the feedback will be dynamically injected -->
+          <div class="swiper-wrapper"></div>
+    
+          <!-- Pagination (dots) -->
           <div class="swiper-pagination"></div>
+    
+          <!-- Navigation arrows -->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
         </div>
-
       </div>
-
-    </section><!-- /Testimonials Section -->
+    </section>
+    
+    
 
   </main>
   <script src="assets/js/agents.js" defer></script>
+
+  <script>
+    $(document).ready(function() {
+      $.ajax({
+  url: "../rest/feedback",  // Update with your actual backend route
+  type: "GET",
+  success: function(feedbacks) {
+    let feedbackHtml = '';
+    feedbacks.forEach(function(feedback) {
+      feedbackHtml += `
+        <div class="swiper-slide">
+          <div class="testimonial-item">
+            <p>${feedback.message}</p>
+            <div class="profile mt-auto">
+              <img src="assets/img/testimonials/testimonials-default.jpg" class="testimonial-img" alt="">
+              <h3>${feedback.name}</h3>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    // Inject the feedback into the swiper-wrapper
+    $(".swiper-wrapper").html(feedbackHtml);
+
+    // Reinitialize swiper after dynamic content is added
+    const swiperConfig = JSON.parse(document.querySelector('.swiper-config').textContent);
+    new Swiper('.swiper', swiperConfig);
+  },
+  error: function(xhr, status, error) {
+    console.log("Error fetching feedbacks:", error);
+  }
+});
+
+    });
+  </script>
+  
 
 </html>
