@@ -256,12 +256,25 @@
     });
 
     $(window).on('hashchange', function () {
-        const currentHash = window.location.hash;
-        if (['#index', '#about', '#contact', '#service', '#properties', '#agents'].includes(currentHash)) {
-            window.history.replaceState(null, null, window.location.pathname + currentHash);
-        }
+    let currentHash = window.location.hash;
+
+    // Default to #index if no hash is found
+    if (!currentHash || currentHash === '#') {
+        currentHash = '#index';
+    }
+
+    // Remove query parameters from the URL (everything after ?)
+    const urlWithoutQuery = window.location.origin + window.location.pathname + currentHash;
+
+    // Use history.replaceState to update the URL without reloading the page
+    window.history.replaceState(null, null, urlWithoutQuery);
+
+    // Check if the currentHash is in the allowed list and then trigger the navigation update
+    if (['#index', '#about', '#contact', '#service', '#properties', '#agents'].includes(currentHash)) {
         updateNavigation();
-    });
+    }
+});
+
 
     app.run();
 
@@ -343,16 +356,19 @@ function updateNavigation() {
 
 // Example function to simulate logout (Handled above in the event listener)
 function logoutUser() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+    // Remove user-related data from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
 
-        // Update the navigation immediately
-        updateNavigation();
+    // Update the navigation immediately (if you have a function for that)
+    updateNavigation();
 
-        // Redirect to the login page and trigger SPA routing
-        window.location.href = '#login';
-        $(window).trigger('hashchange');
-    }
+    // Redirect to the index page (home page or default page)
+    window.location.href = '#index';
+
+    // Optionally trigger a hashchange to simulate navigation in case your SPA relies on it
+    $(window).trigger('hashchange');
+}
 
 
     </script>
