@@ -6,7 +6,7 @@ export class HomePage extends BasePage {
     
     private logo = By.className("sitename");
     private login_button = By.id("login-btn");
-    private registration_button = By.className("register-btn")
+    private registration_button = By.id("register-btn")
 
     constructor(driver: WebDriver) {
         super(driver);
