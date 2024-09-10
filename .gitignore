@@ -2,3 +2,5 @@ rest/vendor
 rest/Config.class.php
 storage/*
 index.php
+node_modules
+core/data/data.json

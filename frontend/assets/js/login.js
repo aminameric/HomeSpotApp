@@ -55,6 +55,10 @@ var UserLogin = {
 
 // Document ready: Initialize login validation
 $(document).ready(function () {
+    console.log(typeof jQuery); // Should log "function"
+
+    console.log(typeof $.fn.validate); // Should log "function"
+
     UserLogin.init();
 });
 
