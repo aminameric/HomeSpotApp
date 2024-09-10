@@ -245,7 +245,7 @@ $(document).on('propertyAdded', function(event, property) {
   const imageUrl = property.image_url ? `http://localhost/HomeSpotApp/rest/storage/${property.image_url}` : null;
 
   const cardContainerHtml = `
-      <div class="col-xl-4 col-md-6" data-id="${property.id}" data-aos="fade-up" data-aos-delay="100">
+      <div class="col-xl-4 col-md-6" data-id="${property.id}">
           <div class="card">
               <div class="card-image">
                   <figure class="image is-4by3">

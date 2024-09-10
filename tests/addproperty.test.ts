@@ -52,6 +52,6 @@ test("user registration", async () => {
 },200000);
 
 
-/*afterAll(async () => {
+afterAll(async () => {
     await quitDriver(driver);
-},10000);*/
+},10000);

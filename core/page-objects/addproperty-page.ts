@@ -1,5 +1,3 @@
-//*[@id="properties-nav"]
-
 import { By, WebDriver, until } from "selenium-webdriver";
 import BasePage from "./base-page";
 import { readFileSync } from "fs";

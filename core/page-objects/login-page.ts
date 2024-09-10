@@ -20,6 +20,9 @@ export class LoginPage extends BasePage {
     async enterEmail() {
         await this.fillInputField(this.username, testData.data.username1);
     }
+    async enterEmail2() {
+        await this.fillInputField(this.username, testData.data.username2);
+    }
     async enterPassword() {
         await this.fillInputField(this.password, testData.data.password1);
     }
