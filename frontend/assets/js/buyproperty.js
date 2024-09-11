@@ -1,7 +1,12 @@
 $(document).ready(function() {
     // Bind validateCreditCard to #card-number
     $('#card-number').validateCreditCard(function(result) {
+        console.log('cc',result);
+        if (!$('#card-number').val()){
+            return;
+        }
         var cardNumber = $('#card-number').val().replace(/\s/g, ''); // Remove spaces from card number
+
         
         // Skip validation for specific card number
         if (cardNumber === '0123452174170001') {

@@ -196,11 +196,14 @@
     <script src="assets/js/agents.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@latest/swiper-bundle.min.js"></script>
     <script>
+      console.log("before");
       $(document).ready(function() {
+        console.log("after");
         $.ajax({
           url: "../rest/feedback",  // Update with your actual backend route
           type: "GET",
           success: function(feedbacks) {
+            console.log("success");
             let feedbackHtml = '';
             feedbacks.forEach(function(feedback) {
               feedbackHtml += `
