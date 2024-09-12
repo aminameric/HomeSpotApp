@@ -10,8 +10,9 @@ Flight::route("GET /agentusers", function() {
     Flight::json(Flight::user_service()->get_agent('Agent'));  // Pass 'Agent' directly
 });
 
-
-
+Flight::route("GET /usersinfo/@id", function($id) {
+    Flight::json(Flight::user_service()->getUsersNameAndEmail($id));  
+});
 
 
  Flight::route("POST /addUser", function(){
@@ -88,6 +89,47 @@ Flight::route('POST /loginUser', function(){
         Flight::halt(500, 'Credentials are not valid');
     }
     });
+
+
+    Flight::route('PUT /propertyinfo/@id', function($id) {
+        try {
+            // Accessing the PUT data sent with the request
+            $request = Flight::request();
+            $data = $request->data->getData(); // This should contain the data from the PUT request
+    
+            // Assuming a method to update the property info in your PropertyService
+            $updateStatus = Flight::property_service()->updatePropertyInfo($id, $data);
+    
+            if ($updateStatus) {
+                // Fetching updated property info to return with the response
+                $updatedPropertyInfo = Flight::property_service()->getPropertyById($id);
+    
+                $response = [
+                    'propertyinfo_edit' => [
+                        'message' => "Property info updated successfully",
+                        'data' => $updatedPropertyInfo
+                    ]
+                ];
+            } else {
+                // In case update failed (e.g., no rows updated)
+                $response = [
+                    'propertyinfo_edit' => [
+                        'message' => "No updates performed or property not found",
+                        'data' => null
+                    ]
+                ];
+            }
+    
+            // Sending JSON response with the update result
+            Flight::json($response);
+    
+        } catch (\Exception $e) {
+            // Handle any exceptions and respond with an error message
+            Flight::halt(400, json_encode(['error' => $e->getMessage()]));
+        }
+    });
+    
+
 
 Flight::route('GET /connection-check', function(){
     /** TODO

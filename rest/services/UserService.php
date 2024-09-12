@@ -83,6 +83,10 @@ class UserService extends BaseService{
 
     }
 
+    public function getUsersNameAndEmail($userId){
+        return $this->dao->getUsersNameAndEmail($userId);
+    }
+
     
 
     

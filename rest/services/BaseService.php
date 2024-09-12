@@ -50,6 +50,11 @@ class BaseService {
     public function get_properties_by_city($city) {
         return $this->dao->get_by_city($city);
     }
+    public function get_properties_by_status() {
+        return $this->dao->get_properties_by_status();
+    }
+
+    
     
     
 }

@@ -21,6 +21,7 @@ require "./services/PropertyService.php";
 require "./services/AddressService.php";
 require "./services/PropertyReservationService.php";
 require "./services/FeedbackService.php";
+require "./services/PropertyBuyingService.php";
 
 
 
@@ -30,6 +31,9 @@ Flight::register('property_service', 'PropertyService');
 Flight::register('address_service', "AddressService");
 Flight::register('propertyreservation_service', "PropertyReservationService");
 Flight::register('feedback_service', "FeedbackService");
+Flight::register('propertybuying_service', 'PropertyBuyingService');
+Flight::register('propertyDao', 'PropertyDao');
+Flight::register('propertyBuyingDao', 'PropertyBuyingDao');
 
 
 require "./routes/UserRoutes.php";
@@ -37,6 +41,7 @@ require "./routes/PropertyRoutes.php";
 require "./routes/AddressRoutes.php";
 require "./routes/PropertyReservationRoutes.php";
 require "./routes/FeedbackRoutes.php";
+require "./routes/PropertyBuyingRoutes.php";
 
 
 

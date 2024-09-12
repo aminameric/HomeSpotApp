@@ -47,6 +47,12 @@ Flight::route("GET /properties", function(){
     Flight::json(Flight::property_service()->get_all());
  });
 
+ // In your routes file
+Flight::route("GET /properties/status", function() {
+    Flight::json(Flight::property_service()->get_properties_by_status());
+});
+
+
 
 //getting a property by id
 Flight::route('GET /prop/@id', function($id){ //with parameter
@@ -212,6 +218,36 @@ Flight::route('POST /property/confirm/@id', function($id){
         Flight::json(['message' => 'Error processing request: ' . $e->getMessage()], 500);
     }
 });
+
+// Route to handle property purchase
+Flight::route('POST /updatePropertyStatus', function() {
+    $request = Flight::request();
+    try {
+        $data = json_decode($request->getBody(), true);
+        $propertyId = $data['propertyId'];
+        
+
+        if (!$propertyId) {
+            Flight::json(['error' => true, 'message' => 'Missing property ID or status'], 400);
+            return;
+        }
+
+        $success = Flight::property_service()->updatePropertyStatus($propertyId);
+        if ($success) {
+            Flight::json(['success' => true, 'message' => 'Property status updated successfully']);
+        } else {
+            Flight::json(['success' => false, 'message' => 'Failed to update property status']);
+        }
+    } catch (Exception $e) {
+        error_log("Exception: " + $e->getMessage());
+        Flight::json(['error' => true, 'message' => 'Server Error: ' + $e->getMessage()], 500);
+    }
+});
+
+
+
+
+
 
 
 

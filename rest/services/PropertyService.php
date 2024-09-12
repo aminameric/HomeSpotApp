@@ -90,12 +90,15 @@ class PropertyService extends BaseService{
     }
     
 
-    public function updatePropertyStatus($propertyId, $newStatus) {
-        $this->dao->updatePropertyStatus($propertyId, $newStatus);
-    }
+    
     public function getPropPrice($id){
         return $this->dao->getPropPrice($id); // Return the data from DAO layer
     }
+
+    public function updatePropertyStatus($propertyId) {
+        return $this->dao->updatePropertyStatus($propertyId);
+    }
+    
     
 }
       

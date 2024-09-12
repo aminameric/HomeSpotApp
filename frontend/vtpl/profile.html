@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Service Details - EstateAgency Bootstrap Template</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- =======================================================
+  * Template Name: EstateAgency
+  * Template URL: https://bootstrapmade.com/real-estate-agency-bootstrap-template/
+  * Updated: Aug 09 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<style>
+#bought-properties-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.property-card {
+    flex: 1 1 48%; /* Adjust this value based on your layout preference */
+    background-color: #fff; /* White background for the card */
+    border: 1px solid #ddd; /* Subtle border */
+    border-radius: 8px; /* Rounded corners for the card */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    overflow: hidden; /* Ensures nothing spills outside the border */
+    display: flex;
+    flex-direction: column; /* Stack the image and text vertically */
+}
+
+.property-image {
+    width: 100%;
+    height: 200px; /* Adjust height as needed */
+    object-fit: cover; /* Ensures the image covers the area */
+}
+
+.property-info {
+    padding: 15px; /* Padding inside the card for spacing */
+    flex-grow: 1; /* Allows the text section to fill the space after the image */
+    display: flex;
+    flex-direction: column; /* Further ensures vertical layout of text */
+    justify-content: space-between; /* Spaces out the text evenly */
+}
+
+.property-info h4 {
+    margin-top: 0; /* Removes top margin for the title */
+    color: #333; /* Darker text for better readability */
+}
+
+.property-info p {
+    margin-bottom: 5px; /* Reduced bottom margin for a tighter layout */
+    color: #666; /* Lighter text color for less emphasis on the details */
+}
+
+#user-details {
+    text-align: right;
+    padding-right: 20px; /* Adds padding to align with the right edge of the container */
+}
+
+@media (max-width: 992px) {
+    .property-card {
+        flex-basis: 100%; /* Full width on smaller screens */
+    }
+}
+
+#user-details {
+    background: #f9f9f9;  /* A very light grey for a subtle, clean background */
+    border: 1px solid #ccc;  /* Light grey border for soft contrast */
+    border-radius: 10px;  /* Smooth rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Soft drop shadow for depth */
+    padding: 30px;  /* Ample padding for a more spacious look */
+    margin: 20px auto;  /* Center the card in the column with vertical spacing */
+    width: 90%;  /* Take up most of the container width */
+    max-width: 400px;  /* Maximum width to maintain aesthetics on larger screens */
+    text-align: left;  /* Center the text for a balanced look */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;  /* Modern font for clean typography */
+}
+
+#user-details p{
+  text-align: start;
+}
+
+#user-details h2 {
+    color: #26a30d;  /* Dark grey for contrast and focus */
+    font-size: 24px;  /* Large font size for the header */
+    margin-bottom: 15px;  /* Space below the header */
+    text-align: center;
+    font-weight: bold;
+}
+
+.user-info p {
+    color: #747474;  /* Medium grey for information */
+    font-size: 18px;  /* Comfortable reading size */
+    margin-bottom: 10px;  /* Keep paragraphs close for cohesion */
+}
+
+.user-info span {
+    font-weight: bold;  /* Bold for emphasis */
+    color: #007bff;  /* Bootstrap primary blue for key details */
+}
+
+.edit-user-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000; /* Significantly high z-index */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.edit-user-modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+    border-radius: 5px;
+    position: relative; /* Ensure it is positioned relative to the modal */
+}
+
+.edit-user-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.edit-user-close:hover,
+.edit-user-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-footer {
+    padding: 10px;
+    text-align: right;
+    border-top: 1px solid #e5e5e5;
+}
+
+
+
+</style>
+
+<body class="service-details-page">
+
+
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title" data-aos="fade">
+      <div class="heading">
+        <div class="container">
+          <div class="row d-flex justify-content-center text-center">
+            <div class="col-lg-8">
+              <h1>My Profile</h1>
+              <p class="mb-0">Here you can find your details and bought properties.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="breadcrumbs">
+        <div class="container">
+          <ol>
+            <li><a href="#index">Home</a></li>
+            <li class="current">Service Details</li>
+          </ol>
+        </div>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <!-- Service Details Section -->
+
+    <section id="my-profile" class="profile-section">
+      <div class="container">
+          <div class="row gy-5">
+              <div class="col-lg-8">
+                  <div id="bought-properties-list" class="d-flex flex-wrap">
+                      <h2>Bought Properties</h2>
+                      <!-- Example card for a bought property -->
+                      <div class="property-card">
+                          <img src="property-image.jpg" alt="Property Image" class="property-image">
+                          <div class="property-info">
+                              <h4>Property Title</h4>
+                              <p>Description of the property.</p>
+                              <p>Price: $XXX,XXX</p>
+                          </div>
+                      </div>
+                      <!-- More cards will be dynamically added here -->
+                  </div>
+              </div>
+              <div class="col-lg-4">
+                  <div id="user-details" class="text-end">
+                      <h2>User Details</h2>
+                      <p>Username: <span id="user-name"></span></p>
+                      <p>Email: <span id="user-email"></span></p>
+                      <button type="button" id="edit-user-details" class="btn-primary">Edit</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+
+  <!-- The Modal -->
+<div id="editUserModal" class="edit-user-modal">
+  <div class="edit-user-modal-content">
+    <span class="edit-user-close">&times;</span>
+    <h3>Edit User Details</h3>
+    <form id="edit-user-details-form">
+        <div class="form-group">
+          <label for="edit-username-input">Username</label>
+          <input type="text" class="form-control" id="edit-username-input" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+            <label for="edit-email-input">Email</label>
+            <input type="email" class="form-control" id="edit-email-input" placeholder="Enter email">
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="edit-cancel-btn">Cancel</button>
+        <button type="button" class="btn btn-primary" id="edit-save-user-btn">Save changes</button>
+    </div>
+  </div>
+</div>
+
+  
+  
+
+  </main>
+
+ 
+<script src="assets/js/buyproperty.js"></script>
+<script>
+  $(document).ready(function() {
+    console.log("Document is ready");
+
+    var userData = localStorage.getItem('user');
+    if (userData) {
+        var user = JSON.parse(userData);
+        console.log("User data:", user);
+
+        if (user && user.id) {
+            console.log("Making AJAX call for user ID:", user.id);
+            $.ajax({
+                url: `../rest/usersinfo/${user.id}`,
+                type: 'GET',
+                success: function(data) {
+                console.log("AJAX call successful", data);
+                $('#user-name').text(data[0].username);  // Access the first element of the array
+                $('#user-email').text(data[0].email);
+               },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching user details:', textStatus, errorThrown);
+                }
+            });
+        } else {
+            console.error("No user ID found in user data");
+        }
+    } else {
+        console.error('User data is not available in local storage.');
+    }
+});
+
+var editUserModal = document.getElementById("editUserModal");
+var editBtn = document.getElementById("edit-user-details");
+var spanClose = document.getElementsByClassName("edit-user-close")[0];
+
+editBtn.onclick = function() {
+    editUserModal.style.display = "block";
+    var username = document.getElementById("user-name").textContent;
+    var email = document.getElementById("user-email").textContent;
+    document.getElementById("edit-username-input").value = username;
+    document.getElementById("edit-email-input").value = email;
+}
+
+spanClose.onclick = function() {
+    editUserModal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target === editUserModal) {
+        editUserModal.style.display = "none";
+    }
+}
+
+
+
+
+</script>
+
+
+</body>
+
+</html>

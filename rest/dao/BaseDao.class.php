@@ -58,6 +58,15 @@ require_once __DIR__."/../Config.class.php";
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    
+
+    public function get_properties_by_status() {
+        $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " WHERE status = 0");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+
     /**
     * Method used to get entity by id from database
     */

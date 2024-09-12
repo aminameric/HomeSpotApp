@@ -35,19 +35,30 @@ class PropertyDao extends BaseDao {
     public function rollBack() {
         $this->conn->rollBack();
     }
-    //update property status when bought 
-    public function updatePropertyStatus($propertyId, $newStatus) {
-        $stmt = $this->conn->prepare("UPDATE property SET status = :status WHERE id = :id");
-        $stmt->bindParam(':status', $newStatus);
-        $stmt->bindParam(':id', $propertyId);
-        return $stmt->execute();
-    }
+
 
     public function getPropPrice($id) {
         $stmt = $this->conn->prepare("SELECT price FROM property WHERE id = :id");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(); // Use fetch() instead of fetchAll()
     }
+
+    public function updatePropertyStatus($propertyId) {
+        try {
+            $sql = "UPDATE property SET status = 1 WHERE id = :propertyId";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':propertyId' => $propertyId
+            ]);
+
+            return $stmt->rowCount() > 0; // Return true if rows were updated
+        } catch (PDOException $e) {
+            error_log("Error updating property status: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    
     
 }
 ?>

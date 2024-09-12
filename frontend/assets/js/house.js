@@ -3,7 +3,7 @@ $(document).ready(function () {
 
   // Fetch the properties data
   $.ajax({
-    url: "../rest/properties",
+    url: "../rest/properties/status",
     method: "GET",
     beforeSend: function (xhr) {
       const token = localStorage.getItem('token');
