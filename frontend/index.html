@@ -331,7 +331,7 @@ function updateNavigation() {
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user'));
 
-    if (token && user) {
+    if (token) {
         // User is logged in, show the logout button and hide login/register
         $('#login-btn').hide();
         $('#register-btn').hide();
@@ -342,7 +342,7 @@ function updateNavigation() {
         $('#properties-nav').show();
         $('#agents-nav').show();
         $('#contact-nav').show();
-        if (user.type_of_user === 'User') {
+        if (user && user.type_of_user === 'User') {
             $('#profile-nav').show();
         } else {
             $('#profile-nav').hide();
