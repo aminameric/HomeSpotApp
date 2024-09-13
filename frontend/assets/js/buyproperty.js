@@ -181,6 +181,7 @@ function loadBoughtProperties(userId) {
 
                     // Create a new column for each card with unique class
                     const cardContainerHtml = `
+    
                         <div class="col-xl-4 col-md-6" data-id="${property.id}" data-aos="fade-up" data-aos-delay="100">
                             <div class="bought-property-card">
                                 <div class="bought-card-image">

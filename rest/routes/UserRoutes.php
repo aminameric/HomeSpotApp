@@ -91,43 +91,24 @@ Flight::route('POST /loginUser', function(){
     });
 
 
-    Flight::route('PUT /propertyinfo/@id', function($id) {
+    Flight::route('PUT /updateuserinfo/@id', function($id) {
+        $request = Flight::request();
+        $data = $request->data->getData();
+        $username = isset($data['username']) ? $data['username'] : null;
+        $email = isset($data['email']) ? $data['email'] : null;
+    
         try {
-            // Accessing the PUT data sent with the request
-            $request = Flight::request();
-            $data = $request->data->getData(); // This should contain the data from the PUT request
-    
-            // Assuming a method to update the property info in your PropertyService
-            $updateStatus = Flight::property_service()->updatePropertyInfo($id, $data);
-    
-            if ($updateStatus) {
-                // Fetching updated property info to return with the response
-                $updatedPropertyInfo = Flight::property_service()->getPropertyById($id);
-    
-                $response = [
-                    'propertyinfo_edit' => [
-                        'message' => "Property info updated successfully",
-                        'data' => $updatedPropertyInfo
-                    ]
-                ];
+            $updateSuccessful = Flight::user_service()->updateUserNameAndEmail($id, $username, $email);
+            if ($updateSuccessful) {
+                Flight::json(['message' => 'User info updated successfully']);
             } else {
-                // In case update failed (e.g., no rows updated)
-                $response = [
-                    'propertyinfo_edit' => [
-                        'message' => "No updates performed or property not found",
-                        'data' => null
-                    ]
-                ];
+                Flight::json(['message' => 'No updates performed'], 400);
             }
-    
-            // Sending JSON response with the update result
-            Flight::json($response);
-    
         } catch (\Exception $e) {
-            // Handle any exceptions and respond with an error message
             Flight::halt(400, json_encode(['error' => $e->getMessage()]));
         }
     });
+    
     
 
 

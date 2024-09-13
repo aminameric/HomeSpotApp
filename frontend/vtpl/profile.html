@@ -20,44 +20,56 @@
 <style>
 #bought-properties-list {
     display: flex;
+    flex-direction: column; /* Corrected to ensure vertical layout */
+    align-items: center; /* Center-align items for better presentation */
+    width: 100%; /* Full width */
+    padding: 20px;
+    background-color: #f4f4f4; /* Adding a background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adding some shadow for depth */
+}
+
+#bought-properties-list h2 {
+    text-align: center; /* Center-align the title */
+    color: #333; /* Ensuring it's visible */
+    font-size: 24px; /* Making it larger for visibility */
+    width: 100%; /* Full width */
+    margin-bottom: 20px; /* Space below the title */
+}
+
+.col-lg-8 h2{
+  color:#2c3e50;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cards-container {
+    display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
     gap: 20px;
+    width: 100%;
 }
 
 .property-card {
-    flex: 1 1 48%; /* Adjust this value based on your layout preference */
-    background-color: #fff; /* White background for the card */
-    border: 1px solid #ddd; /* Subtle border */
-    border-radius: 8px; /* Rounded corners for the card */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for depth */
-    overflow: hidden; /* Ensures nothing spills outside the border */
-    display: flex;
-    flex-direction: column; /* Stack the image and text vertically */
+    flex: 1 1 280px; /* Adjusting card base size */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    overflow: hidden;
+    margin: 10px;
+    text-align: left; /* Aligning text to the left */
 }
 
 .property-image {
     width: 100%;
-    height: 200px; /* Adjust height as needed */
-    object-fit: cover; /* Ensures the image covers the area */
+    height: auto; /* Making height auto to maintain aspect ratio */
 }
 
 .property-info {
-    padding: 15px; /* Padding inside the card for spacing */
-    flex-grow: 1; /* Allows the text section to fill the space after the image */
-    display: flex;
-    flex-direction: column; /* Further ensures vertical layout of text */
-    justify-content: space-between; /* Spaces out the text evenly */
+    padding: 15px;
 }
 
-.property-info h4 {
-    margin-top: 0; /* Removes top margin for the title */
-    color: #333; /* Darker text for better readability */
-}
 
-.property-info p {
-    margin-bottom: 5px; /* Reduced bottom margin for a tighter layout */
-    color: #666; /* Lighter text color for less emphasis on the details */
-}
 
 #user-details {
     text-align: right;
@@ -71,39 +83,51 @@
 }
 
 #user-details {
-    background: #f9f9f9;  /* A very light grey for a subtle, clean background */
-    border: 1px solid #ccc;  /* Light grey border for soft contrast */
-    border-radius: 10px;  /* Smooth rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Soft drop shadow for depth */
-    padding: 30px;  /* Ample padding for a more spacious look */
-    margin: 20px auto;  /* Center the card in the column with vertical spacing */
-    width: 90%;  /* Take up most of the container width */
-    max-width: 400px;  /* Maximum width to maintain aesthetics on larger screens */
-    text-align: left;  /* Center the text for a balanced look */
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;  /* Modern font for clean typography */
-}
-
-#user-details p{
-  text-align: start;
+    margin-top: 50px;
+    text-align: right; /* Aligning text to the right as per your class 'text-end' */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern, readable font */
+    color: #2c3e50; /* Dark blue-grey color for text for better readability */
+    background-color: #f8f9fa; /* Light grey background for the container */
+    border-radius: 8px; /* Rounded corners for the container */
+    padding: 20px; /* Padding inside the container */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    margin-bottom: 20px; /* Space below the container */
 }
 
 #user-details h2 {
-    color: #26a30d;  /* Dark grey for contrast and focus */
-    font-size: 24px;  /* Large font size for the header */
-    margin-bottom: 15px;  /* Space below the header */
+    color: #36a01c; /* Bright blue color for headings */
+    margin-bottom: 10px; /* Space below the heading */
     text-align: center;
     font-weight: bold;
+    font-size:xx-large;
+   
+
 }
 
-.user-info p {
-    color: #747474;  /* Medium grey for information */
-    font-size: 18px;  /* Comfortable reading size */
-    margin-bottom: 10px;  /* Keep paragraphs close for cohesion */
+#user-details p {
+    font-size:large; /* Larger font size for better readability */
+    margin-bottom: 5px; /* Reduce space below each paragraph for a compact look */
+    text-align: start;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+
 }
 
-.user-info span {
-    font-weight: bold;  /* Bold for emphasis */
-    color: #007bff;  /* Bootstrap primary blue for key details */
+#user-details span {
+    font-weight: bold; /* Makes username and email text bold */
+}
+
+.btn-primary {
+    background-color: #686b6d; /* Blue background for the button */
+    color: #ffffff; /* White text for the button */
+    padding: 10px 20px; /* Padding inside the button */
+    border-radius: 5px; /* Rounded corners for the button */
+    border: none; /* No border for a cleaner look */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.btn-primary:hover {
+    background-color: #2ca01c; /* Darker blue on hover */
 }
 
 .edit-user-modal {
@@ -151,6 +175,7 @@
 
 
 </style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 
 <body class="service-details-page">
 
@@ -185,9 +210,11 @@
       <div class="container">
           <div class="row gy-5">
               <div class="col-lg-8">
+                <h2>My Bought Properties </h2>
                   <div id="bought-properties-list" class="d-flex flex-wrap">
-                      <h2>Bought Properties</h2>
+                      
                       <!-- Example card for a bought property -->
+                      <div class="cards-container">
                       <div class="property-card">
                           <img src="property-image.jpg" alt="Property Image" class="property-image">
                           <div class="property-info">
@@ -196,6 +223,7 @@
                               <p>Price: $XXX,XXX</p>
                           </div>
                       </div>
+                    </div>
                       <!-- More cards will be dynamically added here -->
                   </div>
               </div>
@@ -239,30 +267,81 @@
 
   </main>
 
- 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="assets/js/buyproperty.js"></script>
 <script>
   $(document).ready(function() {
     console.log("Document is ready");
 
+    // Fetch user data from local storage
     var userData = localStorage.getItem('user');
     if (userData) {
         var user = JSON.parse(userData);
-        console.log("User data:", user);
+        var userId = user.id; // Retrieve userId
 
-        if (user && user.id) {
-            console.log("Making AJAX call for user ID:", user.id);
+        if (userId) {
+            console.log("Making AJAX call for user ID:", userId);
+
+            // Fetch initial user details and populate fields
             $.ajax({
-                url: `../rest/usersinfo/${user.id}`,
+                url: `../rest/usersinfo/${userId}`,
                 type: 'GET',
                 success: function(data) {
-                console.log("AJAX call successful", data);
-                $('#user-name').text(data[0].username);  // Access the first element of the array
-                $('#user-email').text(data[0].email);
-               },
+                    console.log("AJAX call successful", data);
+                    $('#user-name').text(data[0].username);
+                    $('#user-email').text(data[0].email);
+                    // Setting initial values in the edit form inputs when modal is opened
+                    $('#edit-username-input').val(data[0].username);
+                    $('#edit-email-input').val(data[0].email);
+                },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error('Error fetching user details:', textStatus, errorThrown);
                 }
+            });
+
+            // Handling modal display and user details update
+            var editUserModal = $('#editUserModal');
+            var editBtn = $('#edit-user-details');
+            var spanClose = $('.edit-user-close');
+            var cancelBtn = $('#edit-cancel-btn'); 
+
+            editBtn.on('click', function() {
+                editUserModal.show();
+            });
+
+            spanClose.on('click', function() {
+                editUserModal.hide();
+            });
+            cancelBtn.on('click', function() {
+              editUserModal.hide();
+            });
+
+            $(window).on('click', function(event) {
+                if ($(event.target).is('#editUserModal')) {
+                    editUserModal.hide();
+                }
+            });
+
+            $('#edit-save-user-btn').on('click', function() {
+                var username = $('#edit-username-input').val();
+                var email = $('#edit-email-input').val();
+
+                // Setup AJAX request for updating user details
+                $.ajax({
+                  url: '../rest/updateuserinfo/' + userId,
+                  type: 'PUT',
+                  contentType: 'application/json',
+                  data: JSON.stringify({ username: username, email: email }),
+                  success: function(response) {
+                      toastr.success("User details updated successfully!");
+                      setTimeout(function() {
+                          location.reload();
+                      }, 500);
+                  },
+                  error: function(xhr) {
+                      toastr.error("Update failed: " + "please enter unique username and email");  // Display error message from server
+                  }
+              });
             });
         } else {
             console.error("No user ID found in user data");
@@ -271,29 +350,6 @@
         console.error('User data is not available in local storage.');
     }
 });
-
-var editUserModal = document.getElementById("editUserModal");
-var editBtn = document.getElementById("edit-user-details");
-var spanClose = document.getElementsByClassName("edit-user-close")[0];
-
-editBtn.onclick = function() {
-    editUserModal.style.display = "block";
-    var username = document.getElementById("user-name").textContent;
-    var email = document.getElementById("user-email").textContent;
-    document.getElementById("edit-username-input").value = username;
-    document.getElementById("edit-email-input").value = email;
-}
-
-spanClose.onclick = function() {
-    editUserModal.style.display = "none";
-}
-
-window.onclick = function(event) {
-    if (event.target === editUserModal) {
-        editUserModal.style.display = "none";
-    }
-}
-
 
 
 

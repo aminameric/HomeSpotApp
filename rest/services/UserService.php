@@ -87,6 +87,11 @@ class UserService extends BaseService{
         return $this->dao->getUsersNameAndEmail($userId);
     }
 
+    public function updateUserNameAndEmail($userId, $username, $email){
+        return $this->dao->updateUserNameAndEmail($userId, $username, $email);
+    }
+    
+
     
 
     
