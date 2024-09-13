@@ -88,8 +88,19 @@ function fetchPropertyPriceAndConvertToEther(propertyId) {
 async function sendTransaction(propertyPriceEther) {
     const web3 = new Web3(window.ethereum);
     const accounts = await web3.eth.getAccounts();
+    if (accounts.length === 0) {
+        toastr.error("Please connect to MetaMask.");
+        return;
+    }
     const userAddress = accounts[0];
     const contractAddress = '0x3B2bBcBB111cE699b540e34D0F2Cf4Cd36838566'; // Replace with your contract address
+
+    const userId = JSON.parse(localStorage.getItem('user'))?.id;
+    const propertyId = getQueryParameter('id');
+    if (!userId || !propertyId) {
+        toastr.error('Missing user ID or property ID. Cannot proceed.');
+        return;
+    }
 
     const txParams = {
         from: userAddress,
@@ -103,42 +114,76 @@ async function sendTransaction(propertyPriceEther) {
         const receipt = await web3.eth.sendTransaction(txParams);
         console.log('Transaction Receipt:', receipt);
         toastr.success(`Transaction successful! Hash: ${receipt.transactionHash}`);
-        await deleteProperty(); // Wait for property deletion
+        
+        // Call buyProperty instead of deleteProperty
+        buyProperty(userId, propertyId);
     } catch (error) {
         console.error('Transaction Error:', error);
         toastr.error('Failed to send transaction. Please try again.');
     }
 }
 
-// Delete Property
-async function deleteProperty() {
-    const propertyId = getQueryParameter('id'); // Extract property ID from URL
 
-    if (!propertyId) {
-        toastr.error('Property ID is missing.');
-        return;
-    }
-
-    try {
-        const response = await $.ajax({
-            url: `../rest/deleteproperty/${propertyId}`, // Adjust this path based on your API
-            type: 'DELETE',
-            contentType: 'application/json',
-            beforeSend: function(xhr) {
-                // Add authentication token from localStorage if available
-                if (localStorage.getItem('user')) {
-                    xhr.setRequestHeader("Authentication", localStorage.getItem('token'));
-                }
+// Buy Property
+function buyProperty(userId, propertyId) {
+        
+    $.ajax({
+        url: '../rest/buyProperty',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ users_id: userId, property_id: propertyId }),
+        success: function(response) {
+            console.log('Sent data:', { users_id: userId, property_id: propertyId });
+            console.log('Response from backend:', response);
+            
+            if (response.success) {
+                toastr.success('Property bought successfully!');
+                // Call update status only if buying is successful
+                updatePropertyStatus(propertyId, 1, userId);
+            } else {
+                alert('Failed to buy property: ' + response.message);
             }
-        });
-        console.log('Property deleted successfully:', response);
-        //toastr.success('Property deleted successfully.');
-        // Redirect to the list of houses or another appropriate page
-        window.location.hash = '#properties';
-    } catch (xhr) {
-        console.error('Error deleting property:', xhr);
-       // toastr.error('There was an error deleting the property. Please try again.');
-    }
+        },
+        error: function(xhr) {
+            toastr.error('Error: ' + xhr.responseJSON.message);
+            console.error('Backend error:', xhr);
+        }
+    });
+}
+
+// Function to update the property status
+function updatePropertyStatus(propertyId, status, userId) {
+    $.ajax({
+        url: '../rest/updatePropertyStatus',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ propertyId: propertyId, status: status }),
+        success: function(updateResponse) {
+            console.log('Update status response:', updateResponse);
+            if (updateResponse.success) {
+                //toastr.success('Property status updated successfully!');
+                $('#buyModal').modal('hide'); // Hide the modal if using Bootstrap, for example
+                // Redirect user
+                window.location.href="#properties"
+                loadBoughtProperties(userId);
+            } else {
+                //toastr.error('Failed to update property status: ' + updateResponse.message);
+            }
+        },
+        error: function(updateError, textStatus, errorThrown) {
+            console.error('Error updating property status:', updateError);
+            let errorMessage = 'Unknown error'; // Default message
+            if (updateError.responseJSON && updateError.responseJSON.message) {
+                errorMessage = updateError.responseJSON.message;
+            } else if (updateError.responseText) {
+                errorMessage = updateError.responseText; // Fallback if responseJSON is not available
+            } else {
+                errorMessage = errorThrown; // Use errorThrown if no other details are available
+            }
+            alert('Error updating property status: ' + errorMessage);
+        }
+        
+    });
 }
 
 // Extract Property ID from URL
@@ -147,15 +192,20 @@ function getQueryParameter(param) {
     return urlParams.get(param);
 }
 
-// Event Listener for Buy Property Button
 $('#buy-property-btn').on('click', function() {
     const propertyId = getQueryParameter('id');
-    if (propertyId) {
-        fetchPropertyPriceAndConvertToEther(propertyId);
-    } else {
+    if (!propertyId) {
         toastr.error('Property ID not found in URL.');
+        return;
     }
+
+    // Fetch property price and convert it to Ether before initiating the transaction
+    fetchPropertyPriceAndConvertToEther(propertyId);
 });
+
+
+
+
 
     
 

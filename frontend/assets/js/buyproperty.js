@@ -182,24 +182,25 @@ function loadBoughtProperties(userId) {
                     // Create a new column for each card with unique class
                     const cardContainerHtml = `
     
-                        <div class="col-xl-4 col-md-6" data-id="${property.id}" data-aos="fade-up" data-aos-delay="100">
-                            <div class="bought-property-card">
-                                <div class="bought-card-image">
-                                    <figure class="image is-4by3">
-                                        <img class="bought-property-image" src="${imageUrl}" alt="Property Image">
-                                    </figure>
-                                </div>
-                                <div class="bought-card-body">
-                                    <h3 class="bought-property-name">${property.name}</h3>
-                                    <span class="bought-property-price">Price: ${formattedPrice}</span>
-                                    <div class="bought-property-details">
-                                        <div class="bought-property-info">Area: ${property.area} sqm</div>
-                                        <div class="bought-property-info">Beds: ${property.bedrooms}</div>
-                                        <div class="bought-property-info">Baths: ${property.bathrooms}</div>
-                                    </div>
+                        <div class="col-xl-4 col-md-6 property-column" data-id="${property.id}">
+                        <div class="bought-property-card">
+                            <div class="bought-card-image">
+                                <figure class="image is-4by3">
+                                    <img class="bought-property-image" src="${imageUrl}" alt="Property Image">
+                                </figure>
+                            </div>
+                            <div class="bought-card-body">
+                                <h3 class="bought-property-name">${property.name}</h3>
+                                <span class="bought-property-price">Price: ${formattedPrice}</span>
+                                <div class="bought-property-details">
+                                    <div class="bought-property-info">Area: ${property.area} sqm</div>
+                                    <div class="bought-property-info">Beds: ${property.bedrooms}</div>
+                                    <div class="bought-property-info">Baths: ${property.bathrooms}</div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
                     `;
 
                     // Append each card's column to the row

@@ -44,30 +44,74 @@
 .cards-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 20px;
-    width: 100%;
+    justify-content: space-evenly; /* Adjusts spacing to be even between cards */
+    padding: 20px;
+    gap: 20px; /* Ensures there's a gap between the cards */
 }
 
 .property-card {
-    flex: 1 1 280px; /* Adjusting card base size */
+    flex: 1 1 30%; /* Adjusts card width to take 30% of the container's width */
+    margin: 20px; /* Provides outer spacing for each card */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 10px;
     overflow: hidden;
-    margin: 10px;
-    text-align: left; /* Aligning text to the left */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the content within each card */
 }
 
 .property-image {
     width: 100%;
-    height: auto; /* Making height auto to maintain aspect ratio */
+    height: auto; /* Maintains the aspect ratio of the image */
+    object-fit: cover; /* Ensures the image covers the assigned area without distortion */
 }
 
 .property-info {
-    padding: 15px;
+    width: 100%; /* Ensures the text section uses the full width of the card */
+    padding-top: 10px; /* Adds spacing above the text section */
+    text-align: center; /* Centers the text */
 }
+
+
+.bought-property-card {
+    width: 100%; /* Ensures the card uses the full width of its container */
+    background-color: #fff; /* Light background for the card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* Ensures nothing overflows */
+    transition: transform 0.3s ease; /* Smooth transform on hover */
+}
+
+.bought-property-card:hover {
+    transform: translateY(-5px); /* Slight raise effect on hover */
+}
+
+.bought-card-image figure {
+    margin: 0; /* Removes default margins from figures */
+    width: 100%; /* Ensures the image container fits card width */
+    height: auto; /* Keeps image height proportional */
+}
+
+.bought-card-body {
+    padding: 15px; /* Padding within the card body for text */
+}
+
+.bought-property-info {
+    font-size: 14px; /* Font size for property details */
+    color: #666; /* Grey color for less emphasis */
+    margin-top: 5px; /* Space between detail items */
+}
+
+.property-column {
+    flex: 0 0 50%; /* Change to two cards per row instead of three */
+    margin-bottom: 40px; /* Adjust if more space is needed between rows */
+}
+
+
+
+
 
 
 
@@ -171,6 +215,19 @@
     text-align: right;
     border-top: 1px solid #e5e5e5;
 }
+
+.bought-card-image {
+    width: 100%; /* Ensures the figure takes up all the horizontal space of its parent */
+    overflow: hidden; /* Prevents the image from overflowing its container */
+}
+
+.bought-property-image {
+    width: 100%; /* Ensures the image takes up all the horizontal space of its figure container */
+    height: 100%; /* Makes the image take the full height of the figure, adjusting this might be necessary */
+    object-fit: cover; /* Ensures the image covers the area of the figure, cropping if necessary but maintaining aspect ratio */
+    display: block; /* Removes any extra space below the image within the figure */
+}
+
 
 
 
