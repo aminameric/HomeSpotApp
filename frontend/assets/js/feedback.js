@@ -45,6 +45,9 @@
             // Show success message and reset the form
             $(".sent-message").show();
             $(".php-email-form")[0].reset(); // Reset the form fields
+            setTimeout(function() {
+              location.reload(); // Reload the page after 2 seconds
+          }, 2000);
           } else {
             // Show error message from server
             $(".error-message").html(response.message || "An error occurred, please try again.").show();

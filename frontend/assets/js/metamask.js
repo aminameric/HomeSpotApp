@@ -86,10 +86,14 @@ function fetchPropertyPriceAndConvertToEther(propertyId) {
 
 // Send Transaction
 async function sendTransaction(propertyPriceEther) {
+    // Show the loading popup
+    document.getElementById('loadingPopup').style.display = 'block';
+
     const web3 = new Web3(window.ethereum);
     const accounts = await web3.eth.getAccounts();
     if (accounts.length === 0) {
         toastr.error("Please connect to MetaMask.");
+        document.getElementById('loadingPopup').style.display = 'none'; // Hide the popup on error
         return;
     }
     const userAddress = accounts[0];
@@ -99,6 +103,7 @@ async function sendTransaction(propertyPriceEther) {
     const propertyId = getQueryParameter('id');
     if (!userId || !propertyId) {
         toastr.error('Missing user ID or property ID. Cannot proceed.');
+        document.getElementById('loadingPopup').style.display = 'none'; // Hide the popup on error
         return;
     }
 
@@ -120,8 +125,12 @@ async function sendTransaction(propertyPriceEther) {
     } catch (error) {
         console.error('Transaction Error:', error);
         toastr.error('Failed to send transaction. Please try again.');
+    } finally {
+        // Hide the loading popup regardless of success or failure
+        document.getElementById('loadingPopup').style.display = 'none';
     }
 }
+
 
 
 // Buy Property
