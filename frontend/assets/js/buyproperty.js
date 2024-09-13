@@ -207,7 +207,9 @@ function loadBoughtProperties(userId) {
                     console.log('Appended property card:', property.id);
                 });
             } else {
-                console.error('Unexpected response format');
+                console.log('No properties bought yet.');
+                $("#bought-properties-list").append('<div class="col-12 text-center" style="font-size: 20px; font-family: \'Segoe UI\', Tahoma, Geneva, Verdana, sans-serif;"><p>No Bought Properties Yet</p></div>');
+
             }
         },
         error: function (xhr, status, error) {
