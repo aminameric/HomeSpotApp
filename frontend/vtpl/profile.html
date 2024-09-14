@@ -26,6 +26,7 @@
     padding: 20px;
     background-color: #f4f4f4; /* Adding a background color */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adding some shadow for depth */
+    gap: 40px;
 }
 
 #bought-properties-list h2 {
@@ -44,9 +45,9 @@
 .cards-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly; /* Adjusts spacing to be even between cards */
+    justify-content:space-between; /* Adjusts spacing to be even between cards */
     padding: 20px;
-    gap: 20px; /* Ensures there's a gap between the cards */
+    gap: 40px; /* Ensures there's a gap between the cards */
 }
 
 .property-card {
@@ -115,10 +116,7 @@
 
 
 
-#user-details {
-    text-align: right;
-    padding-right: 20px; /* Adds padding to align with the right edge of the container */
-}
+
 
 @media (max-width: 992px) {
     .property-card {
@@ -136,6 +134,9 @@
     padding: 20px; /* Padding inside the container */
     box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Subtle shadow for depth */
     margin-bottom: 20px; /* Space below the container */
+    margin-left: 60px;
+    width: 120%;
+    
 }
 
 #user-details h2 {
@@ -265,7 +266,7 @@
 
     <section id="my-profile" class="profile-section">
       <div class="container">
-          <div class="row gy-5">
+          <div class="row gy-6">
               <div class="col-lg-8">
                 <h2>My Bought Properties </h2>
                   <div id="bought-properties-list" class="d-flex flex-wrap">
@@ -284,7 +285,7 @@
                       <!-- More cards will be dynamically added here -->
                   </div>
               </div>
-              <div class="col-lg-4">
+              <div class="col-lg-3">
                   <div id="user-details" class="text-end">
                       <h2>User Details</h2>
                       <p>Username: <span id="user-name"></span></p>
@@ -325,7 +326,8 @@
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="assets/js/buyproperty.js"></script>
+<script src="assets/js/myprofile.js"></script>
+
 <script>
   $(document).ready(function() {
     console.log("Document is ready");

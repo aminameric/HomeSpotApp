@@ -24,6 +24,20 @@ class PropertyDao extends BaseDao {
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['propertyId' => $propertyId]);
     }
+    public function hasReservations($propertyId) {
+        $sql = "SELECT COUNT(*) FROM property_reservation WHERE property_id = :propertyId";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['propertyId' => $propertyId]);
+        return $stmt->fetchColumn() > 0;
+    }
+    
+    public function hasBuyings($propertyId) {
+        $sql = "SELECT COUNT(*) FROM user_properties_buying WHERE property_id = :propertyId";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['propertyId' => $propertyId]);
+        return $stmt->fetchColumn() > 0;
+    }
+    
     public function beginTransaction() {
         $this->conn->beginTransaction();
     }

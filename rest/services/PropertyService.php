@@ -77,17 +77,30 @@ class PropertyService extends BaseService{
         try {
             // Use the new transaction methods provided by PropertyDao
             $this->dao->beginTransaction();
-
-            $this->dao->deletePropertyReservations($propertyId);
-            $this->dao->deletePropertyBuyings($propertyId);
-            $this->dao->delete($propertyId);
-
+    
+            // Only delete reservations if they exist
+            if ($this->dao->hasReservations($propertyId)) {
+                $this->dao->deletePropertyReservations($propertyId);
+            }
+    
+            // Only delete buyings if they exist
+            if ($this->dao->hasBuyings($propertyId)) {
+                $this->dao->deletePropertyBuyings($propertyId);
+            }
+    
+            // Always delete the property itself
+            $this->dao->deleteProperty($propertyId);
+    
             $this->dao->commit();
+            
+            return true; // Indicate success after the transaction is committed
         } catch (Exception $e) {
             $this->dao->rollBack();
             throw $e;  // Re-throw the exception to be handled or logged by the caller
         }
     }
+    
+    
     
 
     

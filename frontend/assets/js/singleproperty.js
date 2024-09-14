@@ -229,6 +229,12 @@ function deleteProperty() {
     var urlParams = new URLSearchParams(queryString);
     var propertyId = urlParams.get('id');
 
+    // Check if the propertyId is valid before proceeding
+    if (!propertyId) {
+        alert('Invalid property ID. Cannot delete property.');
+        return;
+    }
+
     // Send DELETE request to the backend using jQuery AJAX
     $.ajax({
         url: '../rest/deleteproperty/' + propertyId, // Adjust this path based on your API
@@ -236,21 +242,34 @@ function deleteProperty() {
         contentType: 'application/json',
         beforeSend: function(xhr) {
             // Add authentication token from localStorage if available
-            if(localStorage.getItem('user')){
-                xhr.setRequestHeader("Authentication", localStorage.getItem('token'));
+            const token = localStorage.getItem('token');
+            if (token) {
+                xhr.setRequestHeader("Authorization", 'Bearer ' + token); // Use 'Authorization' and Bearer token
+            } else {
+                alert('User not authenticated. Please log in.');
+                return false; // Prevent the request if no token is found
             }
         },
         success: function (response) {
-            console.log('Property deleted successfully:', response);
-            // Redirect to the list of houses after deletion
-            window.location.hash = '#properties';
+            if (response.success) {
+                console.log('Property deleted successfully:', response);
+                toastr.success('Property deleted successfully!');
+                // Redirect to the list of houses after deletion
+                window.location.hash = '#properties';
+            } else {
+                console.error('Failed to delete property:', response.message);
+                alert('Failed to delete property: ' + response.message);
+            }
         },
         error: function (xhr, status, error) {
             console.error('Error deleting property:', error);
-            alert('There was an error deleting the property. Please try again.');
+            // Display a more specific error message
+            var errorMessage = xhr.responseJSON && xhr.responseJSON.error ? xhr.responseJSON.error : 'An unexpected error occurred';
+            alert('There was an error deleting the property: ' + errorMessage);
         }
     });
 }
+
 
 // reserve modal
 // Get the modal element

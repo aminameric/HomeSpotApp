@@ -176,18 +176,27 @@ Flight::route("GET /olxprop", function(){
     Flight::json(Flight::property_service()->listProp());
  });
 
+
  Flight::route('DELETE /deleteproperty/@id', function($id){
-    $propertyService = Flight::property_service(); // Logging here to check if service is loaded
+    $propertyService = Flight::property_service();
+
     if (!$propertyService) {
         Flight::halt(500, json_encode([
             'success' => false,
-            'error' => 'Service not loaded'
+            'error' => 'Property service could not be loaded'
         ]));
     }
 
     try {
-        $propertyService->deleteProperty($id);
-        Flight::json(['success' => true, 'message' => "Property deleted successfully"]);
+        $deleted = $propertyService->deleteProperty($id);
+        if ($deleted) {
+            Flight::json(['success' => true, 'message' => "Property deleted successfully"]);
+        } else {
+            Flight::halt(500, json_encode([
+                'success' => false,
+                'error' => 'Failed to delete property, property may not exist'
+            ]));
+        }
     } catch (\Exception $e) {
         Flight::halt(500, json_encode([
             'success' => false,
@@ -195,6 +204,8 @@ Flight::route("GET /olxprop", function(){
         ]));
     }
 });
+
+
 
 //update property status
 
