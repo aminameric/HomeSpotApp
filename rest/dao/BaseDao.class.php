@@ -8,7 +8,7 @@ require_once __DIR__."/../Config.class.php";
     /**
     * Class constructor used to establish connection to db
     */
-    public function __construct($table_name){
+    /*public function __construct($table_name){
         try {
           $this->table_name = $table_name;
           $servername = Config::DB_HOST();
@@ -23,8 +23,8 @@ require_once __DIR__."/../Config.class.php";
         } catch(PDOException $e) {
           echo "Connection failed: " . $e->getMessage();
         }
-    }
-   /* public function __construct($table_name){
+    }*/
+    public function __construct($table_name){
         try {
           $this->table_name = $table_name;
           $db_info = array(
@@ -36,7 +36,7 @@ require_once __DIR__."/../Config.class.php";
             );
   
             $options = array(
-              //PDO::MYSQL_ATTR_SSL_CA => 'https://drive.google.com/file/d/14KNi7xgWLKqNnmpGA2iM6vfH368W9ZKP/view?usp=drive_link',
+              //PDO::MYSQL_ATTR_SSL_CA => 'https://drive.google.com/file/d/1qrDxcI3rGsxs3SGQqocbNa3q-uivmpzn/view?usp=sharing',
               //PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
     
             );
@@ -47,7 +47,7 @@ require_once __DIR__."/../Config.class.php";
         } catch(PDOException $e) {
           echo "Connection failed: " . $e->getMessage();
         }
-    }*/
+    }
 
     /**
     * Method used to get all entities from database

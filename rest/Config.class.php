@@ -2,23 +2,23 @@
 
 class Config {
     public static function DB_HOST(){
-        return Config::get_env("DB_HOST", "127.0.0.1");
+        return Config::get_env("DB_HOST", "mysql-3c6a4f9-aminameric7-d2a2.d.aivencloud.com");
     }
 
     public static function DB_USERNAME(){
-        return Config::get_env("DB_USERNAME", "root");
+        return Config::get_env("DB_USERNAME", "avnadmin");
     }
 
     public static function DB_PASSWORD(){
-        return Config::get_env("DB_PASSWORD", "mina50");
+        return Config::get_env("DB_PASSWORD", "AVNS_bWDUkgw2Jwf2tlAnn44");
     }
 
     public static function DB_SCHEMA(){
-        return Config::get_env("DB_SCHEMA", "homespot");
+        return Config::get_env("DB_SCHEMA", "defaultdb");
     }
 
     public static function DB_PORT(){
-        return Config::get_env("DB_PORT", "3306");
+        return Config::get_env("DB_PORT", "18381");
     }
 
     public static function get_env($name, $default){
