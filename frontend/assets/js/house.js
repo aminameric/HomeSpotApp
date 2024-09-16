@@ -220,9 +220,10 @@ var propertyService = {
           console.log("Property AJAX request successful:", result);
           localStorage.setItem('property', JSON.stringify(result.property));
           toastr.success("Property posted successfully!");
-          $('#myModal').modal('hide');
+          $('#myModalAdd').modal('hide');
           
           $(document).trigger('propertyAdded', result.property);
+          $('#property-form')[0].reset(); 
           
           window.location.hash = '#properties';
       },
@@ -237,6 +238,7 @@ var propertyService = {
 
 $(document).ready(function () {
   propertyService.init();
+  toggleNewPropertyButton();
 });
 
 
@@ -275,12 +277,10 @@ $(document).on('propertyAdded', function(event, property) {
   }
 });
 
-$(document).ready(function() {
-  // Retrieve the user from localStorage
+function toggleNewPropertyButton() {
   const rawUser = localStorage.getItem('user');
-  console.log('rawUser from localStorage:', rawUser); // Log the raw user
+  console.log('rawUser from localStorage:', rawUser);
 
-  // Check if user data is available in localStorage
   if (!rawUser) {
       console.error('No user data found in localStorage');
       return;
@@ -289,41 +289,31 @@ $(document).ready(function() {
   let user;
   try {
       user = JSON.parse(rawUser);
-      console.log('Parsed user object:', user); // Log the parsed user object
+      console.log('Parsed user object:', user);
   } catch (error) {
       console.error('Error parsing user data:', error);
       return;
   }
 
-  // Loop through all the properties of the user object to understand its structure
-  console.log('Listing all keys and values from user object:');
-  for (let key in user) {
-      if (user.hasOwnProperty(key)) {
-          console.log(`${key}: ${user[key]}`);
-      }
+  const type_of_user = user.type_of_user;
+  console.log('type_of_user:', type_of_user);
+
+  if (!type_of_user) {
+      console.error('type_of_user not found in user object');
+      return;
   }
 
-  // Try accessing the type_of_user using known keys
-  const type_of_user = user.type_of_user || user[6]; // Check both property-based and index-based access
-  console.log('type_of_user:', type_of_user); // Log the type_of_user value
-
-  // Ensure the element exists before trying to modify its classes
-  const newPropButton = document.getElementById('new-prop');
-  if (!newPropButton) {
+  const $newPropButton = $('#new-prop');
+  if ($newPropButton.length === 0) {
       console.error('Element with ID "new-prop" not found');
       return;
   }
 
-  // Show or hide the button based on user type
-  if (type_of_user === 'Agent') {
-      newPropButton.classList.remove('d-none');
+  if (type_of_user.toLowerCase() === 'agent') {
+      $newPropButton.removeClass('d-none');
       console.log('Removed d-none class, showing button');
   } else {
-      newPropButton.classList.add('d-none');
+      $newPropButton.addClass('d-none');
       console.log('Added d-none class, hiding button');
   }
-});
-
-
-
-
+}

@@ -118,7 +118,7 @@
 
     <!-- Button to trigger modal (Above property listings) -->
     <div class="container mt-5 mb-4">
-      <button class="unique-btn d-none" id="new-prop" data-toggle="modal" data-target="#myModal">List New Property</button>
+      <button class="unique-btn d-none" id="new-prop" data-toggle="modal" data-target="#myModalAdd">List New Property</button>
     </div>
 
     <!-- Real Estate Section -->
@@ -131,7 +131,7 @@
     </section><!-- /Real Estate Section -->
 
     <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -248,32 +248,30 @@
     </div>
   </div>
 </div>
-
-
-  <!-- jQuery, Bootstrap JS (should be included in the base template if using spapp) -->
- 
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
+  
+  <!-- Add JS for Select2 -->
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script src="assets/js/house.js"></script>
 
-  <!-- Custom Script -->
   <script>
     //open modal
     $(document).ready(function() {
       // Ensure the modal is triggered correctly
       $(document).on('click', '.unique-btn', function() {
-        $('#myModal').modal('show');
+        $('#myModalAdd').modal('show');
       });
 
       //close modal on close button
       // Manually hide the modal (if you want to add custom close functionality)
       $(document).on('click', '.btn-secondary', function() {
-        $('#myModal').modal('hide');
+        $('#myModalAdd').modal('hide');
       });
     });
 
     //small x button
     $(document).on('click', '.close', function() {
-  $('#myModal').modal('hide');
+  $('#myModalAdd').modal('hide');
 });
   </script>
 
@@ -284,7 +282,7 @@
 <!-- Your Custom Script -->
 <script>
   $(document).ready(function() {
-      $('#myModal').on('shown.bs.modal', function () {
+      $('#myModalAdd').on('shown.bs.modal', function () {
           // Initialize Country Select2
           $('#country').select2({
               tags: true,
@@ -292,7 +290,7 @@
               allowClear: true,
               minimumInputLength: 1,
               selectOnClose: false,
-              dropdownParent: $('#myModal'),
+              dropdownParent: $('#myModalAdd'),
               templateResult: formatCountry,
               templateSelection: formatCountry,
               data: [{id: '', text: '', selected: true, visible: false}]
@@ -305,7 +303,7 @@
             allowClear: true,  // Allows users to remove a selected option
             minimumInputLength: 0,  // No minimum length to start search which allows for immediate typing
             selectOnClose: false, // Selects the currently focused option on close so it's consistent with the country select
-            dropdownParent: $('#myModal'), // Ensures dropdown is bound within the modal for proper rendering
+            dropdownParent: $('#myModalAdd'), // Ensures dropdown is bound within the modal for proper rendering
             createTag: function (params) {
                 var term = $.trim(params.term);
                 if (term === '') {
@@ -330,56 +328,13 @@
       });
   
       // Clear selections when opening the modal
-      $('#myModal').on('show.bs.modal', function() {
+      $('#myModalAdd').on('show.bs.modal', function() {
           $('#country').val(null).trigger('change');
           $('#property_type').val(null).trigger('change');
       });
   });
 </script>
 
-
-  
-<!--<script>
-  $(document).ready(function() {
-      // Event to initialize Select2 when the modal is shown
-      $('#myModal').on('shown.bs.modal', function () {
-          $('#country').select2({
-              tags: true, // Enable the creation of new tags
-              tokenSeparators: [',', ' '], // Optional: Specify separators for tokenization
-              placeholder: "Select or type a country", // Placeholder text
-              allowClear: true, // Allows a clear button
-              minimumInputLength: 1, // Minimum characters required to start filtering
-              createTag: function(params) {
-                  // Function to modify how new tags are added
-                  var term = $.trim(params.term);
-                  if (term === '') {
-                      return null;
-                  }
-                  return {
-                      id: term, // Use the typed text as ID
-                      text: term, // Use the typed text as the display text
-                      newTag: true // Custom property to indicate this is a new tag
-                  };
-              },
-              templateResult: formatCountry, // Function to format the dropdown options
-              templateSelection: formatCountry // Function to format the selected items
-          });
-      });
-
-      function formatCountry(country) {
-          if (!country.id) { return country.text; }
-          var flagCode = $(country.element).data('flag');
-          if (flagCode) {
-              return $('<span class="flag-icon flag-icon-' + flagCode.toLowerCase() + '"></span>' +
-                       '<span style="padding-left: 10px;">' + country.text + "</span>");
-          } else {
-              // Display text only for new tags or if no flag is available
-              return country.text;
-          }
-      }
-  });
-</script>-->
-
+ 
 </body>
-
 </html>

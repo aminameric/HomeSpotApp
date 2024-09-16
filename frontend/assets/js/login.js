@@ -40,7 +40,8 @@ var UserLogin = {
                     localStorage.setItem('user', JSON.stringify(result.user));
                     localStorage.setItem('token', result.token);
                     updateNavigation();
-                    window.location.href = '#index';
+                    toggleNewPropertyButton();
+                    window.location.href = '#properties';
                     toastr.success('Login Successful! Welcome back.');           
                 } else {
                     alert("Login response does not contain user or token");
@@ -71,3 +72,44 @@ document.getElementById('signup-button').addEventListener('click', function() {
 function goBack() {
     window.location.href = '#index'; // Redirect to the home page
 }
+
+function toggleNewPropertyButton() {
+    const rawUser = localStorage.getItem('user');
+    console.log('rawUser from localStorage:', rawUser);
+  
+    if (!rawUser) {
+        console.error('No user data found in localStorage');
+        return;
+    }
+  
+    let user;
+    try {
+        user = JSON.parse(rawUser);
+        console.log('Parsed user object:', user);
+    } catch (error) {
+        console.error('Error parsing user data:', error);
+        return;
+    }
+  
+    const type_of_user = user.type_of_user;
+    console.log('type_of_user:', type_of_user);
+  
+    if (!type_of_user) {
+        console.error('type_of_user not found in user object');
+        return;
+    }
+  
+    const $newPropButton = $('#new-prop');
+    if ($newPropButton.length === 0) {
+        console.error('Element with ID "new-prop" not found');
+        return;
+    }
+  
+    if (type_of_user.toLowerCase() === 'agent') {
+        $newPropButton.removeClass('d-none');
+        console.log('Removed d-none class, showing button');
+    } else {
+        $newPropButton.addClass('d-none');
+        console.log('Added d-none class, hiding button');
+    }
+  }

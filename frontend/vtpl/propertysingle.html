@@ -79,6 +79,34 @@
     gap: 10px;                /* Adds spacing between buttons */
 }
 
+.metamask-buttons {
+  width: 100%;    /* Full width to match other buttons */
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  align-items: center;    /* Center align the buttons */
+}
+.metamask-buttons .btn-custom {
+  white-space: nowrap;    /* Prevent text from wrapping */
+  overflow: hidden;       /* Hide overflowed text just in case */
+  text-overflow: ellipsis;/* Use ellipsis if text is too long */
+  padding: 6px 12px;      /* Keep padding moderate */
+  width: auto;            /* Auto width based on content */
+  max-width: 100%;        /* Limit width to container size */
+  font-size: 14px;        /* Maintain a readable font size */
+  box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
+@media (max-width: 600px) {
+  .metamask-buttons .btn-custom {
+    font-size: 13px;         /* Even smaller font size for narrow screens */
+    max-width: 180px;        /* Narrower width for mobile devices */
+    padding: 6px 10px;       /* Reduced padding for small screens */
+    min-height: 42px;        /* Adjust min-height for mobile */
+  }
+}
+
+
+
 button {
     padding: 10px 20px;       /* Adjust padding for button size */
     font-size: 16px;          /* Adjust font size to make buttons look consistent */
@@ -303,11 +331,19 @@ button {
                 <!-- Buy button -->
                 <button type="button" class="btn btn-secondary btn-custom d-none" id="buyBtn">Buy</button>
 
-                <button type="button" class="btn btn-secondary btn-custom d-none" id="connect-wallet-btn">Connect MetaMask Wallet</button>
-                <button type="button" class="btn btn-secondary btn-custom" id="disconnect-wallet-btn" style="display:none;">Disconnect MetaMask Wallet</button>
-              <!-- Transaction Button -->
-              <button type="button" class="btn btn-secondary btn-custom" id="buy-property-btn" style="display:none;">Buy Property with MetaMask</button>
-              </div>
+                <div class="metamask-buttons">
+                  <button type="button" class="btn btn-secondary btn-custom d-none" id="connect-wallet-btn">
+                    Connect MetaMask Wallet
+                  </button>
+                  <button type="button" class="btn btn-secondary btn-custom" id="disconnect-wallet-btn" style="display:none;">
+                    Disconnect MetaMask Wallet
+                  </button>
+                  <button type="button" class="btn btn-secondary btn-custom" id="buy-property-btn" style="display:none;">
+                    Buy Property with MetaMask
+                  </button>
+                </div>
+              
+            </div>
 
 <!--edit modal-->
 <div id="myModal" class="modal">

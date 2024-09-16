@@ -180,13 +180,216 @@
 
   <!-- Main JS files -->
   <script src="assets/js/jquery.spapp.min.js"></script>
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/myprofile.js"></script>
+  <script src="assets/js/main.js" defer></script>
+  
 
   <!-- Toastr JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
   
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+  const token = localStorage.getItem('token');
+  const navItems = document.getElementById('nav-items');
+  const loginButton = document.getElementById('login-button');
+  const registerButton = document.getElementById('register-button');
+  const logoutButton = document.getElementById('logout-btn');
+
+  // Hide navigation items if no token is found
+  if (!token) {
+      if (navItems) navItems.style.display = 'none';
+      $('#login-btn').show();
+      $('#register-btn').show();
+      $('#logout-btn').hide();
+  } else {
+      if (loginButton) loginButton.style.display = 'none';
+      if (registerButton) registerButton.style.display = 'none';
+      $('#login-btn').hide();
+      $('#register-btn').hide();
+      $('#logout-btn').show();
+  }
+
+  // Disable AJAX Caching
+  $.ajaxSetup({ cache: false });
+
+  // Initialize the SPA app
+  let app = $.spapp({
+      templateDir: "./vtpl/",
+  });
+
+  $(window).on('hashchange', function () {
+  let currentHash = window.location.hash;
+
+  // Default to #index if no hash is found
+  if (!currentHash || currentHash === '#') {
+      currentHash = '#index';
+  }
+
+  // Remove query parameters from the URL (everything after ?)
+  const urlWithoutQuery = window.location.origin + window.location.pathname + currentHash;
+
+  // Use history.replaceState to update the URL without reloading the page
+  window.history.replaceState(null, null, urlWithoutQuery);
+
+  // Check if the currentHash is in the allowed list and then trigger the navigation update
+  if (['#index', '#about', '#contact', '#service', '#properties', '#agents', '#myprofile'].includes(currentHash)) {
+      updateNavigation();
+  }
+});
+
+
+  app.run();
+
+  // Handle logout button click event
+  if (logoutButton) {
+      logoutButton.addEventListener('click', function() {
+          logoutUser();  // Call logout function on click
+      });
+  }
+});
+
+  </script>
+
+  <script>
+   document.addEventListener("DOMContentLoaded", function() {
+  // Navigation elements
+  const loginButton = document.getElementById('login-btn');
+  const registerButton = document.getElementById('register-btn');
+  const logoutButton = document.getElementById('logout-btn');
+
+  // Update navigation based on token presence
+  updateNavigation();
+
+  // Logout functionality
+  if (logoutButton) {
+      logoutButton.addEventListener('click', function() {
+          // Remove the token and user from local storage
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          localStorage.removeItem('property');
+
+          // Update the navigation bar
+          updateNavigation();
+          toggleNewPropertyButton();
+
+          // Redirect to the homepage or login page
+          window.location.href = '#login';  // Adjust this to your homepage or login page
+      });
+  }
+  
+});
+
+
+
+
+function updateNavigation() {
+  const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (token) {
+      // User is logged in, show the logout button and hide login/register
+      $('#login-btn').hide();
+      $('#register-btn').hide();
+      $('#logout-btn').show();
+
+      // Show restricted sections
+      $('#services-nav').show();
+      $('#properties-nav').show();
+      $('#agents-nav').show();
+      $('#contact-nav').show();
+      if (user && user.type_of_user === 'User') {
+          $('#profile-nav').show();
+      } else {
+          $('#profile-nav').hide();
+      }
+
+  } else {
+      // User is not logged in, show login/register buttons and hide logout
+      $('#login-btn').show();
+      $('#register-btn').show();
+      $('#logout-btn').hide();
+
+      // Hide restricted sections
+      $('#services-nav').hide();
+      $('#properties-nav').hide();
+      $('#agents-nav').hide();
+      $('#contact-nav').hide();
+      $('#profile-nav').hide();
+  }
+  
+}
+
+
+
+// Example function to simulate logout (Handled above in the event listener)
+if (logoutButton) {
+  logoutButton.addEventListener('click', function() {
+      // Remove the token and user from local storage
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('property'); // Consider what other items need to be cleared
+
+      // Force UI to reflect logged out state
+      updateNavigation();
+      toggleNewPropertyButton();
+
+      // Optionally, force a reload of the page to reset all UI components
+      window.location.reload();  // Uncomment this if needed
+
+      // Redirect to the homepage or login page
+      window.location.href = '#login'; // Ensure this hash matches your routing logic
+  });
+}
+
+
+
+  </script>
+
+<script>
+toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "newestOnTop": false,
+          "progressBar": true,
+          "positionClass": "toast-top-right",
+          "preventDuplicates": true,
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+      };
+</script>
+
+<!--for hiding footer on login and registration-->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+// Function to update the footer visibility based on the current hash
+function updateFooterVisibility() {
+    const footer = document.getElementById('footer');
+    const currentPage = window.location.hash;
+    const pagesWithoutFooter = ['#login', '#registration'];
+
+    if (pagesWithoutFooter.includes(currentPage)) {
+        footer.style.display = 'none';
+    } else {
+        footer.style.display = 'block';
+    }
+}
+
+// Listen for hash changes to update footer visibility
+window.addEventListener('hashchange', updateFooterVisibility);
+
+// Initial check on page load
+updateFooterVisibility();
+});
+</script>
+
+
 
 
 
@@ -234,209 +437,7 @@
 }
 
 </style>
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-    const token = localStorage.getItem('token');
-    const navItems = document.getElementById('nav-items');
-    const loginButton = document.getElementById('login-button');
-    const registerButton = document.getElementById('register-button');
-    const logoutButton = document.getElementById('logout-btn');
-
-    // Hide navigation items if no token is found
-    if (!token) {
-        if (navItems) navItems.style.display = 'none';
-        $('#login-btn').show();
-        $('#register-btn').show();
-        $('#logout-btn').hide();
-    } else {
-        if (loginButton) loginButton.style.display = 'none';
-        if (registerButton) registerButton.style.display = 'none';
-        $('#login-btn').hide();
-        $('#register-btn').hide();
-        $('#logout-btn').show();
-    }
-
-    // Disable AJAX Caching
-    $.ajaxSetup({ cache: false });
-
-    // Initialize the SPA app
-    let app = $.spapp({
-        templateDir: "./vtpl/",
-    });
-
-    $(window).on('hashchange', function () {
-    let currentHash = window.location.hash;
-
-    // Default to #index if no hash is found
-    if (!currentHash || currentHash === '#') {
-        currentHash = '#index';
-    }
-
-    // Remove query parameters from the URL (everything after ?)
-    const urlWithoutQuery = window.location.origin + window.location.pathname + currentHash;
-
-    // Use history.replaceState to update the URL without reloading the page
-    window.history.replaceState(null, null, urlWithoutQuery);
-
-    // Check if the currentHash is in the allowed list and then trigger the navigation update
-    if (['#index', '#about', '#contact', '#service', '#properties', '#agents', '#myprofile'].includes(currentHash)) {
-        updateNavigation();
-    }
-});
-
-
-    app.run();
-
-    // Handle logout button click event
-    if (logoutButton) {
-        logoutButton.addEventListener('click', function() {
-            logoutUser();  // Call logout function on click
-        });
-    }
-});
-
-    </script>
-
-    <script>
-     document.addEventListener("DOMContentLoaded", function() {
-    // Navigation elements
-    const loginButton = document.getElementById('login-btn');
-    const registerButton = document.getElementById('register-btn');
-    const logoutButton = document.getElementById('logout-btn');
-
-    // Update navigation based on token presence
-    updateNavigation();
-
-    // Logout functionality
-    if (logoutButton) {
-        logoutButton.addEventListener('click', function() {
-            // Remove the token and user from local storage
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            localStorage.removeItem('property');
-
-            // Update the navigation bar
-            updateNavigation();
-
-            // Redirect to the homepage or login page
-            window.location.href = '#login';  // Adjust this to your homepage or login page
-        });
-    }
     
-});
-
-
-
-
-function updateNavigation() {
-    const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user'));
-
-    if (token) {
-        // User is logged in, show the logout button and hide login/register
-        $('#login-btn').hide();
-        $('#register-btn').hide();
-        $('#logout-btn').show();
-
-        // Show restricted sections
-        $('#services-nav').show();
-        $('#properties-nav').show();
-        $('#agents-nav').show();
-        $('#contact-nav').show();
-        if (user && user.type_of_user === 'User') {
-            $('#profile-nav').show();
-        } else {
-            $('#profile-nav').hide();
-        }
-    } else {
-        // User is not logged in, show login/register buttons and hide logout
-        $('#login-btn').show();
-        $('#register-btn').show();
-        $('#logout-btn').hide();
-
-        // Hide restricted sections
-        $('#services-nav').hide();
-        $('#properties-nav').hide();
-        $('#agents-nav').hide();
-        $('#contact-nav').hide();
-        $('#profile-nav').hide();
-    }
-    
-}
-
-
-
-// Example function to simulate logout (Handled above in the event listener)
-if (logoutButton) {
-    logoutButton.addEventListener('click', function() {
-        // Remove the token and user from local storage
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        localStorage.removeItem('property'); // Consider what other items need to be cleared
-
-        // Force UI to reflect logged out state
-        updateNavigation();
-
-        // Optionally, force a reload of the page to reset all UI components
-        window.location.reload();  // Uncomment this if needed
-
-        // Redirect to the homepage or login page
-        window.location.href = '#login'; // Ensure this hash matches your routing logic
-    });
-}
-
-
-
-    </script>
-
-<script>
-  toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": true,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        };
-</script>
-
-<!--for hiding footer on login and registration-->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  // Function to update the footer visibility based on the current hash
-  function updateFooterVisibility() {
-      const footer = document.getElementById('footer');
-      const currentPage = window.location.hash;
-      const pagesWithoutFooter = ['#login', '#registration'];
-
-      if (pagesWithoutFooter.includes(currentPage)) {
-          footer.style.display = 'none';
-      } else {
-          footer.style.display = 'block';
-      }
-  }
-
-  // Listen for hash changes to update footer visibility
-  window.addEventListener('hashchange', updateFooterVisibility);
-
-  // Initial check on page load
-  updateFooterVisibility();
-});
-</script>
-
-<script>
-  
-</script>
-
     
 </html>
 
