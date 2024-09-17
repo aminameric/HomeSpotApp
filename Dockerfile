@@ -19,8 +19,8 @@ RUN if command -v a2enmod >/dev/null 2>&1; then \
 
 # Composer install
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-COPY composer.json composer.json
-RUN composer install --no-dev
+COPY rest/composer.json rest/composer.json
+RUN cd rest && composer install --no-dev
 
 
 EXPOSE 80
