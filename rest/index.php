@@ -24,7 +24,6 @@ require "./services/FeedbackService.php";
 require "./services/PropertyBuyingService.php";
 
 
-header('Content-Type: application/json');
 Flight::register('base_service', "BaseService");
 Flight::register('user_service', "UserService");
 Flight::register('property_service', 'PropertyService');
