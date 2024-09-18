@@ -56,7 +56,10 @@ var UserService = {
             },
             submitHandler: function (form) {
                 var formData = new FormData();
-                formData.append('username', $("input[name='username']").val());
+                var username = $("input[name='usernamename']").val();
+                 console.log('Captured Username:', username); // Debugging statement
+
+                formData.append('username', username);
                 formData.append('email', $("input[name='email']").val());
                 formData.append('password', $("input[name='password']").val());
                 formData.append('first_name', $("input[name='name']").val());
