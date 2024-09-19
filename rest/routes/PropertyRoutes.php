@@ -254,15 +254,3 @@ Flight::route('POST /updatePropertyStatus', function() {
         Flight::json(['error' => true, 'message' => 'Server Error: ' + $e->getMessage()], 500);
     }
 });
-
-
-
-
-
-
-
-
-
-
-
-?>

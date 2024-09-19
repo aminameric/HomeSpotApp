@@ -120,4 +120,3 @@ Flight::route('GET /connection-check', function(){
     */
     $dao = new BaseDao("users");
 });
-?>

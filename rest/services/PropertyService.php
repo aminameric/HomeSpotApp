@@ -127,15 +127,3 @@ function getExchangeRateFromAPI($fromCurrency, $toCurrency) {
 
     return (float) $data['rates'][$toCurrency];
 }
-
-
-
-
-    
-
-    
-    
-    
-        
-
-?>

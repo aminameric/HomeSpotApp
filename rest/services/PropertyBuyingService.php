@@ -16,7 +16,3 @@ class PropertyBuyingService extends BaseService {
         return $this->dao->getPropertiesByUser($userId);
     }
 }
-?>
-
-
-

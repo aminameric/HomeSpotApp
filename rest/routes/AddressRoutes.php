@@ -78,16 +78,3 @@ Flight::route('GET /address/@city', function($city){ //with parameter
             Flight::halt(401, $e->getMessage());
         }
     });
-    
-
-
-
-
-
-
-
-
-
-
-
-?>

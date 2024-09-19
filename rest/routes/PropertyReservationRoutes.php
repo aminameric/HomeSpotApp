@@ -82,5 +82,3 @@ Flight::route("POST /addPropertyReservation", function(){
   
 });
 
-
-?>

@@ -25,8 +25,3 @@ Flight::route('POST /buyProperty', function() {
     }
 });
 
-
-
-
-
-?>

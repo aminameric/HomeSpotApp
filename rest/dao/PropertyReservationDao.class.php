@@ -11,4 +11,3 @@ class PropertyReservationDao extends BaseDao {
     
     
 }
-?>
