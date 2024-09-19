@@ -45,6 +45,3 @@ require "./routes/PropertyBuyingRoutes.php";
 
 
 Flight::start();
-
-?>
-
